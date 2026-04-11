@@ -30,8 +30,7 @@ export default async function Home(props: Props) {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-black text-blue-600">Scrap</span>
-            <span className="text-xl font-bold text-gray-800">Store</span>
+            <span className="text-2xl font-black text-blue-600">{process.env.NEXT_PUBLIC_APP_NAME}</span>
           </div>
         </div>
       </header>

@@ -3,7 +3,6 @@ import { ProductResponse } from "@/types/product";
 export async function fetchProducts(
   params: Record<string, string | number> = {}
 ): Promise<ProductResponse> {
-  // Bangun query string dari parameter
   const searchParams = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== "") {
@@ -11,14 +10,16 @@ export async function fetchProducts(
     }
   });
 
-  // 1. Deteksi apakah kode sedang dieksekusi di Server (Node.js) atau Client (Browser)
   const isServer = typeof window === "undefined";
   
-  // 2. Tentukan Base URL secara dinamis
-  const baseUrl = isServer ? "http://localhost:3000/api" : "/api";
+  const baseUrl = isServer 
+    ? process.env.INTERNAL_API_URL 
+    : process.env.NEXT_PUBLIC_API_PROXY;
+
   const url = `${baseUrl}/products?${searchParams.toString()}`;
 
   const res = await fetch(url, {
+    // Revalidasi data setiap 60 detik (Incremental Static Regeneration)
     next: { revalidate: 60 }, 
   });
 
