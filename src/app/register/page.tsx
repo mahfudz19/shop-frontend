@@ -18,7 +18,7 @@ export default function RegisterPage() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:8080/auth/register", {
+      const res = await fetch("http://localhost:3000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -42,7 +42,9 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-md border border-gray-100">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-black text-blue-600">Scrap<span className="text-gray-800">Store</span></h2>
+          <h2 className="text-2xl font-black text-blue-600">
+            Scrap<span className="text-gray-800">Store</span>
+          </h2>
           <p className="text-gray-500 text-sm mt-2">Buat akun baru</p>
         </div>
 
@@ -54,7 +56,9 @@ export default function RegisterPage() {
 
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Nama Lengkap
+            </label>
             <input
               type="text"
               value={name}
@@ -65,7 +69,9 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
             <input
               type="email"
               value={email}
@@ -76,7 +82,9 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
             <input
               type="password"
               value={password}
@@ -97,7 +105,13 @@ export default function RegisterPage() {
         </form>
 
         <p className="text-center text-sm text-gray-600 mt-6">
-          Sudah punya akun? <Link href="/login" className="text-blue-600 font-semibold hover:underline">Masuk di sini</Link>
+          Sudah punya akun?{" "}
+          <Link
+            href="/login"
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            Masuk di sini
+          </Link>
         </p>
       </div>
     </div>
