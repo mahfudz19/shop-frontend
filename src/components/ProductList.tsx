@@ -16,7 +16,11 @@ interface ProductListProps {
   };
 }
 
-export default function ProductList({ initialProducts, initialMeta, currentFilters }: ProductListProps) {
+export default function ProductList({
+  initialProducts,
+  initialMeta,
+  currentFilters,
+}: ProductListProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -33,25 +37,29 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
 
   // 2. STATE UNTUK INPUT FORM LOKAL (Belum di-apply)
   const [localSearch, setLocalSearch] = useState(currentFilters.search);
-  const [localMarketplace, setLocalMarketplace] = useState(currentFilters.marketplace);
+  const [localMarketplace, setLocalMarketplace] = useState(
+    currentFilters.marketplace,
+  );
   const [localSortBy, setLocalSortBy] = useState(currentFilters.sort_by);
-  const [localSortOrder, setLocalSortOrder] = useState(currentFilters.sort_order);
+  const [localSortOrder, setLocalSortOrder] = useState(
+    currentFilters.sort_order,
+  );
 
   // 3. STATE UNTUK INFINITE SCROLL
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const hasMore = meta?.pagination?.has_next || false;  
+  const hasMore = meta?.pagination?.has_next || false;
   const observerTarget = useRef<HTMLDivElement>(null);
 
   // --- FUNGSI 1: APPLY FILTER (MEMICU SSR) ---
   const applyFilter = () => {
     const params = new URLSearchParams(searchParams.toString());
-    
-    if (localSearch) params.set("search", localSearch); 
+
+    if (localSearch) params.set("search", localSearch);
     else params.delete("search");
-    
-    if (localMarketplace) params.set("marketplace", localMarketplace); 
+
+    if (localMarketplace) params.set("marketplace", localMarketplace);
     else params.delete("marketplace");
-    
+
     params.set("sort_by", localSortBy);
     params.set("sort_order", localSortOrder);
 
@@ -93,7 +101,7 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
           loadMoreProducts();
         }
       },
-      { threshold: 1.0 }
+      { threshold: 1.0 },
     );
 
     const currentTarget = observerTarget.current;
@@ -117,21 +125,25 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
       {/* HEADER & FILTER BAR (Mengubah Local State) */}
       <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex flex-wrap gap-4 items-end">
         <div className="flex-1 min-w-50">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Cari Produk</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Cari Produk
+          </label>
           <input
             type="text"
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && applyFilter()}
+            onKeyDown={(e) => e.key === "Enter" && applyFilter()}
             placeholder="Ketik nama produk..."
             className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
-        
+
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Marketplace</label>
-          <select 
-            value={localMarketplace} 
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Marketplace
+          </label>
+          <select
+            value={localMarketplace}
             onChange={(e) => setLocalMarketplace(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
           >
@@ -143,11 +155,13 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Urutkan</label>
-          <select 
-            value={`${localSortBy}|${localSortOrder}`} 
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Urutkan
+          </label>
+          <select
+            value={`${localSortBy}|${localSortOrder}`}
             onChange={(e) => {
-              const [valSortBy, valSortOrder] = e.target.value.split('|');
+              const [valSortBy, valSortOrder] = e.target.value.split("|");
               setLocalSortBy(valSortBy);
               setLocalSortOrder(valSortOrder);
             }}
@@ -159,7 +173,7 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
           </select>
         </div>
 
-        <button 
+        <button
           onClick={applyFilter}
           className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
         >
@@ -170,24 +184,28 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
       {/* PRODUCT GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product, index) => (
-          <a 
-            key={`${index}-${product.id}-${product.url}`} 
-            href={product.url} 
-            target="_blank" 
+          <a
+            key={`${index}-${product.id}-${product.url}`}
+            href={product.url}
+            target="_blank"
             rel="noopener noreferrer"
             className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group flex flex-col"
           >
             <div className="p-4 flex-1 flex flex-col">
               <div className="flex justify-between items-start mb-2">
-                <span className={`text-xs font-bold px-2 py-1 rounded ${
-                  product.marketplace === 'Shopee' ? 'bg-orange-100 text-orange-600' :
-                  product.marketplace === 'Tokopedia' ? 'bg-green-100 text-green-600' :
-                  'bg-blue-100 text-blue-600'
-                }`}>
+                <span
+                  className={`text-xs font-bold px-2 py-1 rounded ${
+                    product.marketplace === "Shopee"
+                      ? "bg-orange-100 text-orange-600"
+                      : product.marketplace === "Tokopedia"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-blue-100 text-blue-600"
+                  }`}
+                >
                   {product.marketplace}
                 </span>
                 <span className="text-xs text-gray-400">
-                  {new Date(product.updatedAt).toLocaleDateString('id-ID')}
+                  {new Date(product.updatedAt).toLocaleDateString("id-ID")}
                 </span>
               </div>
               <h3 className="font-semibold text-gray-800 line-clamp-2 mb-2 group-hover:text-blue-600">
@@ -197,8 +215,12 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
                 {formatRupiah(product.price_rp)}
               </p>
               <div className="flex flex-col gap-1 mt-3 pt-3 border-t border-gray-100 text-sm text-gray-500">
-                <span className="flex items-center gap-1">📍 {product.location}</span>
-                <span className="flex items-center gap-1">🏪 {product.shop}</span>
+                <span className="flex items-center gap-1">
+                  📍 {product.location}
+                </span>
+                <span className="flex items-center gap-1">
+                  🏪 {product.shop}
+                </span>
               </div>
             </div>
           </a>
@@ -206,7 +228,9 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
       </div>
 
       {products.length === 0 && (
-        <div className="text-center py-12 text-gray-500">Produk tidak ditemukan.</div>
+        <div className="text-center py-12 text-gray-500">
+          Produk tidak ditemukan.
+        </div>
       )}
 
       {hasMore && (
@@ -218,7 +242,7 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
           )}
         </div>
       )}
-      
+
       {!hasMore && products.length > 0 && (
         <div className="text-center py-8 text-gray-500 text-sm">
           Semua produk telah ditampilkan. ({meta?.pagination?.total} produk)
