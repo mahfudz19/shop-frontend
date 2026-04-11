@@ -1,3 +1,5 @@
+// src/types/product.ts
+
 export interface Product {
   id: string;
   name: string;
@@ -10,16 +12,28 @@ export interface Product {
   updatedAt: string;
 }
 
-export interface PaginationMeta {
-  current_page: number;
-  page_size: number;
+// Sesuaikan dengan struct Pagination di Golang
+export interface PaginationData {
+  page: number;
+  limit: number;
+  total: number;
   total_pages: number;
-  total_records: number;
+  has_next: boolean;
+  has_prev: boolean;
 }
 
+// Sesuaikan dengan struct MetaData di Golang
+export interface MetaData {
+  timestamp: string;
+  request_id: string;
+  pagination: PaginationData;
+}
+
+// Sesuaikan dengan struct BaseResponse di Golang
 export interface ProductResponse {
-  status: string;
+  success: boolean;
+  status: number;
   message: string;
   data: Product[];
-  meta: PaginationMeta;
+  meta: MetaData;
 }

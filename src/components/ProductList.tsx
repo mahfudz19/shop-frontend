@@ -1,91 +1,99 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Product, PaginationMeta } from "@/types/product";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { Product, MetaData } from "@/types/product";
 import { fetchProducts } from "@/lib/api";
 
 interface ProductListProps {
   initialProducts: Product[];
-  initialMeta: PaginationMeta;
+  initialMeta: MetaData;
+  currentFilters: {
+    search: string;
+    marketplace: string;
+    sort_by: string;
+    sort_order: string;
+  };
 }
 
-export default function ProductList({ initialProducts, initialMeta }: ProductListProps) {
-  // State untuk Data
-  const [products, setProducts] = useState<Product[]>(initialProducts);
-  const [meta, setMeta] = useState<PaginationMeta>(initialMeta);
-  
-  // State untuk Infinite Scroll
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(initialMeta.current_page < initialMeta.total_pages);
-  
-  // State untuk Filter & Pencarian
-  const [search, setSearch] = useState("");
-  const [marketplace, setMarketplace] = useState("");
-  const [sortBy, setSortBy] = useState("createdAt");
-  const [sortOrder, setSortOrder] = useState("-1");
+export default function ProductList({ initialProducts, initialMeta, currentFilters }: ProductListProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  // Ref untuk mendeteksi kapan user men-scroll ke paling bawah
+  // 1. STATE UNTUK DATA
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [meta, setMeta] = useState<MetaData>(initialMeta);
+
+  // PENTING: Jika initialProducts berubah karena SSR (user ganti filter), reset state data!
+  useEffect(() => {
+    setProducts(initialProducts || []);
+    setMeta(initialMeta);
+  }, [initialProducts, initialMeta]);
+
+  // 2. STATE UNTUK INPUT FORM LOKAL (Belum di-apply)
+  const [localSearch, setLocalSearch] = useState(currentFilters.search);
+  const [localMarketplace, setLocalMarketplace] = useState(currentFilters.marketplace);
+  const [localSortBy, setLocalSortBy] = useState(currentFilters.sort_by);
+  const [localSortOrder, setLocalSortOrder] = useState(currentFilters.sort_order);
+
+  // 3. STATE UNTUK INFINITE SCROLL
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const hasMore = meta?.pagination?.has_next || false;  
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  // --- FUNGSI LOAD MORE (INFINITE SCROLL) ---
+  // --- FUNGSI 1: APPLY FILTER (MEMICU SSR) ---
+  const applyFilter = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    if (localSearch) params.set("search", localSearch); 
+    else params.delete("search");
+    
+    if (localMarketplace) params.set("marketplace", localMarketplace); 
+    else params.delete("marketplace");
+    
+    params.set("sort_by", localSortBy);
+    params.set("sort_order", localSortOrder);
+
+    // Mendorong URL baru. Ini akan memaksa page.tsx melakukan SSR ulang.
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  // --- FUNGSI 2: LOAD MORE (CSR MURNI) ---
   const loadMoreProducts = useCallback(async () => {
-    if (isLoading || !hasMore) return;
+    if (isLoadingMore || !hasMore) return;
 
-    setIsLoading(true);
+    setIsLoadingMore(true);
     try {
-      const nextPage = meta.current_page + 1;
+      const nextPage = meta?.pagination?.page + 1;
+      // Fetch berdasarkan URL saat ini, tapi halamannya bertambah
       const response = await fetchProducts({
-        search,
-        marketplace,
-        sort_by: sortBy,
-        sort_order: sortOrder,
+        search: currentFilters.search,
+        marketplace: currentFilters.marketplace,
+        sort_by: currentFilters.sort_by,
+        sort_order: currentFilters.sort_order,
         page: nextPage,
-        limit: 12, // Ambil 12 item per halaman
-      });
-
-      setProducts((prev) => [...prev, ...response.data]);
-      setMeta(response.meta);
-      setHasMore(response.meta.current_page < response.meta.total_pages);
-    } catch (error) {
-      console.error("Gagal memuat lebih banyak produk:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [meta.current_page, hasMore, isLoading, search, marketplace, sortBy, sortOrder]);
-
-  // --- FUNGSI APPLY FILTER ---
-  const applyFilter = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetchProducts({
-        search,
-        marketplace,
-        sort_by: sortBy,
-        sort_order: sortOrder,
-        page: 1, // Selalu reset ke halaman 1 jika filter berubah
         limit: 12,
       });
 
-      setProducts(response.data);
+      setProducts((prev) => [...prev, ...(response.data || [])]);
       setMeta(response.meta);
-      setHasMore(response.meta.current_page < response.meta.total_pages);
     } catch (error) {
-      console.error("Gagal menerapkan filter:", error);
+      console.error("Gagal memuat lebih banyak produk:", error);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMore(false);
     }
-  };
+  }, [meta.pagination?.page, hasMore, isLoadingMore, currentFilters]);
 
-  // --- INTERSECTION OBSERVER UNTUK INFINITE SCROLL ---
+  // --- INTERSECTION OBSERVER ---
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        // Jika elemen target (paling bawah) terlihat di layar, panggil loadMore
-        if (entries[0].isIntersecting && hasMore && !isLoading) {
+        if (entries[0].isIntersecting && hasMore && !isLoadingMore) {
           loadMoreProducts();
         }
       },
-      { threshold: 1.0 } // 100% elemen harus terlihat baru trigger
+      { threshold: 1.0 }
     );
 
     const currentTarget = observerTarget.current;
@@ -94,9 +102,8 @@ export default function ProductList({ initialProducts, initialMeta }: ProductLis
     return () => {
       if (currentTarget) observer.unobserve(currentTarget);
     };
-  }, [loadMoreProducts, hasMore, isLoading]);
+  }, [loadMoreProducts, hasMore, isLoadingMore]);
 
-  // Utility untuk format Rupiah
   const formatRupiah = (price: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -107,14 +114,14 @@ export default function ProductList({ initialProducts, initialMeta }: ProductLis
 
   return (
     <div className="flex flex-col gap-6">
-      {/* HEADER & FILTER BAR */}
+      {/* HEADER & FILTER BAR (Mengubah Local State) */}
       <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex flex-wrap gap-4 items-end">
         <div className="flex-1 min-w-50">
           <label className="block text-sm font-medium text-gray-700 mb-1">Cari Produk</label>
           <input
             type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={localSearch}
+            onChange={(e) => setLocalSearch(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilter()}
             placeholder="Ketik nama produk..."
             className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
@@ -124,8 +131,8 @@ export default function ProductList({ initialProducts, initialMeta }: ProductLis
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Marketplace</label>
           <select 
-            value={marketplace} 
-            onChange={(e) => setMarketplace(e.target.value)}
+            value={localMarketplace} 
+            onChange={(e) => setLocalMarketplace(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Semua</option>
@@ -138,11 +145,11 @@ export default function ProductList({ initialProducts, initialMeta }: ProductLis
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Urutkan</label>
           <select 
-            value={`${sortBy}|${sortOrder}`} 
+            value={`${localSortBy}|${localSortOrder}`} 
             onChange={(e) => {
               const [valSortBy, valSortOrder] = e.target.value.split('|');
-              setSortBy(valSortBy);
-              setSortOrder(valSortOrder);
+              setLocalSortBy(valSortBy);
+              setLocalSortOrder(valSortOrder);
             }}
             className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
           >
@@ -154,10 +161,9 @@ export default function ProductList({ initialProducts, initialMeta }: ProductLis
 
         <button 
           onClick={applyFilter}
-          disabled={isLoading}
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:bg-blue-300"
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
         >
-          Cari
+          Terapkan
         </button>
       </div>
 
@@ -199,14 +205,13 @@ export default function ProductList({ initialProducts, initialMeta }: ProductLis
         ))}
       </div>
 
-      {/* INFINITE SCROLL OBSERVER TARGET */}
-      {products.length === 0 && !isLoading && (
+      {products.length === 0 && (
         <div className="text-center py-12 text-gray-500">Produk tidak ditemukan.</div>
       )}
 
       {hasMore && (
         <div ref={observerTarget} className="flex justify-center py-8">
-          {isLoading ? (
+          {isLoadingMore ? (
             <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
           ) : (
             <span className="text-transparent">Load trigger</span>
@@ -216,7 +221,7 @@ export default function ProductList({ initialProducts, initialMeta }: ProductLis
       
       {!hasMore && products.length > 0 && (
         <div className="text-center py-8 text-gray-500 text-sm">
-          Semua produk telah ditampilkan. ({meta.total_records} produk)
+          Semua produk telah ditampilkan. ({meta?.pagination?.total} produk)
         </div>
       )}
     </div>
