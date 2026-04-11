@@ -1,4 +1,3 @@
-// src/lib/api.ts
 import { ProductResponse } from "@/types/product";
 
 export async function fetchProducts(
@@ -16,8 +15,7 @@ export async function fetchProducts(
   const isServer = typeof window === "undefined";
   
   // 2. Tentukan Base URL secara dinamis
-  const baseUrl = isServer ? "http://localhost:8080" : "/api";
-
+  const baseUrl = isServer ? "http://localhost:3000/api" : "/api";
   const url = `${baseUrl}/products?${searchParams.toString()}`;
 
   const res = await fetch(url, {

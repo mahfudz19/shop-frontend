@@ -169,9 +169,9 @@ export default function ProductList({ initialProducts, initialMeta, currentFilte
 
       {/* PRODUCT GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
+        {products.map((product, index) => (
           <a 
-            key={product.id} 
+            key={`${index}-${product.id}-${product.url}`} 
             href={product.url} 
             target="_blank" 
             rel="noopener noreferrer"
