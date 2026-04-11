@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import ProductList from "@/components/ProductList";
 import { fetchProducts } from "@/lib/api";
 
@@ -21,32 +22,28 @@ export default async function Home(props: Props) {
     marketplace,
     sort_by,
     sort_order,
-    page: 1, // SSR selalu memuat halaman 1 dari filter tersebut
+    page: 1,
     limit: 12,
   });
 
   return (
     <main className="min-h-screen bg-gray-50 pb-12">
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-black text-blue-600">{process.env.NEXT_PUBLIC_APP_NAME}</span>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Katalog Produk</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Katalog Produk
+          </h1>
           <p className="text-gray-600">
             Kumpulan data produk hasil ekstraksi dari berbagai marketplace.
           </p>
         </div>
 
         {/* Kirim data SSR beserta Filter aktif saat ini ke Client */}
-        <ProductList 
-          initialProducts={initialData.data} 
-          initialMeta={initialData.meta} 
+        <ProductList
+          initialProducts={initialData.data}
+          initialMeta={initialData.meta}
           currentFilters={{ search, marketplace, sort_by, sort_order }}
         />
       </div>
