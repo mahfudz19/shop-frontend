@@ -1,31 +1,200 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-button,
-a {
-  cursor: pointer;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+/* 1. DEFINISI VARIABEL WARNA (MUI FULL PALETTE) */
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Background & Surface */
+    --bg-default: #f9fafb; /* gray-50 */
+    --bg-paper: #ffffff; /* white */
+
+    /* Text */
+    --text-primary: #111827; /* gray-900 */
+    --text-secondary: #4b5563; /* gray-600 */
+    --text-disabled: #9ca3af; /* gray-400 */
+
+    /* Divider (Garis Pemisah) */
+    --divider: rgba(0, 0, 0, 0.12); /* Standar transparansi MUI */
+
+    /* Primary (Blue) */
+    --primary-main: #2563eb;
+    --primary-light: #60a5fa;
+    --primary-dark: #1d4ed8;
+    --primary-contrast: #ffffff;
+
+    /* Secondary (Orange) */
+    --secondary-main: #f97316;
+    --secondary-light: #fb923c;
+    --secondary-dark: #c2410c;
+    --secondary-contrast: #ffffff;
+
+    /* Error (Red) */
+    --error-main: #ef4444;
+    --error-light: #f87171;
+    --error-dark: #b91c1c;
+    --error-contrast: #ffffff;
+
+    /* Success (Green) */
+    --success-main: #22c55e;
+    --success-light: #4ade80;
+    --success-dark: #15803d;
+    --success-contrast: #ffffff;
+
+    /* Warning (Amber/Yellow) */
+    --warning-main: #f59e0b;
+    --warning-light: #fbbf24;
+    --warning-dark: #b45309;
+    /* Kontras warning terang biasanya hitam agar mudah dibaca */
+    --warning-contrast: #111827;
+
+    /* Info (Light Blue) */
+    --info-main: #0ea5e9;
+    --info-light: #38bdf8;
+    --info-dark: #0369a1;
+    --info-contrast: #ffffff;
+  }
+
+  /* KONDISI DARK MODE */
+  .dark {
+    /* Background & Surface */
+    --bg-default: #121212;
+    --bg-paper: #1e1e1e;
+
+    /* Text */
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --text-disabled: #52525b;
+
+    /* Divider */
+    --divider: rgba(255, 255, 255, 0.12); /* Garis putih transparan */
+
+    /* Primary */
+    --primary-main: #3b82f6;
+    --primary-light: #93c5fd;
+    --primary-dark: #2563eb;
+    --primary-contrast: #ffffff;
+
+    /* Secondary */
+    --secondary-main: #fb923c;
+    --secondary-light: #fdba74;
+    --secondary-dark: #ea580c;
+    --secondary-contrast: #111827; /* Teks gelap di atas warna terang */
+
+    /* Error - Sedikit dilembutkan untuk mata di layar gelap */
+    --error-main: #f87171;
+    --error-light: #fca5a5;
+    --error-dark: #dc2626;
+    --error-contrast: #111827;
+
+    /* Success */
+    --success-main: #4ade80;
+    --success-light: #86efac;
+    --success-dark: #16a34a;
+    --success-contrast: #111827;
+
+    /* Warning */
+    --warning-main: #fbbf24;
+    --warning-light: #fcd34d;
+    --warning-dark: #d97706;
+    --warning-contrast: #111827;
+
+    /* Info */
+    --info-main: #38bdf8;
+    --info-light: #7dd3fc;
+    --info-dark: #0284c7;
+    --info-contrast: #111827;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 2. DAFTARKAN KE TAILWIND V4 THEME */
+@theme {
+  --color-background-default: var(--bg-default);
+  --color-background-paper: var(--bg-paper);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-disabled: var(--text-disabled);
+
+  --color-divider: var(--divider);
+
+  --color-primary-main: var(--primary-main);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-contrast: var(--primary-contrast);
+
+  --color-secondary-main: var(--secondary-main);
+  --color-secondary-light: var(--secondary-light);
+  --color-secondary-dark: var(--secondary-dark);
+  --color-secondary-contrast: var(--secondary-contrast);
+
+  --color-error-main: var(--error-main);
+  --color-error-light: var(--error-light);
+  --color-error-dark: var(--error-dark);
+  --color-error-contrast: var(--error-contrast);
+
+  --color-success-main: var(--success-main);
+  --color-success-light: var(--success-light);
+  --color-success-dark: var(--success-dark);
+  --color-success-contrast: var(--success-contrast);
+
+  --color-warning-main: var(--warning-main);
+  --color-warning-light: var(--warning-light);
+  --color-warning-dark: var(--warning-dark);
+  --color-warning-contrast: var(--warning-contrast);
+
+  --color-info-main: var(--info-main);
+  --color-info-light: var(--info-light);
+  --color-info-dark: var(--info-dark);
+  --color-info-contrast: var(--info-contrast);
+
+  /* -----------------------------------------
+     SHADOW (MUI ELEVATION SYSTEM)
+     MUI menggunakan 3 layer bayangan (Ambient, Penumbra, Umbra)
+  ----------------------------------------- */
+  /* Elevation 1: Untuk Card biasa, resting button */
+  --shadow-sm:
+    0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+  /* Elevation 4: Untuk App Bar / Header / Hovered Card */
+  --shadow-md:
+    0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+
+  /* Elevation 8: Untuk Dropdown Menu / Popover */
+  --shadow-lg:
+    0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+  /* Elevation 16: Untuk Modal / Dialog / Drawer */
+  --shadow-xl:
+    0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14),
+    0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+
+  /* -----------------------------------------
+     BORDER RADIUS (SHAPE)
+     Disederhanakan agar konsisten dan tidak banyak tebak-tebakan
+  ----------------------------------------- */
+  /* Rounded standar: Tombol, Input, Alert (MUI Classic) */
+  --radius-sm: 4px;
+
+  /* Rounded medium: Card, Paper (MUI Modern) */
+  --radius-md: 8px;
+
+  /* Rounded besar: Modal, Bottom Sheet */
+  --radius-lg: 12px;
+
+  /* Rounded full tetap dipertahankan untuk Avatar / Badge */
+  --radius-full: 9999px;
+}
+
+/* 3. SET BASE BODY BACKGROUND SECARA OTOMATIS */
+@layer base {
+  body {
+    background-color: var(--bg-default);
+    color: var(--text-primary);
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease;
+  }
 }

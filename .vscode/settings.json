@@ -3,7 +3,12 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "eslint.run": "onType",
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "workbench.editor.empty.hint": "hidden",
@@ -21,5 +26,7 @@
   },
   "files.associations": {
     "*.tsx": "typescriptreact"
-  }
+  },
+  "css.lint.unknownAtRules": "ignore",
+  "tailwindCSS.experimental.configFile": "src/app/globals.css"
 }
