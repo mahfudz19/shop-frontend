@@ -1,7 +1,6 @@
 import Image from "@/components/Image";
 
 export default function FeaturedDeals() {
-  // Dummy Data
   const deals = [
     {
       id: 1,
@@ -46,15 +45,17 @@ export default function FeaturedDeals() {
   };
 
   return (
-    <section className="py-12 border-t border-gray-200">
+    <section className="py-12 border-t border-divider">
       <div className="flex justify-between items-end mb-8">
         <div>
-          <h2 className="text-2xl font-black text-gray-900">Featured Deals</h2>
-          <p className="text-gray-500 mt-1">
+          <h2 className="text-2xl font-black text-text-primary">
+            Featured Deals
+          </h2>
+          <p className="text-text-secondary mt-1">
             Handpicked discounts from top marketplaces.
           </p>
         </div>
-        <button className="text-blue-600 font-bold hover:underline text-sm hidden sm:block">
+        <button className="text-primary-main font-bold hover:underline text-sm hidden sm:block">
           View All Deals &rarr;
         </button>
       </div>
@@ -63,35 +64,34 @@ export default function FeaturedDeals() {
         {deals.map((deal) => (
           <div
             key={deal.id}
-            className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-xl transition-all cursor-pointer group relative"
+            className="bg-background-paper rounded-md border border-divider p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer group relative"
           >
             {/* Discount Badge */}
-            <div className="absolute top-4 left-4 z-10 bg-red-600 text-white font-black text-xs px-2 py-1 rounded">
+            <div className="absolute top-4 left-4 z-10 bg-error-main text-error-contrast font-black text-xs px-2 py-1 rounded-sm">
               -
               {Math.round(((deal.oldPrice - deal.price) / deal.oldPrice) * 100)}
               %
             </div>
 
-            {/* Dummy Image Placeholder */}
             <Image
               dummy
-              containerClassName="h-48 bg-gray-50 rounded-xl mb-4 flex items-center justify-center text-7xl group-hover:scale-105 transition-transform duration-500"
+              containerClassName="h-48 bg-background-default border border-divider rounded-md mb-4 flex items-center justify-center text-7xl group-hover:scale-105 transition-transform duration-500"
             />
 
-            <h3 className="font-bold text-gray-800 line-clamp-2 leading-snug group-hover:text-blue-600">
+            <h3 className="font-bold text-text-primary line-clamp-2 leading-snug group-hover:text-primary-main transition-colors">
               {deal.name}
             </h3>
 
             <div className="mt-4">
-              <span className="text-sm text-gray-400 line-through mr-2">
+              <span className="text-sm text-text-disabled line-through mr-2">
                 {formatRupiah(deal.oldPrice)}
               </span>
-              <p className="text-xl font-black text-red-600">
+              <p className="text-xl font-black text-error-main">
                 {formatRupiah(deal.price)}
               </p>
             </div>
 
-            <div className="mt-3 text-xs text-gray-500 flex items-center gap-2">
+            <div className="mt-3 text-xs text-text-secondary flex items-center gap-2">
               <span>🏪</span> {deal.shop}
             </div>
           </div>

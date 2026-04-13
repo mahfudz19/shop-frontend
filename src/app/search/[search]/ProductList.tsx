@@ -112,13 +112,13 @@ export default function ProductList({
       {/* LEFT SIDEBAR: FILTERS & MINI FOOTER */}
       <aside className="w-full lg:w-64 shrink-0 flex flex-col gap-6">
         {/* Box Filter */}
-        <div className="bg-white p-6 rounded-xl border border-gray-200 sticky top-20 shadow-sm">
-          <h3 className="font-black text-lg text-gray-900 mb-4 border-b pb-2">
+        <div className="bg-background-paper p-6 rounded-md border border-divider sticky top-20 shadow-sm">
+          <h3 className="font-black text-lg text-text-primary mb-4 border-b border-divider pb-2">
             Filters
           </h3>
 
           <div className="mb-6">
-            <label className="block text-sm font-bold text-gray-700 mb-2">
+            <label className="block text-sm font-bold text-text-primary mb-2">
               Marketplace
             </label>
             <div className="space-y-2">
@@ -133,9 +133,9 @@ export default function ProductList({
                     value={mp}
                     checked={localMarketplace === mp}
                     onChange={(e) => setLocalMarketplace(e.target.value)}
-                    className="text-orange-500 focus:ring-orange-500"
+                    className="text-secondary-main focus:ring-secondary-main"
                   />
-                  <span className="text-sm text-gray-700 group-hover:text-orange-600 transition-colors">
+                  <span className="text-sm text-text-secondary group-hover:text-secondary-main transition-colors">
                     {mp || "All Marketplaces"}
                   </span>
                 </label>
@@ -145,29 +145,29 @@ export default function ProductList({
 
           <button
             onClick={applyFilter}
-            className="w-full bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition shadow-sm"
+            className="w-full bg-secondary-main text-secondary-contrast font-bold py-3 rounded-sm hover:bg-secondary-dark transition shadow-sm"
           >
             Apply Filters
           </button>
         </div>
 
         {/* SIDEBAR FOOTER (Sticky) */}
-        <div className="sticky top-100 text-xs text-gray-500 px-2 flex flex-col gap-3">
+        <div className="sticky top-100 text-xs text-text-secondary px-2 flex flex-col gap-3">
           <div className="flex flex-wrap gap-x-4 gap-y-2 font-medium">
-            <a href="#" className="hover:text-gray-900 transition">
+            <a href="#" className="hover:text-text-primary transition">
               About Us
             </a>
-            <a href="#" className="hover:text-gray-900 transition">
+            <a href="#" className="hover:text-text-primary transition">
               Privacy Policy
             </a>
-            <a href="#" className="hover:text-gray-900 transition">
+            <a href="#" className="hover:text-text-primary transition">
               Terms of Service
             </a>
-            <a href="#" className="hover:text-gray-900 transition">
+            <a href="#" className="hover:text-text-primary transition">
               Help Center
             </a>
           </div>
-          <p className="mt-2 text-gray-400">
+          <p className="mt-2 text-text-disabled">
             © 2026 {process.env.NEXT_PUBLIC_APP_NAME} Inc. All rights reserved.
           </p>
         </div>
@@ -176,18 +176,18 @@ export default function ProductList({
       {/* RIGHT CONTENT: PRODUCT GRID */}
       <div className="flex-1">
         {/* Top Bar: Title & Sort */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 bg-white p-4 rounded-xl border border-gray-200">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 bg-background-paper p-4 rounded-md border border-divider shadow-sm">
           <div>
-            <h1 className="text-2xl font-black text-gray-900">
+            <h1 className="text-2xl font-black text-text-primary">
               Search Results
             </h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-text-secondary">
               {meta?.pagination?.total || 0} products found
             </p>
           </div>
 
           <div className="mt-4 sm:mt-0 flex items-center gap-3">
-            <label className="text-sm font-bold text-gray-700 whitespace-nowrap">
+            <label className="text-sm font-bold text-text-primary whitespace-nowrap">
               Sort By:
             </label>
             <select
@@ -196,10 +196,9 @@ export default function ProductList({
                 const [valSortBy, valSortOrder] = e.target.value.split("|");
                 setLocalSortBy(valSortBy);
                 setLocalSortOrder(valSortOrder);
-                // Langsung apply sort tanpa perlu klik tombol
                 setTimeout(applyFilter, 100);
               }}
-              className="p-2 border border-gray-300 rounded-lg text-sm outline-none focus:border-orange-500 bg-gray-50"
+              className="p-2 border border-divider rounded-sm text-sm outline-none focus:border-secondary-main bg-background-default text-text-primary"
             >
               <option value="createdAt|-1">Newest</option>
               <option value="price_rp|1">Lowest Price</option>
@@ -216,37 +215,37 @@ export default function ProductList({
               href={product.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow group flex flex-col items-center h-full relative"
+              className="bg-background-paper rounded-md border border-divider overflow-hidden shadow-sm hover:shadow-md transition-shadow group flex flex-col items-center h-full relative"
             >
               {/* Promo Badge */}
-              <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-black px-2 py-1 rounded-full z-10 uppercase tracking-wider">
+              <div className="absolute top-3 left-3 bg-error-main text-error-contrast text-[10px] font-black px-2 py-1 rounded-sm z-10 uppercase tracking-wider shadow-sm">
                 Deal
               </div>
 
-              <div className="p-5 flex-1 flex flex-col">
+              <div className="p-5 flex-1 flex flex-col w-full">
                 <div className="flex justify-between items-start mb-3 pl-10">
                   <span
-                    className={`text-xs font-black px-2 py-1 rounded-md ${
+                    className={`text-xs font-bold px-2 py-1 rounded-sm shadow-sm ${
                       product.marketplace === "Shopee"
-                        ? "bg-orange-100 text-orange-600"
+                        ? "bg-secondary-main text-secondary-contrast"
                         : product.marketplace === "Tokopedia"
-                          ? "bg-green-100 text-green-600"
-                          : "bg-blue-100 text-blue-600"
+                          ? "bg-success-main text-success-contrast"
+                          : "bg-primary-main text-primary-contrast"
                     }`}
                   >
                     {product.marketplace}
                   </span>
                 </div>
 
-                <h3 className="font-bold text-gray-800 line-clamp-2 mb-4 group-hover:text-blue-600 leading-snug">
+                <h3 className="font-bold text-text-primary line-clamp-2 mb-4 group-hover:text-primary-main leading-snug transition-colors">
                   {product.name}
                 </h3>
 
                 <div className="mt-auto">
-                  <p className="text-2xl font-black text-gray-900 mb-3">
+                  <p className="text-2xl font-black text-error-main mb-3">
                     {formatRupiah(product.price_rp)}
                   </p>
-                  <div className="flex flex-col gap-1.5 pt-3 border-t border-gray-100 text-xs font-medium text-gray-500">
+                  <div className="flex flex-col gap-1.5 pt-3 border-t border-divider text-xs font-medium text-text-secondary">
                     <span className="flex items-center gap-2">
                       <span>📍</span> {product.location}
                     </span>
@@ -260,18 +259,19 @@ export default function ProductList({
           ))}
         </div>
 
-        {/* Infinite Scroll Loaders */}
+        {/* Empty State */}
         {products?.length === 0 && (
-          <div className="text-center py-20 text-gray-500 bg-white rounded-xl border border-gray-200 mt-6">
+          <div className="text-center py-20 text-text-secondary bg-background-paper rounded-md border border-divider mt-6 shadow-sm">
             <span className="text-4xl block mb-3">🔍</span>
             No products found matching your criteria.
           </div>
         )}
 
+        {/* Infinite Scroll Loader */}
         {hasMore && (
           <div ref={observerTarget} className="flex justify-center py-10">
             {isLoadingMore ? (
-              <div className="w-10 h-10 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin"></div>
+              <div className="w-10 h-10 border-4 border-secondary-light border-t-secondary-main rounded-full animate-spin"></div>
             ) : (
               <span className="text-transparent">Load trigger</span>
             )}
