@@ -1,7 +1,8 @@
+// src/proxy.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Asumsi nanti Golang mengirim cookie bernama "auth_token"
   const token = request.cookies.get('auth_token')?.value;
 
@@ -24,7 +25,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Tentukan middleware berjalan di rute mana saja
+// Tentukan proxy berjalan di rute mana saja
 export const config = {
   matcher: ['/dashboard/:path*', '/admin/:path*', '/login', '/register'],
 };
