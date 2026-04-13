@@ -7,42 +7,22 @@ export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
 
   useLayoutEffect(() => {
-    // Pastikan komponen sudah di-mount di client sebelum merender ikon
-    // Ini mencegah error "Hydration Mismatch" di Next.js
     setIsMounted(true);
-
-    // Cek apakah ada preferensi di localStorage, atau cek preferensi OS/Sistem
-    const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-
-    if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
-      setIsDark(true);
-      document.documentElement.classList.add("dark");
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove("dark");
-    }
+    const isCurrentlyDark = document.documentElement.classList.contains("dark");
+    setIsDark(isCurrentlyDark);
   }, []);
 
   const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDark(true);
-    }
+    const newTheme = isDark ? "light" : "dark";
+    setIsDark(!isDark);
+
+    if (newTheme === "dark") document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+
+    document.cookie = `theme=${newTheme}; path=/; max-age=31536000; SameSite=Lax`;
   };
 
-  // Render ruang kosong dengan ukuran yang sama sebelum mounted
-  // agar layout tidak bergeser (Layout Shift)
-  if (!isMounted) {
-    return <div className="w-8 h-8 rounded-full" />;
-  }
+  if (!isMounted) return <div className="w-8 h-8 rounded-full" />;
 
   return (
     <button
@@ -51,7 +31,6 @@ export default function ThemeToggle() {
       aria-label="Toggle Dark Mode"
     >
       {isDark ? (
-        // Ikon Matahari (Light Mode)
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -67,7 +46,6 @@ export default function ThemeToggle() {
           />
         </svg>
       ) : (
-        // Ikon Bulan (Dark Mode)
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

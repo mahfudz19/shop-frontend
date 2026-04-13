@@ -17,7 +17,6 @@ export default function LoginPage() {
     setError("");
 
     try {
-      // Catatan: Pastikan endpoint ini di Golang nanti melakukan c.SetCookie()
       const res = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -30,9 +29,8 @@ export default function LoginPage() {
         throw new Error(data.message || "Gagal login");
       }
 
-      // Jika backend sudah set HttpOnly Cookie, kita tinggal arahkan user
       router.push("/dashboard");
-      router.refresh(); // Memaksa layout membaca status cookie baru
+      router.refresh();
     } catch (err: any) {
       setError(err.message);
     } finally {
