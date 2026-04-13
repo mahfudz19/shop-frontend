@@ -1,5 +1,5 @@
-import Header from "@/components/Header";
-import ProductList from "@/components/ProductList";
+import Header from "@/app/(home)/Header";
+import ProductList from "@/app/(home)/ProductList";
 import { fetchProducts } from "@/lib/api";
 
 // Di Next.js terbaru, searchParams bersifat Asynchronous (Promise)
