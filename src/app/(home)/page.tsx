@@ -1,58 +1,57 @@
-import { CategoryGrid, MagazineSection } from "./ContentGrid";
-import Hero from "./Hero";
-import ProductList from "./ProductList";
-import Trust from "./Trust";
-
 import { fetchProducts } from "@/lib/api";
+import Hero from "./Hero";
+import { CategoryGrid, MagazineSection } from "./ContentGrid";
+import Trust from "./Trust";
+import ProductList from "../search/ProductList";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
 export default async function Home(props: Props) {
-  // Tunggu dan baca parameter dari URL
   const searchParams = await props.searchParams;
-
-  const search = searchParams.search || "";
-  const marketplace = searchParams.marketplace || "";
-  const sort_by = searchParams.sort_by || "createdAt";
-  const sort_order = searchParams.sort_order || "-1";
-
-  // SSR Fetching: Tembak ke Golang berdasarkan filter URL
-  const initialData = await fetchProducts({
-    search,
-    marketplace,
-    sort_by,
-    sort_order,
+  const filter = {
+    search: searchParams.search || "",
+    marketplace: searchParams.marketplace || "",
+    sort_by: searchParams.sort_by || "createdAt",
+    sort_order: searchParams.sort_order || "-1",
     page: 1,
     limit: 12,
-  });
+  };
+
+  const initialData = await fetchProducts(filter);
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Seksi 2: Hero */}
+      {/* 1. HERO & CATEGORIES (Aman untuk dilihat pertama kali) */}
       <Hero />
-
-      {/* Seksi 3: Category Grid */}
       <CategoryGrid />
 
-      {/* Seksi 4: Katalog / Penawaran (ProductList Anda) */}
-      <section className="py-12 border-t border-gray-200">
+      {/* 2. MAGAZINE (Dipindah ke atas agar selalu terbaca) */}
+      <MagazineSection />
+
+      {/* 3. TRUST SIGNALS (Dipindah ke atas) */}
+      <Trust />
+
+      {/* 4. INFINITE SCROLL CATALOG (Diletakkan PALING BAWAH) 
+          Sekarang pengguna bisa scroll produk sampai habis 
+          sebelum menyentuh Footer! 
+      */}
+      <section className="py-12 border-t border-gray-200 mt-8">
         <h2 className="text-2xl font-black mb-6 text-gray-900">
-          Angebote & Penawaran Terbatas
+          Top Deals & Offers
         </h2>
         <ProductList
           initialProducts={initialData.data}
           initialMeta={initialData.meta}
-          currentFilters={{ search, marketplace, sort_by, sort_order }}
+          currentFilters={{
+            search: filter.search,
+            marketplace: filter.marketplace,
+            sort_by: filter.sort_by,
+            sort_order: filter.sort_order,
+          }}
         />
       </section>
-
-      {/* Seksi 5: Magazin */}
-      <MagazineSection />
-
-      {/* Seksi 6: Trust Signals */}
-      <Trust />
     </main>
   );
 }
