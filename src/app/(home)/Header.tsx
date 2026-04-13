@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
-import ThemeToggle from "@/components/ThemeToggle"; // <--- Import ini
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface HeaderProps {
   breadcrumbs?: { name: string; href: string }[];
@@ -33,9 +33,6 @@ export default async function Header({ breadcrumbs }: HeaderProps) {
 
         {/* Search Bar */}
         <div className="flex-1 max-w-3xl flex items-center border border-divider rounded-md overflow-hidden focus-within:border-secondary-main transition-colors shadow-sm">
-          <select className="bg-background-default px-4 py-2 border-r border-divider text-sm font-medium outline-none hidden md:block text-text-primary">
-            <option>All Categories</option>
-          </select>
           <input
             type="text"
             placeholder="Search products, brands, or EAN..."
