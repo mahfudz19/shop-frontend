@@ -1,3 +1,5 @@
+import Image from "@/components/Image";
+
 export function CategoryGrid() {
   const categories = [
     "Sneakers",
@@ -38,9 +40,11 @@ export function MagazineSection() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[1, 2, 3].map((i) => (
           <div key={i} className="group cursor-pointer">
-            <div className="aspect-video bg-gray-200 rounded-xl overflow-hidden mb-4">
-              <div className="w-full h-full bg-slate-300 group-hover:scale-110 transition-transform duration-500"></div>
-            </div>
+            <Image
+              dummy
+              containerClassName="aspect-video bg-gray-200 rounded-xl overflow-hidden mb-4"
+              className="w-full h-full bg-slate-300 group-hover:scale-110 transition-transform duration-500"
+            />
             <span className="text-orange-600 font-bold text-xs uppercase tracking-widest">
               Guide
             </span>

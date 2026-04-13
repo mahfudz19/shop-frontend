@@ -34,16 +34,7 @@ export default async function Home(props: Props) {
       {/* 3. TRUST SIGNALS (Dipindah ke atas) */}
       <Trust />
 
-      {/* 4. INFINITE SCROLL CATALOG (Diletakkan PALING BAWAH) 
-          Sekarang pengguna bisa scroll produk sampai habis 
-          sebelum menyentuh Footer! 
-      */}
-      <section className="py-12 border-t border-gray-200 mt-8">
-        <h2 className="text-2xl font-black mb-6 text-gray-900">
-          Top Deals & Offers
-        </h2>
-        <FeaturedDeals />
-      </section>
+      <FeaturedDeals />
     </main>
   );
 }

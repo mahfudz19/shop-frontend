@@ -1,4 +1,5 @@
-// src/app/(home)/FeaturedDeals.tsx
+import Image from "@/components/Image";
+
 export default function FeaturedDeals() {
   // Dummy Data
   const deals = [
@@ -65,16 +66,17 @@ export default function FeaturedDeals() {
             className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-xl transition-all cursor-pointer group relative"
           >
             {/* Discount Badge */}
-            <div className="absolute top-4 left-4 bg-red-600 text-white font-black text-xs px-2 py-1 rounded">
+            <div className="absolute top-4 left-4 z-10 bg-red-600 text-white font-black text-xs px-2 py-1 rounded">
               -
               {Math.round(((deal.oldPrice - deal.price) / deal.oldPrice) * 100)}
               %
             </div>
 
             {/* Dummy Image Placeholder */}
-            <div className="h-48 bg-gray-50 rounded-xl mb-4 flex items-center justify-center text-7xl group-hover:scale-105 transition-transform duration-500">
-              {deal.image}
-            </div>
+            <Image
+              dummy
+              containerClassName="h-48 bg-gray-50 rounded-xl mb-4 flex items-center justify-center text-7xl group-hover:scale-105 transition-transform duration-500"
+            />
 
             <h3 className="font-bold text-gray-800 line-clamp-2 leading-snug group-hover:text-blue-600">
               {deal.name}

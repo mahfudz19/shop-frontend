@@ -5,6 +5,11 @@
   --foreground: #171717;
 }
 
+button,
+a {
+  cursor: pointer;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
