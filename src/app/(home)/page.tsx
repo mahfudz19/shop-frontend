@@ -1,8 +1,10 @@
-import Header from "@/app/(home)/Header";
-import ProductList from "@/app/(home)/ProductList";
+import { CategoryGrid, MagazineSection } from "./ContentGrid";
+import Hero from "./Hero";
+import ProductList from "./ProductList";
+import Trust from "./Trust";
+
 import { fetchProducts } from "@/lib/api";
 
-// Di Next.js terbaru, searchParams bersifat Asynchronous (Promise)
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
@@ -27,26 +29,30 @@ export default async function Home(props: Props) {
   });
 
   return (
-    <main className="min-h-screen bg-gray-50 pb-12">
-      <Header />
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Seksi 2: Hero */}
+      <Hero />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Katalog Produk
-          </h1>
-          <p className="text-gray-600">
-            Kumpulan data produk hasil ekstraksi dari berbagai marketplace.
-          </p>
-        </div>
+      {/* Seksi 3: Category Grid */}
+      <CategoryGrid />
 
-        {/* Kirim data SSR beserta Filter aktif saat ini ke Client */}
+      {/* Seksi 4: Katalog / Penawaran (ProductList Anda) */}
+      <section className="py-12 border-t border-gray-200">
+        <h2 className="text-2xl font-black mb-6 text-gray-900">
+          Angebote & Penawaran Terbatas
+        </h2>
         <ProductList
           initialProducts={initialData.data}
           initialMeta={initialData.meta}
           currentFilters={{ search, marketplace, sort_by, sort_order }}
         />
-      </div>
+      </section>
+
+      {/* Seksi 5: Magazin */}
+      <MagazineSection />
+
+      {/* Seksi 6: Trust Signals */}
+      <Trust />
     </main>
   );
 }
