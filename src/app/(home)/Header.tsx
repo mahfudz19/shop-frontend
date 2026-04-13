@@ -2,7 +2,10 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
-export default async function Header() {
+interface HeaderProps {
+  breadcrumbs?: { name: string; href: string }[];
+}
+export default async function Header({ breadcrumbs }: HeaderProps) {
   const cookieStore = await cookies();
   const token = cookieStore.get("auth_token")?.value;
   const isLoggedIn = !!token;
@@ -74,19 +77,44 @@ export default async function Header() {
         </div>
       </div>
 
-      <div className="bg-orange-500 text-white sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 flex overflow-x-auto no-scrollbar gap-8 h-12 items-center text-sm font-bold whitespace-nowrap">
-          {mainCategories.map((cat) => (
-            <Link
-              key={cat}
-              href={`/?search=${cat}`}
-              className="hover:text-black transition-colors"
-            >
-              {cat}
-            </Link>
-          ))}
+      {breadcrumbs ? (
+        <nav className="bg-gray-100 text-sm text-gray-500 px-4 py-2">
+          <div className="max-w-7xl mx-auto flex items-center gap-2">
+            {breadcrumbs.map((crumb, idx) => {
+              return (
+                <div key={idx} className="flex items-center gap-2">
+                  {crumb.href ? (
+                    <Link href={crumb.href} className="hover:text-gray-900">
+                      {crumb.name}
+                    </Link>
+                  ) : (
+                    <span className="text-gray-900 font-medium">
+                      {crumb.name}
+                    </span>
+                  )}
+                  {idx < breadcrumbs.length - 1 && (
+                    <span className="text-gray-400">/</span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </nav>
+      ) : (
+        <div className="bg-orange-500 text-white sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 flex overflow-x-auto no-scrollbar gap-8 h-12 items-center text-sm font-bold whitespace-nowrap">
+            {mainCategories.map((cat) => (
+              <Link
+                key={cat}
+                href={`/search/${cat}`}
+                className="hover:text-black transition-colors"
+              >
+                {cat}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 }

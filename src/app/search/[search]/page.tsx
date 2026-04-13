@@ -1,14 +1,20 @@
 import { fetchProducts } from "@/lib/api";
-import ProductList from "../ProductList";
+import ProductList from "./ProductList";
 
 type Props = {
+  params: Promise<{ search: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
-async function SearchPage(props: Props) {
+export default async function SearchPage(props: Props) {
+  const params = await props.params;
   const searchParams = await props.searchParams;
+
+  // Ambil keyword dari URL (misal: /search/laptop)
+  const searchQuery = decodeURIComponent(params.search);
+
   const filter = {
-    search: searchParams.search || "",
+    search: searchQuery,
     marketplace: searchParams.marketplace || "",
     sort_by: searchParams.sort_by || "createdAt",
     sort_order: searchParams.sort_order || "-1",
@@ -17,23 +23,17 @@ async function SearchPage(props: Props) {
   };
 
   const initialData = await fetchProducts(filter);
+
   return (
-    <section className="py-12 border-t border-gray-200 mt-8">
-      <h2 className="text-2xl font-black mb-6 text-gray-900">
-        Top Deals & Offers
-      </h2>
-      <ProductList
-        initialProducts={initialData.data}
-        initialMeta={initialData.meta}
-        currentFilters={{
-          search: filter.search,
-          marketplace: filter.marketplace,
-          sort_by: filter.sort_by,
-          sort_order: filter.sort_order,
-        }}
-      />
-    </section>
+    <ProductList
+      initialProducts={initialData.data}
+      initialMeta={initialData.meta}
+      currentFilters={{
+        search: filter.search,
+        marketplace: filter.marketplace,
+        sort_by: filter.sort_by,
+        sort_order: filter.sort_order,
+      }}
+    />
   );
 }
-
-export default SearchPage;

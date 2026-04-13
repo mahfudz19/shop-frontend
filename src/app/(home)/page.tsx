@@ -2,7 +2,8 @@ import { fetchProducts } from "@/lib/api";
 import Hero from "./Hero";
 import { CategoryGrid, MagazineSection } from "./ContentGrid";
 import Trust from "./Trust";
-import ProductList from "../search/ProductList";
+import ProductList from "../search/[search]/ProductList";
+import FeaturedDeals from "./FeaturedDeals";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -41,16 +42,7 @@ export default async function Home(props: Props) {
         <h2 className="text-2xl font-black mb-6 text-gray-900">
           Top Deals & Offers
         </h2>
-        <ProductList
-          initialProducts={initialData.data}
-          initialMeta={initialData.meta}
-          currentFilters={{
-            search: filter.search,
-            marketplace: filter.marketplace,
-            sort_by: filter.sort_by,
-            sort_order: filter.sort_order,
-          }}
-        />
+        <FeaturedDeals />
       </section>
     </main>
   );
