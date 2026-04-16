@@ -1,4 +1,16 @@
-export default function Trust() {
+import { fetchStats } from "@/lib/api";
+
+export default async function Trust() {
+  const statsRes = await fetchStats();
+  const stats = statsRes.data || { total_products: 0, total_shops: 0 };
+
+  // Helper untuk membuat angka lebih cantik (misal: 1540 -> 1.5k)
+  const formatNumber = (num: number) => {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + "M+";
+    if (num >= 1000) return (num / 1000).toFixed(1) + "k+";
+    return num.toString();
+  };
+
   return (
     <section className="bg-primary-dark rounded-lg text-primary-contrast overflow-hidden mt-12 mb-12 shadow-md">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
@@ -38,9 +50,12 @@ export default function Trust() {
           <div className="flex gap-4 items-start">
             <span className="text-3xl">📊</span>
             <div>
-              <h4 className="font-black mb-1">350 Million+</h4>
+              <h4 className="font-black mb-1">
+                {formatNumber(stats.total_products)}
+              </h4>
               <p className="text-sm opacity-80 leading-snug">
-                Offers from thousands of shops.
+                Real products from <br /> {formatNumber(stats.total_shops)}{" "}
+                verified shops.
               </p>
             </div>
           </div>
