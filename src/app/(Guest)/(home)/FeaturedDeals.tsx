@@ -1,6 +1,7 @@
 import { fetchDeals } from "@/lib/api";
 import Link from "next/link";
 import { generateSlug } from "../product/[id]/page";
+import Image from "@/components/Image";
 
 export default async function FeaturedDeals() {
   const dealsRes = await fetchDeals();
@@ -70,8 +71,10 @@ export default async function FeaturedDeals() {
 
             {/* Product Image Container */}
             <div className="h-52 bg-background-default rounded-xl mb-6 flex items-center justify-center overflow-hidden relative shadow-inner group-hover:bg-white transition-colors duration-500">
-              <img
-                src={deal.image_url}
+              <Image
+                width={416}
+                height={208}
+                src={`${process.env.NEXT_IMAGES_HOSTNAME}/${deal.image_url}`}
                 alt={deal.name}
                 className="max-h-[80%] object-contain group-hover:scale-110 transition-transform duration-700"
               />

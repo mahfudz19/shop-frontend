@@ -34,10 +34,12 @@ export async function CategoryGrid() {
 
               <div className="w-16 h-16 rounded-2xl bg-background-default flex items-center justify-center text-3xl mb-4 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
                 {cat.icon_url ? (
-                  <img
+                  <Image
                     src={cat.icon_url}
                     alt={cat.name}
                     className="w-10 h-10 object-contain"
+                    width={40}
+                    height={40}
                   />
                 ) : (
                   <span className="opacity-80">📦</span>

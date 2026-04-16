@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { generateSlug } from "../../product/[id]/page";
+import Image from "@/components/Image";
 
 interface ProductListProps {
   initialProducts: Product[];
@@ -149,8 +150,14 @@ export default function ProductList({
 
                 {/* Image Section */}
                 <div className="h-48 bg-background-default rounded-xl mb-4 flex items-center justify-center overflow-hidden relative group-hover:bg-white transition-colors duration-500">
-                  <img
-                    src={product.image_url}
+                  <Image
+                    width={416}
+                    height={208}
+                    {...(product.image_url && process.env.NEXT_IMAGES_HOSTNAME
+                      ? {
+                          src: `${process.env.NEXT_IMAGES_HOSTNAME}/${product.image_url}`,
+                        }
+                      : { dummy: true })}
                     alt={product.name}
                     className="max-h-[85%] object-contain group-hover:scale-110 transition-transform duration-700"
                   />
