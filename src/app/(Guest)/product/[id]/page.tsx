@@ -11,7 +11,7 @@ export const generateSlug = (name: string, id: string) => {
   return `/product/${cleanName}~${id}`;
 };
 
-const formatRupiah = (price: number) => {
+export const formatRupiah = (price: number) => {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -34,8 +34,8 @@ export default async function Product(props: Props) {
   const productData = await fetchProductById(productId!);
   if (
     !productData ||
-    !productData.data?.id ||
-    !productData.data?.master_product_id
+    !productData.data?.product.id ||
+    !productData.data?.product.master_product_id
   ) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center text-text-secondary font-mono">
@@ -52,7 +52,7 @@ export default async function Product(props: Props) {
 
   // 2. Fetch data gabungan (Master + Offers) dari endpoint baru
   const masterResponse = await fetchMasterProductById(
-    productData.data.master_product_id,
+    productData.data.product.master_product_id,
   );
   const master = masterResponse?.data;
 
@@ -70,6 +70,11 @@ export default async function Product(props: Props) {
   const totalOffers = master.total_offers || 0;
   const savings = master.savings || 0;
   const specifications = master.specifications || {};
+
+  console.log({
+    productData,
+    masterResponse,
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -99,7 +104,7 @@ export default async function Product(props: Props) {
           <div className="aspect-square rounded-3xl bg-background-paper border border-divider overflow-hidden relative shadow-xl shadow-primary-main/5 p-4 flex items-center justify-center group">
             {/* Fallback ke gambar offer terbaik jika master.default_image kosong */}
             <Image
-              src={`${process.env.NEXT_IMAGES_HOSTNAME}/${productData.data.image_url}`}
+              src={`${process.env.NEXT_IMAGES_HOSTNAME}/${productData.data.product.image_url}`}
               width={950}
               height={950}
               alt={master.name}

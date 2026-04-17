@@ -5,7 +5,7 @@ import { MetaDataPagination } from "@/types/respons";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
-import { generateSlug } from "../../product/[id]/page";
+import { formatRupiah, generateSlug } from "../../product/[id]/page";
 import Image from "@/components/Image";
 
 interface ProductListProps {
@@ -40,14 +40,6 @@ export default function ProductList({
 
   const hasMore = meta?.pagination?.has_next || false;
   const observerTarget = useRef<HTMLDivElement>(null);
-
-  const formatRupiah = (price: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
 
   const updateFilters = useCallback(
     (newFilters: Partial<typeof currentFilters>) => {

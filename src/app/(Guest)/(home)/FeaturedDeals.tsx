@@ -1,6 +1,6 @@
 import { fetchDeals } from "@/lib/api";
 import Link from "next/link";
-import { generateSlug } from "../product/[id]/page";
+import { formatRupiah, generateSlug } from "../product/[id]/page";
 import Image from "@/components/Image";
 
 export default async function FeaturedDeals() {
@@ -8,15 +8,6 @@ export default async function FeaturedDeals() {
   const deals = dealsRes.data || [];
 
   if (deals.length === 0) return null;
-
-  const formatRupiah = (price: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
-  console.log("Fetched Deals:", deals);
 
   return (
     <section className="py-16 border-t border-divider/30 relative">
