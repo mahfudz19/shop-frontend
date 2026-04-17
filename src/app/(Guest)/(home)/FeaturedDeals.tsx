@@ -16,6 +16,7 @@ export default async function FeaturedDeals() {
       minimumFractionDigits: 0,
     }).format(price);
   };
+  console.log("Fetched Deals:", deals);
 
   return (
     <section className="py-16 border-t border-divider/30 relative">

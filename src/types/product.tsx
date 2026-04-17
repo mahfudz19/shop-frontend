@@ -19,4 +19,7 @@ export interface Product {
   sold_count: number;
   createdAt: Date;
   updatedAt: Date;
+  master_product_id?: string;
+  is_anomaly?: boolean;
+  match_confidence?: number;
 }

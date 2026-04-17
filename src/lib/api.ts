@@ -47,3 +47,15 @@ export async function fetchDeals(): Promise<Response<Product[]>> {
   const res = await fetch(`${BaseUrl}/products/deals`, { next: { revalidate: 3600 } });
   return res.json();
 }
+
+export async function fetchProductById(id: string): Promise<Response<Product>> {
+  const url = `${BaseUrl}/product/${id}`;
+  const res = await fetch(url, { next: { revalidate: 60 } });
+  return res.json();
+}
+
+export async function fetchMasterProductById(id: string): Promise<Response<any>> {
+  const url = `${BaseUrl}/master-products/${id}`;
+  const res = await fetch(url, { next: { revalidate: 60 } });
+  return res.json();
+}
