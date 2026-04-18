@@ -31,7 +31,7 @@ export default function Image({
     return (
       <div
         className={twMerge(
-          "relative flex flex-col items-center justify-center bg-gray-100 text-gray-400 overflow-hidden",
+          "relative flex flex-col items-center justify-center bg-background-default text-text-secondary overflow-hidden",
           containerClassName,
         )}
       >
@@ -58,7 +58,7 @@ export default function Image({
             strokeLinecap="round"
           />
         </svg>
-        <span className="text-[10px] font-bold tracking-widest uppercase opacity-60">
+        <span className="text-xs font-bold tracking-widest uppercase opacity-60">
           Dummy Image
         </span>
       </div>
@@ -69,7 +69,7 @@ export default function Image({
   const FallbackIcon = () => (
     <div
       className={twMerge(
-        "flex flex-col items-center justify-center w-full h-full bg-gray-100 text-red-400",
+        "flex flex-col items-center justify-center w-full h-full bg-background-default text-error-main",
         containerClassName,
       )}
     >
@@ -95,7 +95,7 @@ export default function Image({
     <div className={twMerge("relative overflow-hidden", containerClassName)}>
       {/* SKELETON EFFECT */}
       {isLoading && !isError && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse z-10 flex items-center justify-center" />
+        <div className="absolute inset-0 bg-background-default animate-pulse z-10 flex items-center justify-center" />
       )}
 
       {/* ERROR FALLBACK */}

@@ -14,12 +14,12 @@ export default async function Header() {
   const isLoggedIn = !!token;
 
   return (
-    <header className="sticky top-0 z-50">
-      <RoutePulseBar />
+    <>
       {/* MAIN NAVBAR - Glassmorphism Effect */}
-      <div className="relative z-20 bg-background-paper/80 backdrop-blur-lg border-b border-divider/50 shadow-sm transition-all duration-300">
+      <div className="sticky top-0 z-50 bg-background-paper/80 backdrop-blur-lg border-b border-divider/50 shadow-sm transition-all duration-300">
+        <RoutePulseBar />
         {/* RESPONSIVE CONTAINER: flex-wrap untuk mobile, flex-nowrap untuk desktop */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-0 md:h-20 flex flex-wrap md:flex-nowrap items-center justify-between gap-y-3 gap-x-4">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-0 md:h-20 flex flex-wrap md:flex-nowrap items-center justify-between gap-y-3 gap-x-4">
           {/* LOGO AREA - Urutan 1 */}
           <Link href="/" className="shrink-0 group order-1">
             <div className="flex flex-col">
@@ -79,6 +79,6 @@ export default async function Header() {
 
       {/* SUB-HEADER: CATEGORIES & BREADCRUMBS */}
       <SubHeader />
-    </header>
+    </>
   );
 }

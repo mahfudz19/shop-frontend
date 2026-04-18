@@ -25,8 +25,8 @@ function SubHeader() {
   return (
     <>
       {breadcrumbs[0] !== "(home)" ? (
-        <nav className="relative z-10 bg-background-default/90 backdrop-blur-md border-b border-divider/30 px-4 py-3">
-          <div className="max-w-7xl mx-auto flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider overflow-x-auto no-scrollbar">
+        <nav className="relative z-10 bg-background-default/90 backdrop-blur-md border-b border-divider/30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center py-3 gap-2 text-[11px] font-bold uppercase tracking-wider overflow-x-auto no-scrollbar">
             <Link
               href="/"
               className="text-text-disabled hover:text-primary-main transition-colors shrink-0"
@@ -54,7 +54,7 @@ function SubHeader() {
         </nav>
       ) : (
         <div className="relative z-10 bg-background-paper/50 backdrop-blur-md border-b border-divider/30">
-          <div className="max-w-7xl mx-auto px-4 flex overflow-x-auto no-scrollbar gap-8 h-11 items-center">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto no-scrollbar gap-8 h-11 items-center">
             {mainCategories.map((cat) => (
               <Link
                 key={cat}
