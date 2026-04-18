@@ -32,9 +32,18 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
           {activeIndex === 0 ? t("price_radar") : t("promo_info")}
         </span>
         <div className="flex gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-          <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-          <div className="w-2 h-2 rounded-full bg-primary-main animate-pulse"></div>
+          {promos.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setActiveIndex(idx)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                activeIndex === idx 
+                  ? "bg-primary-main animate-pulse w-4" 
+                  : "bg-divider hover:bg-text-disabled"
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </div>
 
