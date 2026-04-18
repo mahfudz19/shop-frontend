@@ -1,7 +1,8 @@
+import ThemeToggle from "@/components/ThemeToggle";
+import RoutePulseBar from "@/components/ui/RoutePulseBar";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import LogoutButton from "../(home)/LogoutButton";
-import ThemeToggle from "@/components/ThemeToggle";
 import Search from "./Search";
 import SubHeader from "./SubHeader";
 
@@ -12,6 +13,7 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-50">
+      <RoutePulseBar />
       {/* MAIN NAVBAR - Glassmorphism Effect */}
       <div className="bg-background-paper/80 backdrop-blur-lg border-b border-divider/50 shadow-sm transition-all duration-300">
         {/* RESPONSIVE CONTAINER: flex-wrap untuk mobile, flex-nowrap untuk desktop */}
