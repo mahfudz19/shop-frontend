@@ -66,7 +66,7 @@ function Search() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t("placeholder")}
-          className="w-full bg-divider/20 border border-divider/50 rounded-full py-2.5 pl-11 pr-4 text-sm font-medium outline-none focus:bg-background-paper focus:border-primary-main focus:ring-4 focus:ring-primary-main/10 transition-all placeholder:text-text-disabled/70"
+          className="w-full bg-divider/20 border border-divider/50 rounded-full py-2.5 pl-11 pr-10 sm:pr-24 text-sm font-medium outline-none focus:bg-background-paper focus:border-primary-main focus:ring-4 focus:ring-primary-main/10 transition-all placeholder:text-text-disabled/70 truncate"
         />
       </form>
 

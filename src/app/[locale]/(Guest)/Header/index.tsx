@@ -14,40 +14,50 @@ export default async function Header() {
   const token = cookieStore.get("auth_token")?.value;
   const isLoggedIn = !!token;
 
+  // Render Logo diekstrak agar bisa dipakai ganda (Mobile non-sticky, Desktop sticky)
+  const Logo = (
+    <Link href="/" className="shrink-0 group flex flex-col">
+      <span className="text-[9px] md:text-[10px] font-black text-primary-main uppercase tracking-[0.3em] leading-none mb-1 opacity-80 group-hover:opacity-100 transition-opacity">
+        AI_ENGINE
+      </span>
+      <span className="text-xl md:text-2xl lg:text-3xl font-black text-text-primary tracking-tighter leading-none group-hover:text-primary-main transition-colors">
+        {process.env.NEXT_PUBLIC_APP_NAME || "ScrapStore"}
+        <span className="text-primary-main">.</span>
+      </span>
+    </Link>
+  );
+
   return (
     <>
-      {/* MAIN NAVBAR - Glassmorphism Effect */}
-      <div className="md:sticky top-0 z-50 bg-background-paper/80 backdrop-blur-lg border-b border-divider/50 shadow-sm transition-all duration-300">
-        <RoutePulseBar />
-        {/* RESPONSIVE CONTAINER: flex-wrap untuk mobile, flex-nowrap untuk desktop */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-0 md:h-20 flex flex-wrap md:flex-nowrap items-center justify-between gap-y-4 gap-x-4">
-          
-          {/* HEADER TOP ROW (Mobile) / Left Content (Desktop) */}
-          <div className="flex items-center justify-between w-full md:w-auto order-1">
-            {/* LOGO AREA */}
-            <Link href="/" className="shrink-0 group">
-              <div className="flex flex-col">
-                <span className="text-[9px] md:text-[10px] font-black text-primary-main uppercase tracking-[0.3em] leading-none mb-1 opacity-80 group-hover:opacity-100 transition-opacity">
-                  AI_ENGINE
-                </span>
-                <span className="text-xl md:text-2xl lg:text-3xl font-black text-text-primary tracking-tighter leading-none group-hover:text-primary-main transition-colors">
-                  {process.env.NEXT_PUBLIC_APP_NAME || "ScrapStore"}
-                  <span className="text-primary-main">.</span>
-                </span>
-              </div>
-            </Link>
+      <RoutePulseBar />
 
-            {/* MOBILE DRAWER TRIGGER (Hidden on Desktop) */}
-            <MobileDrawer isLoggedIn={isLoggedIn} />
+      {/* MOBILE TOP ROW - LOGO ONLY (Ikut ter-scroll hilang ke atas) */}
+      <div className="md:hidden bg-background-default pt-4 pb-1 px-4 flex justify-between items-center">
+        {Logo}
+      </div>
+
+      {/* MAIN NAVBAR - STICKY (Glassmorphism Effect) */}
+      <div className="sticky top-0 z-50 bg-background-paper/90 backdrop-blur-md border-b border-divider/50 shadow-sm transition-all duration-300">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-0 md:h-20 flex items-center justify-between gap-3 md:gap-6">
+          
+          {/* DESKTOP LOGO (Tersembunyi di Mobile) */}
+          <div className="hidden md:block shrink-0">
+            {Logo}
           </div>
 
-          {/* ANALYTICAL SEARCH BAR - Row 2 (Mobile) / Center (Desktop) */}
-          <div className="w-full md:w-auto md:flex-1 order-3 md:order-2">
+          {/* ANALYTICAL SEARCH BAR (Full width di mobile, mengisi celah di desktop) */}
+          <div className="flex-1 w-full relative">
             <Search />
           </div>
 
-          {/* DESKTOP UTILITY ACTIONS - Hidden on Mobile / Right Content (Desktop) */}
-          <div className="hidden md:flex items-center gap-4 shrink-0 order-2 md:order-3">
+          {/* MOBILE DRAWER TRIGGER (Tersembunyi di Desktop) */}
+          {/* Tombol Laci sejajar tepat di sebelah kanan kolom *Input Search* khusus untuk layar Mobile */}
+          <div className="md:hidden shrink-0 flex items-center">
+            <MobileDrawer isLoggedIn={isLoggedIn} />
+          </div>
+
+          {/* DESKTOP UTILITY ACTIONS (Tersembunyi di Mobile) */}
+          <div className="hidden md:flex items-center gap-4 shrink-0">
             <ThemeToggle />
             <LanguegeMenu />
 

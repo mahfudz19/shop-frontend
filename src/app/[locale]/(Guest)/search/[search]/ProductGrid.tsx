@@ -30,11 +30,15 @@ export default function ProductGrid({
   return (
     <div className="flex-1">
       {/* TOP BAR: Info & Layout Toggles */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6 bg-background-paper p-4 rounded-xl border border-divider shadow-sm">
+      <div className="flex items-center justify-between gap-4 mb-6 bg-background-paper p-4 rounded-xl border border-divider shadow-sm">
         <div className="text-xs text-text-secondary leading-relaxed">
           {t("showing_results_for")}{" "}
           <span className="font-bold text-text-primary uppercase overflow-hidden text-ellipsis">
-            "{searchQuery || t("all")}"
+            "
+            {searchQuery.length > 25
+              ? searchQuery.slice(0, 25) + "..."
+              : searchQuery || t("all")}
+            "
           </span>
           {meta?.pagination?.total !== undefined && (
             <span className="ml-1 text-text-disabled">
@@ -107,12 +111,12 @@ export default function ProductGrid({
               className={`group bg-background-paper border border-divider/50 rounded-2xl p-4 shadow-sm hover:shadow-2xl hover:border-primary-main/30 hover:-translate-y-1 transition-all duration-500 relative overflow-hidden ${
                 viewMode === "grid"
                   ? "flex flex-col"
-                  : "flex flex-row gap-6 items-start sm:items-center"
+                  : "flex flex-row gap-4 sm:gap-6 items-start sm:items-center"
               }`}
             >
-              {/* Visual Badges */}
+              {/* Visual Badges - Diposisikan mengambang di atas gambar secara spesifik */}
               <div
-                className={`absolute z-10 flex flex-col gap-2 ${viewMode === "list" ? "bottom-4 left-4 top-auto lg:top-4 lg:bottom-auto" : "top-4 left-4"}`}
+                className={`absolute z-10 flex flex-col gap-2 ${viewMode === "list" ? "top-6 left-6" : "top-4 left-4"}`}
               >
                 {product.discount_percent > 0 && (
                   <span className="bg-error-main text-white text-[9px] font-black px-2 py-1 rounded-sm uppercase tracking-tighter shadow-lg shadow-error-main/20">
@@ -122,7 +126,7 @@ export default function ProductGrid({
               </div>
 
               <span
-                className={`absolute z-10 bg-background-default/80 backdrop-blur-md border border-divider/50 text-[9px] font-black text-text-secondary px-2 py-0.5 rounded uppercase font-mono ${viewMode === "list" ? "bottom-4 right-4 top-auto" : "top-4 right-4"}`}
+                className={`absolute z-10 bg-background-default/80 backdrop-blur-md border border-divider/50 text-[9px] font-black text-text-secondary px-2 py-0.5 rounded uppercase font-mono ${viewMode === "list" ? "bottom-6 left-6 top-auto right-auto" : "top-4 right-4"}`}
               >
                 {product.marketplace}
               </span>
@@ -132,7 +136,7 @@ export default function ProductGrid({
                 className={`bg-background-default rounded-xl flex items-center justify-center overflow-hidden relative group-hover:bg-white transition-colors duration-500 shrink-0 ${
                   viewMode === "grid"
                     ? "h-48 mb-4 w-full"
-                    : "h-32 w-32 sm:h-40 sm:w-40"
+                    : "h-28 w-28 sm:h-40 sm:w-40"
                 }`}
               >
                 <Image
@@ -148,22 +152,22 @@ export default function ProductGrid({
                 />
               </div>
 
-              {/* Info Section */}
-              <div className="flex flex-col flex-1">
+              {/* Info Section - min-w-0 sangat krusial untuk fitur truncate text di flex-1 */}
+              <div className="flex flex-col flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-success-main animate-pulse"></span>
-                  <span className="text-[9px] font-bold text-text-disabled uppercase font-mono tracking-widest">
+                  <span className="w-1.5 h-1.5 rounded-full bg-success-main animate-pulse shrink-0"></span>
+                  <span className="text-[9px] font-bold text-text-disabled uppercase font-mono tracking-widest truncate">
                     {t("sys_live_scan_ok")}
                   </span>
                 </div>
 
-                <h3 className="font-bold text-text-primary text-sm line-clamp-2 leading-snug group-hover:text-primary-main transition-colors mb-4 min-h-10">
+                <h3 className="font-bold text-text-primary text-sm line-clamp-2 leading-snug group-hover:text-primary-main transition-colors mb-2 sm:mb-4 min-h-[2.5rem]">
                   {product.name}
                 </h3>
 
-                <div className="mt-auto pt-4 border-t border-divider/30">
-                  <div className="flex items-baseline gap-2">
-                    <p className="text-xl font-black text-text-primary tracking-tighter font-mono">
+                <div className="mt-auto pt-3 sm:pt-4 border-t border-divider/30">
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <p className="text-lg sm:text-xl font-black text-text-primary tracking-tighter font-mono">
                       {formatRupiah(product.price_rp)}
                     </p>
                     {product.price_original > product.price_rp && (
@@ -175,11 +179,12 @@ export default function ProductGrid({
                 </div>
 
                 {/* Metadata Footer */}
-                <div className="mt-4 flex items-center justify-between text-[9px] font-bold text-text-disabled uppercase tracking-widest pt-3 border-t border-divider/10">
-                  <span className="flex items-center gap-1">
-                    📍 {product.location}
+                <div className="mt-3 sm:mt-4 flex flex-wrap items-center justify-between gap-y-2 text-[9px] font-bold text-text-disabled uppercase tracking-widest pt-3 border-t border-divider/10">
+                  <span className="flex items-center gap-1 truncate max-w-[60%]">
+                    <span className="shrink-0">📍</span>
+                    <span className="truncate">{product.location}</span>
                   </span>
-                  <span className="bg-divider/40 px-2 py-0.5 rounded-sm">
+                  <span className="bg-divider/40 px-2 py-0.5 rounded-sm truncate max-w-[40%] text-right">
                     {product.shop}
                   </span>
                 </div>
