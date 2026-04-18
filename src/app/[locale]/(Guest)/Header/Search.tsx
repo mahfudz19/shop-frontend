@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname, useParams } from "next/navigation";
-import Ripple from "@/components/ui/Ripple";
 import { useTranslations } from "next-intl";
 
 function Search() {
@@ -10,11 +9,20 @@ function Search() {
   const pathname = usePathname();
   const params = useParams();
   const t = useTranslations("Header.Search");
+
   const [query, setQuery] = useState(
     params.search && typeof params.search === "string"
       ? decodeURIComponent(params.search)
       : "",
   );
+
+  useEffect(() => {
+    setQuery(
+      params.search && typeof params.search === "string"
+        ? decodeURIComponent(params.search)
+        : "",
+    );
+  }, [params.search]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,9 +34,7 @@ function Search() {
 
   const handleClear = () => {
     setQuery("");
-    if (pathname !== "/") {
-      router.push("/");
-    }
+    if (pathname !== "/") router.push("/");
   };
 
   const hasValue = query.length > 0;
