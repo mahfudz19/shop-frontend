@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
-/* 1. DEFINISI VARIABEL WARNA (MUI FULL PALETTE) */
+button,
+a {
+  cursor: pointer;
+}
+
 @layer base {
   :root {
     /* Background & Surface */
@@ -105,7 +109,6 @@
   }
 }
 
-/* 2. DAFTARKAN KE TAILWIND V4 THEME */
 @theme {
   --color-background-default: var(--bg-default);
   --color-background-paper: var(--bg-paper);
@@ -187,7 +190,6 @@
   --radius-full: 9999px;
 }
 
-/* 3. SET BASE BODY BACKGROUND SECARA OTOMATIS */
 @layer base {
   body {
     background-color: var(--bg-default);

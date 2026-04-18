@@ -1,6 +1,7 @@
 import { fetchPromotions } from "@/lib/api";
 import Link from "next/link";
 import LiveDealCarousel from "./LiveDealCarousel";
+import Ripple from "@/components/ui/Ripple";
 
 export default async function Hero() {
   const promoRes = await fetchPromotions();
@@ -68,6 +69,7 @@ export default async function Hero() {
                     href={`/search/${item.name.toLowerCase().replace(" ", "-")}`}
                     className="bg-background-paper border border-divider px-4 py-2 rounded-full text-sm font-bold text-text-secondary hover:text-primary-main hover:border-primary-main hover:shadow-md transition-all flex items-center gap-2"
                   >
+                    <Ripple color="primary" />
                     <span>{item.icon}</span> {item.name}
                   </Link>
                 ))}

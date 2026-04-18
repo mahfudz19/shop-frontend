@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Ripple from "@/components/ui/Ripple";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -100,6 +101,7 @@ export default function RegisterPage() {
             disabled={isLoading}
             className="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-lg hover:bg-blue-700 disabled:bg-blue-300 transition-colors"
           >
+            <Ripple />
             {isLoading ? "Memproses..." : "Daftar"}
           </button>
         </form>

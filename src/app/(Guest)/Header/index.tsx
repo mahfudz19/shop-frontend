@@ -5,6 +5,7 @@ import Link from "next/link";
 import LogoutButton from "../(home)/LogoutButton";
 import Search from "./Search";
 import SubHeader from "./SubHeader";
+import Ripple from "@/components/ui/Ripple";
 
 export default async function Header() {
   const cookieStore = await cookies();
@@ -51,14 +52,16 @@ export default async function Header() {
               <div className="flex items-center gap-1.5 md:gap-2">
                 <Link
                   href="/login"
-                  className="px-2 md:px-4 py-2 text-xs md:text-sm font-bold text-text-secondary hover:text-text-primary transition-colors"
+                  className="px-2 md:px-4 py-2 rounded-full text-xs md:text-sm font-bold text-text-secondary hover:text-text-primary transition-colors"
                 >
+                  <Ripple color="primary" />
                   Login
                 </Link>
                 <Link
                   href="/register"
                   className="bg-primary-main text-primary-contrast px-4 md:px-5 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-black shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
                 >
+                  <Ripple />
                   Sign Up
                 </Link>
               </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Promotions } from "@/types/promotions";
 import Image from "@/components/Image";
+import Ripple from "@/components/ui/Ripple";
 
 export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -117,6 +118,7 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
               href={mainPromo.link_url || "/search/promo"}
               className="w-full bg-primary-main text-primary-contrast py-3 rounded-xl text-center font-bold text-sm hover:bg-primary-dark transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
             >
+              <Ripple />
               Ambil Harga Termurah
             </Link>
           </div>
@@ -149,8 +151,9 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
 
               <Link
                 href={promo.link_url || "#"}
-                className="mt-4 border-2 border-primary-main text-primary-main py-2.5 rounded-xl text-center font-bold text-sm hover:bg-primary-main hover:text-primary-contrast transition-colors"
+                className="mt-4 border-2 border-primary-main text-primary-main py-2.5 rounded-xl text-center font-bold text-sm transition-colors"
               >
+                <Ripple color="primary" />
                 Lihat Detail Promo
               </Link>
             </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useState } from "react";
+import Ripple from "./ui/Ripple";
 
 export default function ThemeToggle() {
   const [isMounted, setIsMounted] = useState(false);
@@ -30,6 +31,7 @@ export default function ThemeToggle() {
       className="p-2 text-text-secondary hover:text-primary-main hover:bg-background-default rounded-full transition-all flex items-center justify-center"
       aria-label="Toggle Dark Mode"
     >
+      <Ripple color="primary" />
       {isDark ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"

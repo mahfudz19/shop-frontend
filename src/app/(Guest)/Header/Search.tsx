@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, usePathname, useParams } from "next/navigation";
+import Ripple from "@/components/ui/Ripple";
 
 function Search() {
   const router = useRouter();

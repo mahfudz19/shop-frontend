@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { formatRupiah, generateSlug } from "../../product/[id]/page";
 import Image from "@/components/Image";
+import Ripple from "@/components/ui/Ripple";
 
 interface ProductListProps {
   initialProducts: Product[];
@@ -72,25 +73,30 @@ export default function ProductList({
               Marketplace_Radar
             </label>
             <div className="flex flex-col gap-2">
-              {["", "tokopedia", "shopee", "lazada"].map((m) => (
-                <button
-                  key={m}
-                  onClick={() => {
-                    setLocalMarketplace(m);
-                    updateFilters({ marketplace: m });
-                  }}
-                  className={`text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex justify-between items-center ${
-                    localMarketplace === m
-                      ? "bg-primary-main text-primary-contrast shadow-md"
-                      : "hover:bg-divider/20 text-text-secondary"
-                  }`}
-                >
-                  <span className="capitalize">{m || "All Markets"}</span>
-                  {localMarketplace === m && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                  )}
-                </button>
-              ))}
+              {["", "tokopedia", "shopee", "lazada"].map((m) => {
+                const active = localMarketplace === m;
+                return (
+                  <button
+                    key={m}
+                    onClick={() => {
+                      setLocalMarketplace(m);
+                      updateFilters({ marketplace: m });
+                    }}
+                    className={`text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex justify-between items-center ${
+                      active
+                        ? "bg-primary-main text-primary-contrast shadow-md"
+                        : "hover:bg-divider/20 text-text-secondary"
+                    }`}
+                  >
+                    <Ripple color={active ? undefined : "primary"} />
+
+                    <span className="capitalize">{m || "All Markets"}</span>
+                    {active && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 

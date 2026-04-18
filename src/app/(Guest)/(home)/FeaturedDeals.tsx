@@ -2,6 +2,7 @@ import { fetchDeals } from "@/lib/api";
 import Link from "next/link";
 import { formatRupiah, generateSlug } from "../product/[id]/page";
 import Image from "@/components/Image";
+import Ripple from "@/components/ui/Ripple";
 
 export default async function FeaturedDeals() {
   const dealsRes = await fetchDeals();
@@ -33,6 +34,7 @@ export default async function FeaturedDeals() {
           href="/search/deals"
           className="group flex items-center gap-2 text-primary-main font-black text-[10px] uppercase tracking-widest bg-primary-light/10 px-6 py-3 rounded-full border border-primary-light/20 hover:bg-primary-main hover:text-white transition-all"
         >
+          <Ripple />
           Monitor Semua Penawaran{" "}
           <span className="text-lg group-hover:translate-x-1 transition-transform">
             &rarr;
@@ -135,6 +137,7 @@ export default async function FeaturedDeals() {
               href={generateSlug(deal.name, deal.id)}
               className="mt-5 w-full bg-text-primary text-background-paper py-3 rounded-xl text-center text-xs font-black uppercase tracking-widest shadow-lg hover:bg-primary-main transition-all transform active:scale-95"
             >
+              <Ripple />
               Analisis Lengkap &rarr;
             </Link>
           </div>
