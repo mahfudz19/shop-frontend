@@ -60,7 +60,7 @@ export default function LanguageMenu() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-36 bg-background-paper border border-divider shadow-lg rounded-sm overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="absolute right-0 mt-2 z-9999 w-36 bg-background-paper border border-divider shadow-lg rounded-sm overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="px-3 py-2 border-b border-divider/50 bg-background-default/50">
             <span className="text-[9px] font-black uppercase tracking-[0.2em] text-text-disabled">
               {t("select")}
