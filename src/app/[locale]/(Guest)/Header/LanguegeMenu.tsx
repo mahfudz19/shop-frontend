@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition, useRef, useEffect } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
 
 export default function LanguageMenu() {
@@ -10,6 +10,7 @@ export default function LanguageMenu() {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const locale = useLocale();
+  const t = useTranslations("Header.LanguageMenu");
   const router = useRouter();
   const pathname = usePathname();
 
@@ -24,14 +25,11 @@ export default function LanguageMenu() {
 
     setIsOpen(false);
 
-    // Gunakan startTransition agar Next.js 16 tidak memblokir UI saat memuat halaman bahasa baru
     startTransition(() => {
-      // router.replace akan mengubah bahasa, tetapi tetap di halaman (pathname) yang sama
-      router.replace(pathname, { locale: nextLocale });
+      router.replace(pathname, { locale: nextLocale, scroll: false });
     });
   };
 
-  // Menutup dropdown jika user mengklik di luar area menu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -65,7 +63,7 @@ export default function LanguageMenu() {
         <div className="absolute right-0 mt-2 w-36 bg-background-paper border border-divider shadow-lg rounded-sm overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="px-3 py-2 border-b border-divider/50 bg-background-default/50">
             <span className="text-[9px] font-black uppercase tracking-[0.2em] text-text-disabled">
-              Select_Locale
+              {t("select")}
             </span>
           </div>
           <ul className="flex flex-col p-1">

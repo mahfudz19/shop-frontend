@@ -2,6 +2,7 @@ import Image from "@/components/Image";
 import Ripple from "@/components/ui/Ripple";
 import { fetchMasterProductById, fetchProductById } from "@/lib/api";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 export const generateSlug = (name: string, id: string) => {
   const cleanName = name
@@ -27,6 +28,7 @@ type Props = {
 
 export default async function Product(props: Props) {
   const params = await props.params;
+  const t = await getTranslations("ProductDetail");
 
   const fullSlug = decodeURIComponent(params.id);
   const productId = fullSlug.split("~").pop();
@@ -42,10 +44,10 @@ export default async function Product(props: Props) {
       <div className="min-h-[60vh] flex flex-col items-center justify-center text-text-secondary font-mono">
         <span className="text-6xl mb-4">📡</span>
         <h1 className="text-xl font-black uppercase tracking-widest mb-2">
-          404_Not_Found
+          {t("sys_404")}
         </h1>
         <p className="text-sm">
-          Signal lost. Product data is unavailable in the current matrix.
+          {t("signal_lost")}
         </p>
       </div>
     );
@@ -60,7 +62,7 @@ export default async function Product(props: Props) {
   if (!master) {
     return (
       <div className="text-center py-20 font-mono">
-        SYSTEM_ERROR: Failed to load Master Catalog.
+        {t("sys_error_master")}
       </div>
     );
   }
@@ -90,36 +92,36 @@ export default async function Product(props: Props) {
           <div className="absolute top-6 left-6 flex flex-col gap-2">
             <span className="bg-background-paper/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-black border border-divider uppercase tracking-widest shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-success-main animate-pulse"></span>
-              Live_Scan_OK
+              {t("sys_live_scan_ok")}
             </span>
           </div>
         </div>
 
         <div className="p-6 bg-background-paper border border-divider rounded-2xl shadow-sm">
           <h2 className="text-xs font-black text-text-disabled uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-            <span className="text-primary-main">⚙️</span> System_Parameters
+            <span className="text-primary-main">⚙️</span> {t("sys_parameters")}
           </h2>
           <div className="grid grid-cols-2 gap-y-4 gap-x-2 font-mono text-[11px]">
             <div className="flex flex-col gap-1">
-              <span className="text-text-disabled">BRAND</span>
+              <span className="text-text-disabled">{t("lbl_brand")}</span>
               <span className="text-text-primary font-bold uppercase">
-                {master.brand || "GENERIC"}
+                {master.brand || t("val_generic")}
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-text-disabled">MODEL</span>
+              <span className="text-text-disabled">{t("lbl_model")}</span>
               <span className="text-text-primary font-bold uppercase">
-                {master.model || "N/A"}
+                {master.model || t("val_na")}
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-text-disabled">DATA_SOURCES</span>
+              <span className="text-text-disabled">{t("lbl_data_sources")}</span>
               <span className="text-text-primary font-bold">
-                {totalOffers} Verified Nodes
+                {totalOffers} {t("lbl_verified_nodes")}
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-text-disabled">BASELINE_MIN</span>
+              <span className="text-text-disabled">{t("lbl_baseline_min")}</span>
               <span className="text-text-primary font-bold">
                 {formatRupiah(master.baseline_price_min)}
               </span>
@@ -157,13 +159,13 @@ export default async function Product(props: Props) {
               <span className="text-lg">⭐</span>
               <span className="font-mono font-black text-sm">4.8</span>
               <span className="text-[9px] text-text-disabled uppercase font-bold tracking-widest ml-1">
-                Avg_Score
+                {t("avg_score")}
               </span>
             </div>
             {bestOffer && (
               <div className="text-[10px] font-black text-text-secondary uppercase tracking-widest">
                 {bestOffer.sold_count}+{" "}
-                <span className="text-text-disabled">Units_Decoded</span>
+                <span className="text-text-disabled">{t("units_decoded")}</span>
               </div>
             )}
           </div>
@@ -176,10 +178,10 @@ export default async function Product(props: Props) {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
               <div>
                 <span className="inline-block bg-white/20 text-white px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-[0.3em] mb-3">
-                  &gt;&gt; Engine_Verdict
+                  &gt;&gt; {t("sys_engine_verdict")}
                 </span>
                 <p className="text-xl md:text-2xl font-medium leading-tight">
-                  Eksekusi di{" "}
+                  {t("execution_at")}{" "}
                   <span className="font-black underline decoration-4 underline-offset-4">
                     {bestOffer.marketplace}
                   </span>
@@ -188,7 +190,7 @@ export default async function Product(props: Props) {
               </div>
               <div className="text-left md:text-right w-full md:w-auto border-t border-white/20 md:border-none pt-4 md:pt-0">
                 <p className="text-[10px] font-bold uppercase opacity-80 mb-1 tracking-widest">
-                  {savings > 0 ? "Potensi_Hemat" : "Harga_Terbaik"}
+                  {savings > 0 ? t("sys_potential_savings") : t("sys_best_price")}
                 </p>
                 <p className="text-4xl md:text-5xl font-black font-mono tracking-tighter">
                   {formatRupiah(bestOffer.price_rp)}
@@ -200,7 +202,7 @@ export default async function Product(props: Props) {
           <div className="bg-error-light/10 border border-error-main/30 rounded-2xl p-6 mb-8 text-center">
             <span className="text-error-main text-2xl mb-2 block">⚠️</span>
             <p className="font-mono text-sm font-bold text-error-main uppercase tracking-widest">
-              No_Active_Offers_Detected
+              {t("sys_no_active_offers")}
             </p>
           </div>
         )}
@@ -209,7 +211,7 @@ export default async function Product(props: Props) {
         <div className="space-y-4 mb-8">
           <h3 className="text-[10px] font-black text-text-disabled uppercase tracking-[0.2em] px-2 flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-primary-main animate-ping"></span>
-            Matrix_Perbandingan_Harga
+            {t("sys_price_matrix")}
           </h3>
 
           <div className="bg-background-paper border border-divider rounded-2xl overflow-hidden shadow-sm">
@@ -247,7 +249,7 @@ export default async function Product(props: Props) {
                           </span>
                           {isBest && (
                             <span className="bg-success-main text-white text-[9px] px-1.5 py-0.5 rounded font-black font-mono tracking-widest uppercase">
-                              Best_Value
+                              {t("sys_best_value")}
                             </span>
                           )}
                         </div>
@@ -285,7 +287,7 @@ export default async function Product(props: Props) {
                         }`}
                       >
                         <Ripple color={isBest ? undefined : "primary"} />
-                        {isBest ? "Eksekusi" : "Visit"}
+                        {isBest ? t("action_execute") : t("action_visit")}
                       </Link>
                     </div>
                   </div>
@@ -295,18 +297,15 @@ export default async function Product(props: Props) {
           </div>
         </div>
 
-        {/* 4. MOCKUP SYSTEM ALERT (Bawah) */}
         <div className="mt-auto flex items-start gap-3 p-4 border border-divider/50 rounded-xl bg-background-default/50 text-text-secondary text-[10px] font-mono leading-relaxed">
           <span className="text-lg leading-none mt-0.5">💡</span>
           <p>
-            <strong className="text-text-primary">DISCLAIMER_ENGINE:</strong>{" "}
-            Harga dan ketersediaan stok dapat berubah sewaktu-waktu sesuai
-            dengan kebijakan platform{" "}
+            <strong className="text-text-primary">{t("sys_disclaimer")}:</strong>{" "}
+            {t("disclaimer_text_1")}{" "}
             <span className="uppercase">
               {bestOffer?.marketplace || "marketplace"}
             </span>
-            . Sistem kami melakukan sinkronisasi secara berkala, namun kami
-            menyarankan untuk memeriksa ulang sebelum melakukan pembayaran.
+            {t("disclaimer_text_2")}
           </p>
         </div>
       </div>

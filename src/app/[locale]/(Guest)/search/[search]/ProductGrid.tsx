@@ -4,6 +4,7 @@ import Image from "@/components/Image";
 import { Product } from "@/types/product";
 import { MetaDataPagination } from "@/types/respons";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { formatRupiah, generateSlug } from "../../product/[id]/page";
 
@@ -18,6 +19,7 @@ export default function ProductGrid({
   initialMeta,
   searchQuery,
 }: ProductGridProps) {
+  const t = useTranslations("SearchPage.ProductGrid");
   const products = initialProducts;
   const meta = initialMeta;
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -30,13 +32,13 @@ export default function ProductGrid({
       {/* TOP BAR: Info & Layout Toggles */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6 bg-background-paper p-4 rounded-xl border border-divider shadow-sm">
         <div className="text-xs text-text-secondary leading-relaxed">
-          Menampilkan hasil untuk{" "}
+          {t("showing_results_for")}{" "}
           <span className="font-bold text-text-primary uppercase overflow-hidden text-ellipsis">
-            "{searchQuery || "Semua"}"
+            "{searchQuery || t("all")}"
           </span>
           {meta?.pagination?.total !== undefined && (
             <span className="ml-1 text-text-disabled">
-              ({meta.pagination.total} produk)
+              ({meta.pagination.total} {t("products")})
             </span>
           )}
         </div>
@@ -151,7 +153,7 @@ export default function ProductGrid({
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-success-main animate-pulse"></span>
                   <span className="text-[9px] font-bold text-text-disabled uppercase font-mono tracking-widest">
-                    Live_Scan_OK
+                    {t("sys_live_scan_ok")}
                   </span>
                 </div>
 
@@ -192,7 +194,7 @@ export default function ProductGrid({
         <div className="text-center py-20 bg-background-paper rounded-3xl border border-dashed border-divider">
           <span className="text-4xl block mb-4">📡</span>
           <p className="font-mono text-xs font-bold text-text-secondary uppercase tracking-widest">
-            No_Data_Found_In_Market_Radar
+            {t("sys_no_data")}
           </p>
         </div>
       )}
@@ -202,7 +204,7 @@ export default function ProductGrid({
           <div className="flex items-center gap-3 bg-background-paper px-6 py-3 rounded-full border border-divider shadow-sm">
             <div className="w-4 h-4 border-2 border-primary-light border-t-primary-main rounded-full animate-spin"></div>
             <span className="text-[10px] font-black uppercase tracking-widest text-text-secondary">
-              Syncing_More_Data...
+              {t("sys_syncing")}
             </span>
           </div>
         </div>

@@ -1,8 +1,10 @@
 import { fetchStats } from "@/lib/api";
+import { getTranslations } from "next-intl/server";
 
 export default async function Trust() {
   const statsRes = await fetchStats();
   const stats = statsRes.data || { total_products: 0, total_shops: 0 };
+  const t = await getTranslations("HomePage.Trust");
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + "M+";
@@ -25,24 +27,22 @@ export default async function Trust() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success-main opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-success-main"></span>
               </span>
-              Security_Audit_Passed
+              {t("sys_security_audit")}
             </div>
 
             <h2 className="text-4xl md:text-5xl font-black mb-6 leading-[1.1] tracking-tight">
-              Akurasi Data Adalah <br />
+              {t("title1")} <br />
               <span
                 className="text-transparent"
                 style={{ WebkitTextStroke: "1px white" }}
               >
-                Prioritas
+                {t("title2")}
               </span>{" "}
-              Utama.
+              {t("title3")}
             </h2>
 
             <p className="text-lg opacity-70 mb-8 font-medium leading-relaxed max-w-md">
-              Kami tidak hanya membandingkan harga; kami memverifikasi setiap
-              toko dan melacak riwayat harga untuk memastikan Anda mendapatkan
-              penawaran yang jujur.
+              {t("description")}
             </p>
 
             <div className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
@@ -52,7 +52,7 @@ export default async function Trust() {
                   4.8/5.0
                 </div>
                 <div className="text-[10px] font-bold opacity-60 uppercase tracking-widest">
-                  User Satisfaction Rating
+                  {t("sys_user_rating")}
                 </div>
               </div>
             </div>
@@ -67,14 +67,15 @@ export default async function Trust() {
                   📊
                 </span>
                 <span className="text-[9px] font-bold text-success-main bg-success-main/20 px-2 py-0.5 rounded uppercase font-mono">
-                  LIVE_DATABASE
+                  {t("sys_live_database")}
                 </span>
               </div>
               <div className="text-4xl font-black font-mono mb-1 tracking-tighter">
                 {formatNumber(stats.total_products)}
               </div>
               <p className="text-xs font-bold opacity-50 uppercase tracking-widest leading-snug">
-                Produk Aktif Terindeks <br /> Di Seluruh Marketplace
+                {t("active_products_desc_1")} <br />{" "}
+                {t("active_products_desc_2")}
               </p>
             </div>
 
@@ -85,14 +86,14 @@ export default async function Trust() {
                   🛡️
                 </span>
                 <span className="text-[9px] font-bold text-primary-light bg-primary-light/20 px-2 py-0.5 rounded uppercase font-mono">
-                  VERIFIED_ONLY
+                  {t("sys_verified_only")}
                 </span>
               </div>
               <div className="text-4xl font-black font-mono mb-1 tracking-tighter">
                 {formatNumber(stats.total_shops)}
               </div>
               <p className="text-xs font-bold opacity-50 uppercase tracking-widest leading-snug">
-                Toko Terverifikasi <br /> Dalam Jaringan Kami
+                {t("verified_shops_desc_1")} <br /> {t("verified_shops_desc_2")}
               </p>
             </div>
 
@@ -104,11 +105,10 @@ export default async function Trust() {
                 </span>
               </div>
               <h4 className="text-lg font-black mb-1 uppercase tracking-tight">
-                Price History
+                {t("history_title")}
               </h4>
               <p className="text-xs font-medium opacity-60 leading-relaxed">
-                Lacak grafik fluktuasi harga hingga 90 hari terakhir untuk
-                setiap produk.
+                {t("history_desc")}
               </p>
             </div>
 
@@ -120,11 +120,10 @@ export default async function Trust() {
                 </span>
               </div>
               <h4 className="text-lg font-black mb-1 uppercase tracking-tight">
-                Neutral Engine
+                {t("neutral_title")}
               </h4>
               <p className="text-xs font-medium opacity-60 leading-relaxed">
-                Algoritma kami tidak berpihak. Hasil termurah adalah murni
-                berdasarkan data.
+                {t("neutral_desc")}
               </p>
             </div>
           </div>

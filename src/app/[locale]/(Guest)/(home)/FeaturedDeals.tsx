@@ -3,10 +3,12 @@ import Link from "next/link";
 import { formatRupiah, generateSlug } from "../product/[id]/page";
 import Image from "@/components/Image";
 import Ripple from "@/components/ui/Ripple";
+import { getTranslations } from "next-intl/server";
 
 export default async function FeaturedDeals() {
   const dealsRes = await fetchDeals();
   const deals = dealsRes.data || [];
+  const t = await getTranslations("HomePage.FeaturedDeals");
 
   if (deals.length === 0) return null;
 
@@ -20,14 +22,13 @@ export default async function FeaturedDeals() {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error-light/10 border border-error-light/20 text-error-main text-[10px] font-black uppercase tracking-[0.2em] mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-error-main animate-pulse"></span>
-            High_Priority_Deals
+            {t("sys_high_priority_deals")}
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tighter uppercase">
-            Penawaran <span className="text-error-main">Terbaik</span>
+            {t("title1")} <span className="text-error-main">{t("title2")}</span>
           </h2>
           <p className="text-text-secondary text-sm mt-2 font-medium">
-            Algoritma kami mendeteksi selisih harga terdalam di seluruh
-            marketplace.
+            {t("description")}
           </p>
         </div>
         <Link
@@ -35,7 +36,7 @@ export default async function FeaturedDeals() {
           className="group flex items-center gap-2 text-primary-main font-black text-[10px] uppercase tracking-widest bg-primary-light/10 px-6 py-3 rounded-full border border-primary-light/20 hover:bg-primary-main hover:text-white transition-all"
         >
           <Ripple />
-          Monitor Semua Penawaran{" "}
+          {t("monitor_all")}{" "}
           <span className="text-lg group-hover:translate-x-1 transition-transform">
             &rarr;
           </span>
@@ -78,7 +79,7 @@ export default async function FeaturedDeals() {
             {/* Product Info */}
             <div className="flex-1 flex flex-col">
               <span className="text-[9px] font-bold text-primary-main uppercase tracking-widest mb-2 font-mono">
-                Code: {deal.id.substring(0, 8)}
+                {t("code")}: {deal.id.substring(0, 8)}
               </span>
               <h3 className="font-bold text-text-primary text-sm line-clamp-2 leading-snug group-hover:text-primary-main transition-colors mb-4">
                 {deal.name}
@@ -92,7 +93,7 @@ export default async function FeaturedDeals() {
                     </span>
                   )}
                   <span className="text-[10px] font-black text-success-main bg-success-light/10 px-1.5 py-0.5 rounded-sm font-mono">
-                    BEST_PRICE
+                    {t("sys_best_price")}
                   </span>
                 </div>
                 <p className="text-xl font-black text-text-primary tracking-tighter font-mono">
@@ -138,7 +139,7 @@ export default async function FeaturedDeals() {
               className="mt-5 w-full bg-text-primary text-background-paper py-3 rounded-xl text-center text-xs font-black uppercase tracking-widest shadow-lg hover:bg-primary-main transition-all transform active:scale-95"
             >
               <Ripple />
-              Analisis Lengkap &rarr;
+              {t("full_analysis")} &rarr;
             </Link>
           </div>
         ))}

@@ -29,9 +29,9 @@ export default async function Hero() {
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-text-primary leading-[1.1] tracking-tight mb-6">
-              Berhenti Membayar <br />
+              {t("Hero.index.title1")} <br />
               <span className="text-error-main relative inline-block">
-                Lebih Mahal.
+                {t("Hero.index.title2")}
                 <svg
                   className="absolute -bottom-2 left-0 w-full h-3 text-error-main/30"
                   viewBox="0 0 100 10"
@@ -48,28 +48,25 @@ export default async function Hero() {
             </h1>
 
             <p className="max-w-lg text-text-secondary text-base md:text-lg leading-relaxed mb-8">
-              Kecerdasan buatan kami memindai jutaan produk dari{" "}
-              <strong className="text-text-primary">
-                Tokopedia, Shopee, dan Lazada
-              </strong>{" "}
-              dalam hitungan detik. Bandingkan secara real-time, temukan
-              selisihnya, dan hemat uang Anda.
+              {t.rich("Hero.index.description", {
+                strong: (chunks) => <strong className="text-text-primary">{chunks}</strong>
+              })}
             </p>
 
             {/* QUICK ACCESS (Modern Pills) */}
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
               <span className="text-sm font-semibold text-text-disabled">
-                Populer:
+                {t("Hero.index.popular")}
               </span>
               <div className="flex flex-wrap gap-2">
                 {[
-                  { name: "Smartphone", icon: "📱" },
-                  { name: "Tenda Camping", icon: "⛺" },
-                  { name: "Jaket Parka", icon: "🧥" },
+                  { name: t("Hero.index.smartphone"), key: "smartphone", icon: "📱" },
+                  { name: t("Hero.index.camping_tent"), key: "camping tent", icon: "⛺" },
+                  { name: t("Hero.index.parka_jacket"), key: "parka jacket", icon: "🧥" },
                 ].map((item) => (
                   <Link
-                    key={item.name}
-                    href={`/search/${item.name.toLowerCase().replace(" ", "-")}`}
+                    key={item.key}
+                    href={`/search/${item.key.replace(" ", "-")}`}
                     className="bg-background-paper border border-divider px-4 py-2 rounded-full text-sm font-bold text-text-secondary hover:text-primary-main hover:border-primary-main hover:shadow-md transition-all flex items-center gap-2"
                   >
                     <Ripple color="primary" />
@@ -103,12 +100,12 @@ export default async function Hero() {
               </div>
               <div>
                 <p className="text-[10px] font-bold text-text-secondary uppercase tracking-wider mb-0.5">
-                  Aktivitas Terbaru
+                  {t("Hero.index.recent_activity")}
                 </p>
                 <p className="text-xs font-bold text-text-primary leading-snug">
-                  Seseorang baru saja menghemat{" "}
-                  <span className="text-success-main">Rp 150.000</span> dari
-                  pembelian Tenda.
+                  {t("Hero.index.recent_activity_desc_1")}{" "}
+                  <span className="text-success-main">Rp 150.000</span>{" "}
+                  {t("Hero.index.recent_activity_desc_2")}
                 </p>
               </div>
             </div>

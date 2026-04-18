@@ -5,8 +5,10 @@ import Link from "next/link";
 import { Promotions } from "@/types/promotions";
 import Image from "@/components/Image";
 import Ripple from "@/components/ui/Ripple";
+import { useTranslations } from "next-intl";
 
 export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
+  const t = useTranslations("HomePage.Hero.LiveDealCarousel");
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
       {/* SYSTEM HEADER - Elegan & Bersih */}
       <div className="px-5 py-3 border-b border-divider flex justify-between items-center bg-divider/25 shrink-0">
         <span className="text-[11px] font-bold text-text-secondary uppercase tracking-wider flex items-center gap-2">
-          {activeIndex === 0 ? "⚡ Radar Harga" : "✨ Info Promo"}
+          {activeIndex === 0 ? t("price_radar") : t("promo_info")}
         </span>
         <div className="flex gap-1.5">
           <div className="w-2 h-2 rounded-full bg-gray-300"></div>
@@ -61,7 +63,7 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
                     className="animate-spin inline-block w-3 h-3 border-2 border-current border-t-transparent text-primary-main rounded-full"
                     aria-label="loading"
                   ></span>
-                  Memindai 3 toko...
+                  {t("scanning")}
                 </p>
               </div>
             </div>
@@ -94,7 +96,7 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
                     <span className="bg-success-light/20 text-success-main px-1.5 py-0.5 rounded flex items-center gap-1">
                       Shopee{" "}
                       <span className="text-[8px] bg-success-main text-white px-1 rounded-sm">
-                        TERMURAH
+                        {t("cheapest")}
                       </span>
                     </span>
                     <span className="font-mono text-success-main text-sm font-black">
@@ -106,10 +108,10 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
 
               <div className="bg-success-light/10 border border-success-main/20 rounded-lg p-3">
                 <p className="text-[11px] font-semibold text-success-main mb-0.5">
-                  Rekomendasi Sistem:
+                  {t("system_recommendation")}
                 </p>
                 <p className="text-sm font-bold text-success-dark dark:text-success-main leading-tight">
-                  Beli di Shopee untuk hemat Rp 200.000 (4.5%)
+                  {t("recommendation_desc")}
                 </p>
               </div>
             </div>
@@ -119,7 +121,7 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
               className="w-full bg-primary-main text-primary-contrast py-3 rounded-xl text-center font-bold text-sm hover:bg-primary-dark transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
             >
               <Ripple />
-              Ambil Harga Termurah
+              {t("get_cheapest")}
             </Link>
           </div>
 
@@ -154,7 +156,7 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
                 className="mt-4 border-2 border-primary-main text-primary-main py-2.5 rounded-xl text-center font-bold text-sm transition-colors"
               >
                 <Ripple color="primary" />
-                Lihat Detail Promo
+                {t("view_promo")}
               </Link>
             </div>
           ))}

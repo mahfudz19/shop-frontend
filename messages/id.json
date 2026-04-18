@@ -1,11 +1,167 @@
 {
+  "ProductDetail": {
+    "sys_404": "404_TIDAK_DITEMUKAN",
+    "signal_lost": "Sinyal hilang. Data produk tidak dapat diakses pada matriks saat ini.",
+    "sys_error_master": "KESALAHAN_SISTEM: Gagal memuat Katalog Master.",
+    "sys_live_scan_ok": "PINDAI_LANGSUNG_OK",
+    "sys_parameters": "Parameter_Sistem",
+    "lbl_brand": "MEREK",
+    "lbl_model": "MODEL",
+    "lbl_data_sources": "SUMBER_DATA",
+    "lbl_verified_nodes": "Node Terverifikasi",
+    "lbl_baseline_min": "MINIMUM_DASAR",
+    "val_generic": "UMUM",
+    "val_na": "T/A",
+    "avg_score": "Skor_Rata_Rata",
+    "units_decoded": "Unit_Didekodekan",
+    "sys_engine_verdict": "Vonis_Mesin",
+    "execution_at": "Eksekusi di",
+    "sys_potential_savings": "Potensi_Hemat",
+    "sys_best_price": "Harga_Terbaik",
+    "sys_no_active_offers": "TIDAK_ADA_PENAWARAN_AKTIF",
+    "sys_price_matrix": "Matriks_Perbandingan_Harga",
+    "sys_best_value": "Nilai_Terbaik",
+    "action_execute": "Eksekusi",
+    "action_visit": "Kunjungi",
+    "sys_disclaimer": "DISCLAIMER_MESIN",
+    "disclaimer_text_1": "Harga dan ketersediaan stok dapat berubah sewaktu-waktu sesuai dengan kebijakan platform",
+    "disclaimer_text_2": ". Sistem kami melakukan sinkronisasi secara berkala, namun kami menyarankan untuk memeriksa ulang sebelum melakukan pembayaran."
+  },
+  "SearchPage": {
+    "ProductGrid": {
+      "showing_results_for": "Menampilkan hasil untuk",
+      "all": "Semua",
+      "products": "produk",
+      "sys_live_scan_ok": "Pindai_Langsung_OK",
+      "sys_no_data": "Tidak_Ada_Data_Di_Radar_Pasar",
+      "sys_syncing": "Mensinkronkan_Data_Berjalan..."
+    },
+    "Filter": {
+      "title": "Filter",
+      "reset": "Reset",
+      "price": "Harga",
+      "min_price": "Min Rp",
+      "max_price": "Max Rp",
+      "go": "Go",
+      "price_under_50k": "< Rp 50.000",
+      "price_50k_100k": "Rp 50rb - 100rb",
+      "price_100k_500k": "Rp 100rb - 500rb",
+      "price_above_500k": "> Rp 500.000",
+      "marketplace": "Toko / Marketplace",
+      "rating": "Rating",
+      "rating_4_up": "⭐ 4 Ke atas",
+      "rating_3_up": "⭐ 3 Ke atas",
+      "sort": "Urutkan",
+      "sort_price_asc": "Harga: Termurah",
+      "sort_price_desc": "Harga: Tertinggi",
+      "sort_latest": "Data Terbaru"
+    }
+  },
+  "Footer": {
+    "sys_info": "INFO_SISTEM",
+    "about": "Tentang",
+    "press": "Pers",
+    "jobs": "Karir",
+    "partner_program": "Program Mitra",
+    "support_center": "PUSAT_BANTUAN",
+    "help": "Bantuan",
+    "contact": "Hubungi Kami",
+    "faq": "FAQ",
+    "sitemap": "Peta Situs",
+    "social_feed": "JEJARING_SOSIAL",
+    "connect": "Terhubung",
+    "platform_status": "STATUS_PLATFORM",
+    "app": "Aplikasi",
+    "sys_ready": "SIAP",
+    "sys_all_rights_reserved": "HAK_CIPTA_DILINDUNGI",
+    "imprint": "Imprint",
+    "privacy_policy": "Kebijakan Privasi",
+    "terms_of_service": "Ketentuan Layanan"
+  },
+  "Header": {
+    "Search": {
+      "placeholder": "Pindai produk, merk, atau EAN...",
+      "clear_search": "Hapus pencarian",
+      "search_sys": "SISTEM_CARI"
+    },
+    "LanguageMenu": {
+      "select": "Pilih_Bahasa"
+    }
+  },
   "HomePage": {
     "title": "Selamat datang di ScrapStore",
     "searchPlaceholder": "Cari produk...",
     "Hero":{
       "index": {
-        "COPYWRITING": "Mesin Pencari Harga Termurah"
+        "COPYWRITING": "Mesin Pencari Harga Termurah",
+        "title1": "Berhenti Membayar",
+        "title2": "Lebih Mahal.",
+        "description": "Kecerdasan buatan kami memindai jutaan produk dari Tokopedia, Shopee, dan Lazada dalam hitungan detik. Bandingkan secara real-time, temukan selisihnya, dan hemat uang Anda.",
+        "popular": "Populer:",
+        "smartphone": "Smartphone",
+        "camping_tent": "Tenda Camping",
+        "parka_jacket": "Jaket Parka",
+        "recent_activity": "Aktivitas Terbaru",
+        "recent_activity_desc_1": "Seseorang baru saja menghemat",
+        "recent_activity_desc_2": "dari pembelian Tenda."
+      },
+      "LiveDealCarousel": {
+        "price_radar": "⚡ Radar Harga",
+        "promo_info": "✨ Info Promo",
+        "scanning": "Memindai 3 toko...",
+        "cheapest": "TERMURAH",
+        "system_recommendation": "Rekomendasi Sistem:",
+        "recommendation_desc": "Beli di Shopee untuk hemat Rp 200.000 (4.5%)",
+        "get_cheapest": "Ambil Harga Termurah",
+        "view_promo": "Lihat Detail Promo"
       }
+    },
+    "CategoryGrid": {
+      "title1": "Pusat",
+      "title2": "Kategori",
+      "description": "Navigasi cepat ke database produk berdasarkan spesialisasi sistem kami.",
+      "scan": "Scan Data",
+      "sys_exploration_mode": "Mode_Eksplorasi"
+    },
+    "MagazineSection": {
+      "title1": "Jurnal",
+      "title2": "Belanja",
+      "published": "Published:",
+      "read_analysis": "Read Analysis",
+      "sys_editorial_board": "Dewan_Redaksi",
+      "by": "Oleh",
+      "sys_admin": "Admin_Sistem"
+    },
+    "FeaturedDeals": {
+      "title1": "Penawaran",
+      "title2": "Terbaik",
+      "description": "Algoritma kami mendeteksi selisih harga terdalam di seluruh marketplace.",
+      "monitor_all": "Monitor Semua Penawaran",
+      "full_analysis": "Analisis Lengkap",
+      "sys_high_priority_deals": "Promo_Prioritas",
+      "code": "Kode",
+      "sys_best_price": "HARGA_TERBAIK"
+    },
+    "LogoutButton": {
+      "logout": "Keluar"
+    },
+    "Trust": {
+      "title1": "Akurasi Data Adalah",
+      "title2": "Prioritas",
+      "title3": "Utama.",
+      "description": "Kami tidak hanya membandingkan harga; kami memverifikasi setiap toko dan melacak riwayat harga untuk memastikan Anda mendapatkan penawaran yang jujur.",
+      "active_products_desc_1": "Produk Aktif Terindeks",
+      "active_products_desc_2": "Di Seluruh Marketplace",
+      "verified_shops_desc_1": "Toko Terverifikasi",
+      "verified_shops_desc_2": "Dalam Jaringan Kami",
+      "history_title": "Riwayat Harga",
+      "history_desc": "Lacak grafik fluktuasi harga hingga 90 hari terakhir untuk setiap produk.",
+      "neutral_title": "Mesin Netral",
+      "neutral_desc": "Algoritma kami tidak berpihak. Hasil termurah adalah murni berdasarkan data.",
+      "sys_security_audit": "Audit_Keamanan_Lulus",
+      "sys_user_rating": "Skor Kepuasan Pengguna",
+      "sys_live_database": "DATABASE_AKTIF",
+      "sys_verified_only": "HANYA_TERVERIFIKASI"
     }
   }
 }

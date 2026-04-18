@@ -1,10 +1,12 @@
 import Image from "@/components/Image";
 import { fetchCategories, fetchArticles } from "@/lib/api";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
 export async function CategoryGrid() {
   const catRes = await fetchCategories();
   const categories = (catRes.data || []).filter((c: any) => c.is_popular);
+  const t = await getTranslations("HomePage.CategoryGrid");
 
   if (categories.length === 0) return null;
 
@@ -13,15 +15,15 @@ export async function CategoryGrid() {
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-light/10 border border-primary-light/20 text-primary-main text-[10px] font-black uppercase tracking-widest mb-3">
-            Exploration_Mode
+            {t("sys_exploration_mode")}
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tighter uppercase">
-            Pusat <span className="text-primary-main">Kategori</span>
+            {t("title1")}{" "}
+            <span className="text-primary-main">{t("title2")}</span>
           </h2>
         </div>
         <p className="text-text-secondary text-sm font-medium max-w-xs md:text-right leading-relaxed">
-          Navigasi cepat ke database produk berdasarkan spesialisasi sistem
-          kami.
+          {t("description")}
         </p>
       </div>
 
@@ -52,7 +54,7 @@ export async function CategoryGrid() {
 
               <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-[9px] font-bold text-primary-main bg-primary-light/10 px-2 py-0.5 rounded-full uppercase tracking-tighter">
-                  Scan Data &rarr;
+                  {t("scan")} &rarr;
                 </span>
               </div>
             </div>
@@ -66,6 +68,7 @@ export async function CategoryGrid() {
 export async function MagazineSection() {
   const artRes = await fetchArticles();
   const articles = artRes.data || [];
+  const t = await getTranslations("HomePage.MagazineSection");
 
   if (articles.length === 0) return <></>;
 
@@ -75,10 +78,11 @@ export async function MagazineSection() {
         <div className="h-px flex-1 bg-linear-to-r from-transparent via-divider to-divider"></div>
         <div className="text-center px-4">
           <span className="text-[10px] font-black text-secondary-main uppercase tracking-[0.4em] mb-2 block">
-            The_Editorial_Board
+            {t("sys_editorial_board")}
           </span>
           <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tighter uppercase">
-            Jurnal <span className="text-secondary-main">Belanja</span>
+            {t("title1")}{" "}
+            <span className="text-secondary-main">{t("title2")}</span>
           </h2>
         </div>
         <div className="h-px flex-1 bg-linear-to-l from-transparent via-divider to-divider"></div>
@@ -111,7 +115,7 @@ export async function MagazineSection() {
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-8 h-0.5 bg-secondary-main"></div>
                 <time className="text-[10px] font-mono font-bold text-text-disabled uppercase">
-                  Published:{" "}
+                  {t("published")}{" "}
                   {new Date().toLocaleDateString("id-ID", {
                     month: "short",
                     year: "numeric",
@@ -129,10 +133,10 @@ export async function MagazineSection() {
 
               <div className="mt-auto flex items-center justify-between pt-4 border-t border-divider/30">
                 <span className="text-[10px] font-black text-text-primary uppercase tracking-tighter">
-                  By {article.author || "System_Admin"}
+                  {t("by")} {article.author || t("sys_admin")}
                 </span>
                 <span className="text-xs font-bold text-secondary-main group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                  Read Analysis <span className="text-lg">&rarr;</span>
+                  {t("read_analysis")} <span className="text-lg">&rarr;</span>
                 </span>
               </div>
             </div>

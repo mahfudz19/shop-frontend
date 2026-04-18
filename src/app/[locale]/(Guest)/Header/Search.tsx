@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useRouter, usePathname, useParams } from "next/navigation";
 import Ripple from "@/components/ui/Ripple";
+import { useTranslations } from "next-intl";
 
 function Search() {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
+  const t = useTranslations("Header.Search");
   const [query, setQuery] = useState(
     params.search && typeof params.search === "string"
       ? decodeURIComponent(params.search)
@@ -57,7 +59,7 @@ function Search() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Pindai produk, merk, atau EAN..."
+          placeholder={t("placeholder")}
           className="w-full bg-divider/20 border border-divider/50 rounded-full py-2.5 pl-11 pr-4 text-sm font-medium outline-none focus:bg-background-paper focus:border-primary-main focus:ring-4 focus:ring-primary-main/10 transition-all placeholder:text-text-disabled/70"
         />
       </form>
@@ -70,7 +72,7 @@ function Search() {
             type="button"
             onClick={handleClear}
             className="p-1 rounded-full hover:bg-divider/50 text-text-secondary hover:text-text-primary transition-colors"
-            aria-label="Hapus pencarian"
+            aria-label={t("clear_search")}
           >
             <svg
               className="w-4 h-4"
@@ -88,7 +90,7 @@ function Search() {
         ) : (
           // Label SEARCH_SYS (Sembunyi di mobile agar lega)
           <span className="hidden sm:inline-block text-[9px] font-bold bg-divider/40 text-text-secondary px-2 py-1 rounded-md border border-divider/50">
-            SEARCH_SYS
+            {t("search_sys")}
           </span>
         )}
       </div>

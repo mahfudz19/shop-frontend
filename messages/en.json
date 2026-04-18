@@ -1,11 +1,167 @@
 {
+  "ProductDetail": {
+    "sys_404": "404_Not_Found",
+    "signal_lost": "Signal lost. Product data is unavailable in the current matrix.",
+    "sys_error_master": "SYSTEM_ERROR: Failed to load Master Catalog.",
+    "sys_live_scan_ok": "Live_Scan_OK",
+    "sys_parameters": "System_Parameters",
+    "lbl_brand": "BRAND",
+    "lbl_model": "MODEL",
+    "lbl_data_sources": "DATA_SOURCES",
+    "lbl_verified_nodes": "Verified Nodes",
+    "lbl_baseline_min": "BASELINE_MIN",
+    "val_generic": "GENERIC",
+    "val_na": "N/A",
+    "avg_score": "Avg_Score",
+    "units_decoded": "Units_Decoded",
+    "sys_engine_verdict": "Engine_Verdict",
+    "execution_at": "Executed at",
+    "sys_potential_savings": "Potential_Savings",
+    "sys_best_price": "Best_Price",
+    "sys_no_active_offers": "No_Active_Offers_Detected",
+    "sys_price_matrix": "Price_Comparison_Matrix",
+    "sys_best_value": "Best_Value",
+    "action_execute": "Execute",
+    "action_visit": "Visit",
+    "sys_disclaimer": "DISCLAIMER_ENGINE",
+    "disclaimer_text_1": "Price and stock availability may change at any time according to the policy of the platform",
+    "disclaimer_text_2": ". Our system synchronizes periodically, but we recommend double-checking before making a payment."
+  },
+  "SearchPage": {
+    "ProductGrid": {
+      "showing_results_for": "Showing results for",
+      "all": "All",
+      "products": "products",
+      "sys_live_scan_ok": "Live_Scan_OK",
+      "sys_no_data": "No_Data_Found_In_Market_Radar",
+      "sys_syncing": "Syncing_More_Data..."
+    },
+    "Filter": {
+      "title": "Filter",
+      "reset": "Reset",
+      "price": "Price",
+      "min_price": "Min Rp",
+      "max_price": "Max Rp",
+      "go": "Go",
+      "price_under_50k": "< Rp 50.000",
+      "price_50k_100k": "Rp 50k - 100k",
+      "price_100k_500k": "Rp 100k - 500k",
+      "price_above_500k": "> Rp 500.000",
+      "marketplace": "Store / Marketplace",
+      "rating": "Rating",
+      "rating_4_up": "⭐ 4 & Up",
+      "rating_3_up": "⭐ 3 & Up",
+      "sort": "Sort By",
+      "sort_price_asc": "Price: Lowest",
+      "sort_price_desc": "Price: Highest",
+      "sort_latest": "Latest Data"
+    }
+  },
+  "Footer": {
+    "sys_info": "SYSTEM_INFO",
+    "about": "About",
+    "press": "Press",
+    "jobs": "Jobs",
+    "partner_program": "Partner Program",
+    "support_center": "SUPPORT_CENTER",
+    "help": "Help",
+    "contact": "Contact Us",
+    "faq": "FAQ",
+    "sitemap": "Sitemap",
+    "social_feed": "SOCIAL_FEED",
+    "connect": "Connect",
+    "platform_status": "PLATFORM_STATUS",
+    "app": "App",
+    "sys_ready": "READY",
+    "sys_all_rights_reserved": "ALL_RIGHTS_RESERVED",
+    "imprint": "Imprint",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service"
+  },
+  "Header": {
+    "Search": {
+      "placeholder": "Scan products, brands, or EAN...",
+      "clear_search": "Clear search",
+      "search_sys": "SEARCH_SYS"
+    },
+    "LanguageMenu": {
+      "select": "Select_Locale"
+    }
+  },
   "HomePage": {
     "title": "Welcome to ScrapStore",
     "searchPlaceholder": "Search products...",
     "Hero":{
       "index": {
-        "COPYWRITING": "Cheapest Price Search Engine"
+        "COPYWRITING": "Cheapest Price Search Engine",
+        "title1": "Stop Paying",
+        "title2": "More.",
+        "description": "Our AI scans millions of products from Tokopedia, Shopee, and Lazada in seconds. Compare in real-time, find the difference, and save your money.",
+        "popular": "Popular:",
+        "smartphone": "Smartphone",
+        "camping_tent": "Camping Tent",
+        "parka_jacket": "Parka Jacket",
+        "recent_activity": "Recent Activity",
+        "recent_activity_desc_1": "Someone just saved",
+        "recent_activity_desc_2": "from buying a Tent."
+      },
+      "LiveDealCarousel": {
+        "price_radar": "⚡ Price Radar",
+        "promo_info": "✨ Promo Info",
+        "scanning": "Scanning 3 stores...",
+        "cheapest": "CHEAPEST",
+        "system_recommendation": "System Recommendation:",
+        "recommendation_desc": "Buy on Shopee to save Rp 200.000 (4.5%)",
+        "get_cheapest": "Get Best Price",
+        "view_promo": "View Promo Details"
       }
+    },
+    "CategoryGrid": {
+      "title1": "Category",
+      "title2": "Hub",
+      "description": "Quick navigation to product databases based on our system's specializations.",
+      "scan": "Scan Data",
+      "sys_exploration_mode": "Exploration_Mode"
+    },
+    "MagazineSection": {
+      "title1": "Shopping",
+      "title2": "Journal",
+      "published": "Published:",
+      "read_analysis": "Read Analysis",
+      "sys_editorial_board": "The_Editorial_Board",
+      "by": "By",
+      "sys_admin": "System_Admin"
+    },
+    "FeaturedDeals": {
+      "title1": "Best",
+      "title2": "Offers",
+      "description": "Our algorithm detects the deepest price differences across all marketplaces.",
+      "monitor_all": "Monitor All Offers",
+      "full_analysis": "Full Analysis",
+      "sys_high_priority_deals": "High_Priority_Deals",
+      "code": "Code",
+      "sys_best_price": "BEST_PRICE"
+    },
+    "LogoutButton": {
+      "logout": "Logout"
+    },
+    "Trust": {
+      "title1": "Data Accuracy Is",
+      "title2": "Top",
+      "title3": "Priority.",
+      "description": "We don't just compare prices; we verify each store and track price histories to ensure you get an honest deal.",
+      "active_products_desc_1": "Active Indexed Products",
+      "active_products_desc_2": "Across All Marketplaces",
+      "verified_shops_desc_1": "Verified Shops",
+      "verified_shops_desc_2": "In Our Network",
+      "history_title": "Price History",
+      "history_desc": "Track price fluctuation graphs up to the last 90 days for each product.",
+      "neutral_title": "Neutral Engine",
+      "neutral_desc": "Our algorithm is unbiased. The cheapest result is strictly based on data.",
+      "sys_security_audit": "Security_Audit_Passed",
+      "sys_user_rating": "User Satisfaction Rating",
+      "sys_live_database": "LIVE_DATABASE",
+      "sys_verified_only": "VERIFIED_ONLY"
     }
   }
 }
