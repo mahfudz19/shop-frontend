@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
+import Slider from "@/components/ui/Slider";
 
 interface FilterProps {
   currentFilters: {
@@ -72,190 +73,209 @@ export default function Filter({ currentFilters }: FilterProps) {
   };
 
   return (
-    <aside className="w-full lg:w-72 shrink-0 space-y-4">
-      <div className="bg-background-paper border border-divider rounded-xl p-5 sticky top-24 shadow-sm">
-        <div className="flex items-center justify-between px-6 py-5 border-b border-divider">
-          <h2 className="text-xl font-black text-text-primary tracking-tighter uppercase flex items-center gap-2">
+    <aside className="w-full lg:w-72 shrink-0">
+      <div className="bg-background-paper/60 backdrop-blur-sm border border-divider/50 rounded-2xl p-6 sticky top-24 shadow-sm flex flex-col gap-6">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-divider/50 pb-4">
+          <h2 className="text-sm font-black text-text-primary uppercase tracking-widest flex items-center gap-2">
             <span className="text-primary-main">⚡</span> {t("title")}
           </h2>
           <button
             onClick={handleReset}
-            className="text-[10px] font-bold text-text-secondary hover:text-error-main uppercase tracking-widest transition-colors py-1 px-2 hover:bg-error-light/10 rounded-sm"
+            className="text-[10px] font-bold text-text-secondary hover:text-error-main uppercase tracking-widest transition-colors py-1 px-2 hover:bg-error-light/10 rounded"
           >
             {t("reset")}
           </button>
         </div>
 
         {/* Harga (Price) Filter */}
-        <div className="p-6">
-          <h3 className="text-xs font-black text-text-primary uppercase tracking-widest mb-4 flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary-main"></div>
+        <div className="space-y-4">
+          <h3 className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em]">
             {t("price")}
           </h3>
-          <form className="flex items-center gap-2 mb-4" onSubmit={handleApplyPrice}>
-            <input
-              type="number"
-              placeholder={t("min_price")}
-              value={localMinPrice}
-              onChange={(e) => setLocalMinPrice(e.target.value)}
-              className="w-full bg-background-default border border-divider rounded-md px-3 py-2 text-xs font-medium outline-none focus:border-primary-main focus:bg-background-paper transition-all placeholder:opacity-50"
+
+          <div className="px-1.5 mb-2">
+            <Slider
+              value={[
+                localMinPrice ? parseInt(localMinPrice, 10) : 0,
+                localMaxPrice ? parseInt(localMaxPrice, 10) : 5000000,
+              ]}
+              min={0}
+              max={5000000}
+              step={50000}
+              color="primary"
+              size="small"
+              valueLabelDisplay="off"
+              onChange={(val) => {
+                if (Array.isArray(val)) {
+                  setLocalMinPrice(val[0] === 0 ? "" : val[0].toString());
+                  setLocalMaxPrice(val[1] === 5000000 ? "" : val[1].toString());
+                }
+              }}
+              onChangeCommitted={(val) => {
+                if (Array.isArray(val)) {
+                  updateFilters({
+                    min_price: val[0] === 0 ? "" : val[0].toString(),
+                    max_price: val[1] === 5000000 ? "" : val[1].toString(),
+                  });
+                }
+              }}
             />
-            <span className="text-text-disabled font-bold">-</span>
-            <input
-              type="number"
-              placeholder={t("max_price")}
-              value={localMaxPrice}
-              onChange={(e) => setLocalMaxPrice(e.target.value)}
-              className="w-full bg-background-default border border-divider rounded-md px-3 py-2 text-xs font-medium outline-none focus:border-primary-main focus:bg-background-paper transition-all placeholder:opacity-50"
-            />
+            <div className="flex justify-between mt-3 text-[9px] font-bold text-text-disabled uppercase font-mono">
+              <span>Rp 0</span>
+              <span>Rp 5M+</span>
+            </div>
+          </div>
+
+          <form className="flex items-center gap-2" onSubmit={handleApplyPrice}>
+            <div className="flex items-center bg-background-default border border-divider/50 rounded-lg px-3 py-1.5 flex-1 focus-within:border-primary-main transition-colors">
+              <span className="text-[10px] text-text-disabled pr-2">Rp</span>
+              <input
+                type="number"
+                placeholder="Min"
+                value={localMinPrice}
+                onChange={(e) => setLocalMinPrice(e.target.value)}
+                className="w-full bg-transparent text-xs font-mono font-medium outline-none text-text-primary placeholder:text-text-disabled"
+              />
+            </div>
+            <span className="text-text-disabled font-bold text-xs">-</span>
+            <div className="flex items-center bg-background-default border border-divider/50 rounded-lg px-3 py-1.5 flex-1 focus-within:border-primary-main transition-colors">
+              <span className="text-[10px] text-text-disabled pr-2">Rp</span>
+              <input
+                type="number"
+                placeholder="Max"
+                value={localMaxPrice}
+                onChange={(e) => setLocalMaxPrice(e.target.value)}
+                className="w-full bg-transparent text-xs font-mono font-medium outline-none text-text-primary placeholder:text-text-disabled"
+              />
+            </div>
             <button
               type="submit"
-              className="bg-primary-main/10 text-primary-main hover:bg-primary-main hover:text-white px-3 py-2 border border-primary-light/20 rounded-md text-xs font-black transition-colors"
+              className="bg-primary-main/10 text-primary-main hover:bg-primary-main hover:text-white px-2 py-1.5 rounded-lg text-xs transition-colors shrink-0 aspect-square flex items-center justify-center transform active:scale-95"
             >
-              {t("go")}
+              <span className="font-bold">→</span>
             </button>
           </form>
-          {/* Quick Price Ranges */}
-          <div className="space-y-2">
+
+          {/* Quick Price Ranges - Chips */}
+          <div className="grid grid-cols-2 gap-2">
             {[
               { label: t("price_under_50k"), min: "", max: "50000" },
               { label: t("price_50k_100k"), min: "50000", max: "100000" },
               { label: t("price_100k_500k"), min: "100000", max: "500000" },
               { label: t("price_above_500k"), min: "500000", max: "" },
             ].map((range, idx) => {
-              const isActive =
-                localMinPrice === range.min && localMaxPrice === range.max;
+              const isActive = localMinPrice === range.min && localMaxPrice === range.max;
               return (
-                <label
+                <button
                   key={idx}
-                  className="flex items-center gap-2 cursor-pointer group"
+                  type="button"
+                  onClick={() => {
+                    setLocalMinPrice(range.min);
+                    setLocalMaxPrice(range.max);
+                    updateFilters({ min_price: range.min, max_price: range.max });
+                  }}
+                  className={`py-1.5 px-2 text-[10px] font-mono font-medium rounded-lg border transition-all text-center
+                    ${isActive 
+                      ? "bg-primary-main/10 border-primary-main/30 text-primary-main shadow-sm" 
+                      : "bg-background-default border-divider/50 text-text-secondary hover:border-text-disabled hover:text-text-primary"
+                    }`}
                 >
-                  <div
-                    className={`w-4 h-4 rounded-sm border flex items-center justify-center ${isActive ? "bg-primary-main border-primary-main" : "border-divider group-hover:border-primary-main"}`}
-                  >
-                    {isActive && (
-                      <span className="text-white text-[10px]">✓</span>
-                    )}
-                  </div>
-                  <span
-                    className="text-xs text-text-secondary group-hover:text-primary-main transition-colors"
-                    onClick={() => {
-                      setLocalMinPrice(range.min);
-                      setLocalMaxPrice(range.max);
-                      updateFilters({
-                        min_price: range.min,
-                        max_price: range.max,
-                      });
-                    }}
-                  >
-                    {range.label}
-                  </span>
-                </label>
+                  {range.label}
+                </button>
               );
             })}
           </div>
         </div>
 
-        {/* Marketplace Filter */}
-        <div className="mb-6 pt-4 border-t border-divider/50">
-          <h3 className="text-sm font-bold text-text-primary mb-3">
+        {/* Marketplace Section*/}
+        <div className="space-y-4 pt-6 border-t border-divider/50">
+          <h3 className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em]">
             {t("marketplace")}
           </h3>
-          <div className="space-y-2">
+          <div className="grid grid-cols-3 gap-2">
             {["tokopedia", "shopee", "lazada"].map((m) => {
               const active = localMarketplace === m;
               return (
-                <label
+                <button
                   key={m}
-                  className="flex items-center gap-2 cursor-pointer group"
+                  type="button"
+                  onClick={() => {
+                    const newVal = active ? "" : m;
+                    setLocalMarketplace(newVal);
+                    updateFilters({ marketplace: newVal });
+                  }}
+                  className={`py-2 px-1 text-[10px] font-bold rounded-lg border transition-all uppercase tracking-wider text-center flex flex-col items-center justify-center gap-1
+                    ${active 
+                      ? "bg-primary-main text-white border-primary-main shadow-md shadow-primary-main/20" 
+                      : "bg-background-default border-divider/50 text-text-secondary hover:border-text-disabled hover:text-text-primary"
+                    }`}
                 >
-                  <div
-                    className={`w-4 h-4 rounded-sm border flex items-center justify-center ${active ? "bg-primary-main border-primary-main" : "border-divider group-hover:border-primary-main"}`}
-                    onClick={() => {
-                      const newVal = active ? "" : m;
-                      setLocalMarketplace(newVal);
-                      updateFilters({ marketplace: newVal });
-                    }}
-                  >
-                    {active && (
-                      <span className="text-white text-[10px]">✓</span>
-                    )}
-                  </div>
-                  <span
-                    className="text-xs text-text-secondary capitalize group-hover:text-primary-main transition-colors"
-                    onClick={() => {
-                      const newVal = active ? "" : m;
-                      setLocalMarketplace(newVal);
-                      updateFilters({ marketplace: newVal });
-                    }}
-                  >
-                    {m}
-                  </span>
-                </label>
+                  <span className="text-sm opacity-80">{m[0]}</span>
+                  <span className="text-[8px]">{m}</span>
+                </button>
               );
             })}
           </div>
         </div>
 
-        {/* Rating Filter */}
-        <div className="mb-6 pt-4 border-t border-divider/50">
-          <h3 className="text-sm font-bold text-text-primary mb-3">{t("rating")}</h3>
-          <div className="space-y-2">
+        {/* Rating Filter Chips */}
+        <div className="space-y-4 pt-6 border-t border-divider/50">
+          <h3 className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em]">
+            {t("rating")}
+          </h3>
+          <div className="grid grid-cols-2 gap-2">
             {[
               { label: t("rating_4_up"), val: "4" },
               { label: t("rating_3_up"), val: "3" },
             ].map((r) => {
               const active = localRating === r.val;
               return (
-                <label
+                <button
                   key={r.val}
-                  className="flex items-center gap-2 cursor-pointer group"
+                  type="button"
+                  onClick={() => {
+                    const newVal = active ? "" : r.val;
+                    setLocalRating(newVal);
+                    updateFilters({ rating: newVal });
+                  }}
+                  className={`py-1.5 px-2 text-[10px] font-bold rounded-lg border transition-all text-center uppercase
+                    ${active 
+                      ? "bg-warning-main/10 border-warning-main/30 text-warning-main font-black" 
+                      : "bg-background-default border-divider/50 text-text-secondary hover:border-text-disabled hover:text-text-primary"
+                    }`}
                 >
-                  <div
-                    className={`w-4 h-4 rounded-sm border flex items-center justify-center ${active ? "bg-primary-main border-primary-main" : "border-divider group-hover:border-primary-main"}`}
-                    onClick={() => {
-                      const newVal = active ? "" : r.val;
-                      setLocalRating(newVal);
-                      updateFilters({ rating: newVal });
-                    }}
-                  >
-                    {active && (
-                      <span className="text-white text-[10px]">✓</span>
-                    )}
-                  </div>
-                  <span
-                    className="text-xs text-text-secondary group-hover:text-primary-main transition-colors"
-                    onClick={() => {
-                      const newVal = active ? "" : r.val;
-                      setLocalRating(newVal);
-                      updateFilters({ rating: newVal });
-                    }}
-                  >
-                    {r.label}
-                  </span>
-                </label>
+                  {r.label}
+                </button>
               );
             })}
           </div>
         </div>
 
-        {/* Sort Filter */}
-        <div className="pt-4 border-t border-divider/50">
-          <h3 className="text-sm font-bold text-text-primary mb-3">{t("sort")}</h3>
-          <select
-            value={`${localSortBy}-${localSortOrder}`}
-            onChange={(e) => {
-              const [sb, so] = e.target.value.split("-");
-              setLocalSortBy(sb);
-              setLocalSortOrder(so);
-              updateFilters({ sort_by: sb, sort_order: so });
-            }}
-            className="w-full bg-background-default border border-divider rounded px-3 py-2 text-xs outline-none focus:border-primary-main transition-colors"
-          >
-            <option value="price_rp-asc">{t("sort_price_asc")}</option>
-            <option value="price_rp-desc">{t("sort_price_desc")}</option>
-            <option value="updatedAt-desc">{t("sort_latest")}</option>
-          </select>
+        {/* Sort Filter minimalistic select */}
+        <div className="space-y-4 pt-6 border-t border-divider/50">
+          <h3 className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em]">
+            {t("sort")}
+          </h3>
+          <div className="relative">
+            <select
+              value={`${localSortBy}-${localSortOrder}`}
+              onChange={(e) => {
+                const [sb, so] = e.target.value.split("-");
+                setLocalSortBy(sb);
+                setLocalSortOrder(so);
+                updateFilters({ sort_by: sb, sort_order: so });
+              }}
+              className="w-full appearance-none bg-background-default border border-divider/50 rounded-lg px-4 py-2 text-xs font-medium text-text-primary outline-none focus:border-primary-main focus:ring-1 focus:ring-primary-main/20 transition-all cursor-pointer"
+            >
+              <option value="price_rp-asc">{t("sort_price_asc")}</option>
+              <option value="price_rp-desc">{t("sort_price_desc")}</option>
+              <option value="updatedAt-desc">{t("sort_latest")}</option>
+            </select>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-disabled text-xs font-bold">
+              ⌄
+            </div>
+          </div>
         </div>
       </div>
     </aside>

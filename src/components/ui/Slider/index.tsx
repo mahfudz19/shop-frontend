@@ -100,7 +100,7 @@ const Mark = memo<MarkProps>(
       >
         <div
           className={twMerge(
-            "bg-gray-600 rounded-full inline-block",
+            "bg-text-disabled rounded-full inline-block",
             orientation === "vertical" ? "w-1 h-1 -ml-4" : `w-1 h-1 mx-auto`,
             firstMark || lastMark ? "opacity-0" : "",
           )}
@@ -109,7 +109,7 @@ const Mark = memo<MarkProps>(
       {mark.label && (
         <div
           className={twMerge(
-            "text-gray-600",
+            "text-text-disabled text-[9px] font-bold tracking-widest uppercase",
             "inline-block",
             orientation === "vertical" ? "ml-2" : "mt-2",
           )}
@@ -135,7 +135,7 @@ const ValueLabel = memo<{
   return (
     <div
       className={twMerge(
-        "absolute bg-gray-800 text-white text-xs px-2 py-1 rounded pointer-events-none whitespace-nowrap",
+        "absolute bg-background-paper border border-divider text-text-primary text-xs font-bold px-2 py-1 rounded shadow-sm pointer-events-none whitespace-nowrap",
         orientation === "vertical" ? "right-full mr-2" : "bottom-full mb-2",
       )}
       style={{
@@ -149,8 +149,8 @@ const ValueLabel = memo<{
         className={twMerge(
           "absolute w-0 h-0 border-4 border-transparent",
           orientation === "vertical"
-            ? "left-full top-1/2 -translate-y-1/2 border-l-gray-800"
-            : "top-full left-1/2 -translate-x-1/2 border-t-gray-800",
+            ? "left-full top-1/2 -translate-y-1/2 border-l-divider"
+            : "top-full left-1/2 -translate-x-1/2 border-t-divider",
         )}
       />
     </div>
@@ -203,7 +203,7 @@ const Thumb = memo<ThumbProps>((props) => {
     <div>
       <div
         className={twMerge(
-          "absolute rounded-full border-2 z-10 border-white shadow-md cursor-grab active:cursor-grabbing transform -translate-x-1/2 -translate-y-1/2 focus:outline-none focus:ring-2 focus:ring-offset-2",
+          "absolute rounded-full border-2 z-10 border-background-paper shadow-xl cursor-grab active:cursor-grabbing transform -translate-x-1/2 -translate-y-1/2 focus:outline-none focus:ring-4 focus:ring-offset-0 focus:ring-primary-main/20",
           COLOR_CLASSES[color],
           sizeConfig.thumb,
           disabled && "cursor-not-allowed",
@@ -652,7 +652,7 @@ const Slider: React.FC<SliderProps> = memo((props) => {
         <div
           ref={sliderRef}
           className={twMerge(
-            "relative bg-gray-200 rounded-full cursor-pointer",
+            "relative bg-divider/50 rounded-full cursor-pointer backdrop-blur-sm",
             sizeConfig.track,
             orientation === "vertical" ? "w-full h-full mx-auto" : "w-full",
             disabled && "opacity-50 cursor-not-allowed",
