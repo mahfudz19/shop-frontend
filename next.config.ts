@@ -1,4 +1,9 @@
+import createNextIntlPlugin from 'next-intl/plugin';
 import type { NextConfig } from "next";
+
+const withNextIntl = createNextIntlPlugin(
+  './src/i18n/request.ts'
+);
 
 /**
  * Membuat array remote patterns untuk Next.js Image
@@ -41,4 +46,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, setRequestLocale } from "next-intl/server";
+import { routing } from "@/i18n/routing";
+import { notFound } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,9 +24,25 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+  params,
+}: Readonly<{
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}>) {
   const cookieStore = await cookies();
   const theme = cookieStore.get("theme")?.value;
+
+  const { locale } = await params;
+
+  // Pastikan locale yang masuk valid
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
+
+  setRequestLocale(locale);
+
+  const messages = await getMessages();
+
   return (
     <html
       lang="en"
@@ -30,7 +50,9 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-background-default text-text-primary min-h-screen flex flex-col antialiased">
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

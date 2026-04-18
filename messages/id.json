@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "title": "Selamat datang di ScrapStore",
+    "searchPlaceholder": "Cari produk...",
+    "Hero":{
+      "index": {
+        "COPYWRITING": "Mesin Pencari Harga Termurah"
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import ThemeToggle from "@/components/ThemeToggle";
+import ThemeToggle from "@/app/[locale]/(Guest)/Header/ThemeToggle";
 import RoutePulseBar from "@/components/ui/RoutePulseBar";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -6,6 +6,7 @@ import LogoutButton from "../(home)/LogoutButton";
 import Search from "./Search";
 import SubHeader from "./SubHeader";
 import Ripple from "@/components/ui/Ripple";
+import LanguegeMenu from "@/app/[locale]/(Guest)/Header/LanguegeMenu";
 
 export default async function Header() {
   const cookieStore = await cookies();
@@ -16,7 +17,7 @@ export default async function Header() {
     <header className="sticky top-0 z-50">
       <RoutePulseBar />
       {/* MAIN NAVBAR - Glassmorphism Effect */}
-      <div className="bg-background-paper/80 backdrop-blur-lg border-b border-divider/50 shadow-sm transition-all duration-300">
+      <div className="relative z-20 bg-background-paper/80 backdrop-blur-lg border-b border-divider/50 shadow-sm transition-all duration-300">
         {/* RESPONSIVE CONTAINER: flex-wrap untuk mobile, flex-nowrap untuk desktop */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-0 md:h-20 flex flex-wrap md:flex-nowrap items-center justify-between gap-y-3 gap-x-4">
           {/* LOGO AREA - Urutan 1 */}
@@ -35,6 +36,7 @@ export default async function Header() {
           {/* UTILITY ACTIONS - Urutan 2 (Mobile) / Urutan 3 (Desktop) */}
           <div className="flex items-center gap-2 md:gap-4 shrink-0 order-2 md:order-3">
             <ThemeToggle />
+            <LanguegeMenu />
 
             <div className="h-5 w-px bg-divider mx-0.5 md:mx-1" />
 

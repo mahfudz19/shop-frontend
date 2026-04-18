@@ -1,4 +1,4 @@
-import Header from "@/app/(Guest)/Header";
+import Header from "@/app/[locale]/(Guest)/Header";
 
 export default function SearchLayout({
   children,

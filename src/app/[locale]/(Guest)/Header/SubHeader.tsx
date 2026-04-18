@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useSelectedLayoutSegments } from "next/navigation";
 
 function SubHeader() {
-  const pathname = usePathname();
+  const segments = useSelectedLayoutSegments();
 
   const mainCategories = [
     "Auto & Motorcycle",
@@ -16,19 +16,16 @@ function SubHeader() {
     "Home & Kitchen",
   ];
 
-  const breadcrumbs = pathname
-    .split("/")
-    .slice(1)
-    .map((segment) => {
-      const decoded = decodeURIComponent(segment);
-      if (decoded.length > 20) return decoded.slice(0, 17) + "...";
-      return decoded;
-    });
+  const breadcrumbs = segments.map((segment) => {
+    const decoded = decodeURIComponent(segment);
+    if (decoded.length > 20) return decoded.slice(0, 17) + "...";
+    return decoded;
+  });
 
   return (
     <>
-      {pathname !== "/" ? (
-        <nav className="bg-background-default/90 backdrop-blur-md border-b border-divider/30 px-4 py-3">
+      {breadcrumbs[0] !== "(home)" ? (
+        <nav className="relative z-10 bg-background-default/90 backdrop-blur-md border-b border-divider/30 px-4 py-3">
           <div className="max-w-7xl mx-auto flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider overflow-x-auto no-scrollbar">
             <Link
               href="/"
@@ -56,7 +53,7 @@ function SubHeader() {
           </div>
         </nav>
       ) : (
-        <div className="bg-background-paper/50 backdrop-blur-md border-b border-divider/30">
+        <div className="relative z-10 bg-background-paper/50 backdrop-blur-md border-b border-divider/30">
           <div className="max-w-7xl mx-auto px-4 flex overflow-x-auto no-scrollbar gap-8 h-11 items-center">
             {mainCategories.map((cat) => (
               <Link

@@ -1,7 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useState } from "react";
-import Ripple from "./ui/Ripple";
+import Ripple from "../../../../components/ui/Ripple";
 
 export default function ThemeToggle() {
   const [isMounted, setIsMounted] = useState(false);

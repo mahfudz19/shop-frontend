@@ -1,9 +1,12 @@
+import Ripple from "@/components/ui/Ripple";
 import { fetchPromotions } from "@/lib/api";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import LiveDealCarousel from "./LiveDealCarousel";
-import Ripple from "@/components/ui/Ripple";
 
 export default async function Hero() {
+  const t = await getTranslations("HomePage");
+
   const promoRes = await fetchPromotions();
   const promos = promoRes.data || [];
 
@@ -22,7 +25,7 @@ export default async function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-main opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-main"></span>
               </span>
-              Mesin Pencari Harga Termurah
+              {t("Hero.index.COPYWRITING")}
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-text-primary leading-[1.1] tracking-tight mb-6">

@@ -1,31 +1,36 @@
-// src/proxy.ts
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// Inisialisasi proxy dari next-intl
+const intlProxy = createMiddleware(routing);
+
 export function proxy(request: NextRequest) {
-  // Asumsi nanti Golang mengirim cookie bernama "auth_token"
   const token = request.cookies.get('auth_token')?.value;
+  const pathname = request.nextUrl.pathname;
 
-  // Rute yang butuh login
-  const isProtectedRoute = request.nextUrl.pathname.startsWith('/dashboard') || request.nextUrl.pathname.startsWith('/admin');
-  
-  // Rute auth (tidak boleh diakses kalau sudah login)
-  const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register');
+  // Cek rute dengan regex agar mendukung prefix bahasa opsional (misal: /id/admin atau /admin)
+  const isProtectedRoute = /^\/(id\/)?(dashboard|admin)/.test(pathname);
+  const isAuthRoute = /^\/(id\/)?(login|register)/.test(pathname);
 
-  // Jika belum login, tapi akses rute admin/dashboard -> Lempar ke login
   if (!token && isProtectedRoute) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    const localeMatch = pathname.match(/^\/(id)\//);
+    const prefix = localeMatch ? `/${localeMatch[1]}` : '';
+    return NextResponse.redirect(new URL(`${prefix}/login`, request.url));
   }
 
-  // Jika sudah login, tapi akses halaman login -> Lempar ke dashboard
   if (token && isAuthRoute) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    const localeMatch = pathname.match(/^\/(id)\//);
+    const prefix = localeMatch ? `/${localeMatch[1]}` : '';
+    return NextResponse.redirect(new URL(`${prefix}/dashboard`, request.url));
   }
 
-  return NextResponse.next();
+  // Jika aman, teruskan ke proxy multi-bahasa next-intl
+  return intlProxy(request);
 }
 
-// Tentukan proxy berjalan di rute mana saja
 export const config = {
-  matcher: ['/dashboard/:path*', '/admin/:path*', '/login', '/register'],
+  // Wajib menangkap semua rute KECUALI file statis dan Next internal
+  matcher: ['/((?!_next|_vercel|.*\\..*).*)']
 };

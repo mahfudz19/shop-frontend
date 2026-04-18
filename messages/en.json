@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "title": "Welcome to ScrapStore",
+    "searchPlaceholder": "Search products...",
+    "Hero":{
+      "index": {
+        "COPYWRITING": "Cheapest Price Search Engine"
+      }
+    }
+  }
+}
