@@ -1,18 +1,18 @@
+import LanguegeMenu from "@/app/[locale]/(Guest)/Header/LanguegeMenu";
 import ThemeToggle from "@/app/[locale]/(Guest)/Header/ThemeToggle";
+import Ripple from "@/components/ui/Ripple";
 import RoutePulseBar from "@/components/ui/RoutePulseBar";
-import { cookies } from "next/headers";
+import { getUserFromToken } from "@/lib/auth";
 import Link from "next/link";
 import LogoutButton from "../(home)/LogoutButton";
+import MobileDrawer from "./MobileDrawer";
 import Search from "./Search";
 import SubHeader from "./SubHeader";
-import Ripple from "@/components/ui/Ripple";
-import LanguegeMenu from "@/app/[locale]/(Guest)/Header/LanguegeMenu";
-import MobileDrawer from "./MobileDrawer";
 
 export default async function Header() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("auth_token")?.value;
-  const isLoggedIn = !!token;
+  const user = await getUserFromToken();
+  const isLoggedIn = !!user;
+  console.log("User di Header:", user);
 
   // Render Logo diekstrak agar bisa dipakai ganda (Mobile non-sticky, Desktop sticky)
   const Logo = (
@@ -62,12 +62,14 @@ export default async function Header() {
 
             {isLoggedIn ? (
               <div className="flex items-center gap-3">
-                <Link
-                  href="/admin"
-                  className="text-xs font-black text-text-secondary hover:text-primary-main uppercase tracking-widest transition-colors"
-                >
-                  Console
-                </Link>
+                {user.role === "admin" && (
+                  <Link
+                    href="/admin"
+                    className="text-xs font-black text-text-secondary hover:text-primary-main uppercase tracking-widest transition-colors"
+                  >
+                    Console
+                  </Link>
+                )}
                 <LogoutButton />
               </div>
             ) : (

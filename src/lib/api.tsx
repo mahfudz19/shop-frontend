@@ -1,13 +1,27 @@
 import { ResponsePaginate, Response } from "@/types/respons";
 import { Product } from "@/types/product";
-import { Article } from "@/types/articles";
-import { Promotions } from "@/types/promotions";
-import { Categories } from "@/types/categories";
+import { Article } from "@/types/article";
+import { Promotions } from "@/types/promotion";
+import { Categories } from "@/types/categorie";
+import { UserAuth } from "@/types/user";
 
 const BaseUrl =
   typeof window === "undefined"
     ? process.env.INTERNAL_API_URL
     : process.env.NEXT_PUBLIC_API_PROXY;
+
+export async function login(
+  email: string,
+  password: string,
+): Promise<Response<UserAuth>> {
+  const res = await fetch(`${BaseUrl}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  return res.json();
+}
 
 export async function logout(): Promise<Response<any>> {
   const res = await fetch(`${BaseUrl}/auth/logout`, {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Promotions } from "@/types/promotions";
+import { Promotions } from "@/types/promotion";
 import Image from "@/components/Image";
 import Ripple from "@/components/ui/Ripple";
 import { useTranslations } from "next-intl";
@@ -37,8 +37,8 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
               key={idx}
               onClick={() => setActiveIndex(idx)}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                activeIndex === idx 
-                  ? "bg-primary-main animate-pulse w-4" 
+                activeIndex === idx
+                  ? "bg-primary-main animate-pulse w-4"
                   : "bg-divider hover:bg-text-disabled"
               }`}
               aria-label={`Go to slide ${idx + 1}`}

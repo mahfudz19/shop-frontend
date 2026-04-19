@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Ripple from "@/components/ui/Ripple";
+import { PasswordField } from "../register/page";
+import { login } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,17 +20,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Gagal login");
-      }
+      await login(email, password);
 
       router.push("/");
       router.refresh();
@@ -73,14 +65,7 @@ export default function LoginPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-              placeholder="••••••••"
-              required
-            />
+            <PasswordField password={password} setPassword={setPassword} />
           </div>
           <button
             type="submit"

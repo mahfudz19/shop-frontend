@@ -5,6 +5,54 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Ripple from "@/components/ui/Ripple";
 
+export function PasswordField({
+  password,
+  setPassword,
+}: {
+  password: string;
+  setPassword: (password: string) => void;
+}) {
+  const [showPassword, setShowPassword] = useState(false);
+  return (
+    <div className="relative">
+      <input
+        type={showPassword ? "text" : "password"}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+        placeholder="Minimal 6 karakter"
+        minLength={6}
+        required
+      />
+      <button
+        type="button"
+        onClick={() => setShowPassword((prev) => !prev)}
+        className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
+      >
+        {showPassword ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M10 3C5.454 3 1.73 6.11.23 10c1.5 3.89 5.224 7 9.77 7s8.27-3.11 9.77-7c-1.5-3.89-5.224-7-9.77-7zM10 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z" />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
+          </svg>
+        )}
+      </button>
+    </div>
+  );
+}
+
 export default function RegisterPage() {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -65,7 +113,7 @@ export default function RegisterPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="Mahfudz"
+              placeholder="Jhon Doe"
               required
             />
           </div>
@@ -78,7 +126,7 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="nama@email.com"
+              placeholder="john@email.com"
               required
             />
           </div>
@@ -86,15 +134,7 @@ export default function RegisterPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="Minimal 6 karakter"
-              minLength={6}
-              required
-            />
+            <PasswordField password={password} setPassword={setPassword} />
           </div>
           <button
             type="submit"
