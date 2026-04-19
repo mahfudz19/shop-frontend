@@ -13,6 +13,43 @@ export const generateSlug = (name: string, id: string) => {
   return `/product/${cleanName}~${id}`;
 };
 
+/**
+ * Mengekstrak title dan product ID dari slug yang dihasilkan oleh generateSlug
+ * Format slug: /product/{cleanName}~{id}
+ * @param slug - Slug yang akan diparsing (misal: /product/bola-volley-molten~123abc)
+ * @returns Object dengan title dan productId
+ */
+export function unGenerateSlug(slug: string) {
+  const fullSlug = decodeURIComponent(slug);
+
+  // Hapus prefix /product/ jika ada
+  const slugWithoutPrefix = fullSlug.replace(/^\/product\//, "");
+
+  // Split berdasarkan ~ untuk mendapatkan name dan id
+  const lastTildeIndex = slugWithoutPrefix.lastIndexOf("~");
+
+  if (lastTildeIndex === -1) {
+    return {
+      title: "",
+      productId: slugWithoutPrefix,
+    };
+  }
+
+  const slugName = slugWithoutPrefix.substring(0, lastTildeIndex);
+  const productId = slugWithoutPrefix.substring(lastTildeIndex + 1);
+
+  // Convert slug name back to title (reverse dari generateSlug)
+  const title = slugName
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  return {
+    title,
+    productId,
+  };
+}
+
 export const formatRupiah = (price: number) => {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -30,8 +67,7 @@ export default async function Product(props: Props) {
   const params = await props.params;
   const t = await getTranslations("ProductDetail");
 
-  const fullSlug = decodeURIComponent(params.id);
-  const productId = fullSlug.split("~").pop();
+  const { productId } = unGenerateSlug(params.id);
 
   // 1. Fetch raw product untuk mendapatkan master_product_id
   const productData = await fetchProductById(productId!);
@@ -46,9 +82,7 @@ export default async function Product(props: Props) {
         <h1 className="text-xl font-black uppercase tracking-widest mb-2">
           {t("sys_404")}
         </h1>
-        <p className="text-sm">
-          {t("signal_lost")}
-        </p>
+        <p className="text-sm">{t("signal_lost")}</p>
       </div>
     );
   }
@@ -61,9 +95,7 @@ export default async function Product(props: Props) {
 
   if (!master) {
     return (
-      <div className="text-center py-20 font-mono">
-        {t("sys_error_master")}
-      </div>
+      <div className="text-center py-20 font-mono">{t("sys_error_master")}</div>
     );
   }
 
@@ -115,13 +147,17 @@ export default async function Product(props: Props) {
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-text-disabled">{t("lbl_data_sources")}</span>
+              <span className="text-text-disabled">
+                {t("lbl_data_sources")}
+              </span>
               <span className="text-text-primary font-bold">
                 {totalOffers} {t("lbl_verified_nodes")}
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-text-disabled">{t("lbl_baseline_min")}</span>
+              <span className="text-text-disabled">
+                {t("lbl_baseline_min")}
+              </span>
               <span className="text-text-primary font-bold">
                 {formatRupiah(master.baseline_price_min)}
               </span>
@@ -168,6 +204,13 @@ export default async function Product(props: Props) {
                 <span className="text-text-disabled">{t("units_decoded")}</span>
               </div>
             )}
+            <Link
+              href={`/product/${productId}/test-auth`}
+              className="text-primary-main hover:text-primary-dark transition-colors"
+            >
+              <Ripple color="primary" />
+              Test Auth Product
+            </Link>
           </div>
         </div>
 
@@ -190,7 +233,9 @@ export default async function Product(props: Props) {
               </div>
               <div className="text-left md:text-right w-full md:w-auto border-t border-white/20 md:border-none pt-4 md:pt-0">
                 <p className="text-[10px] font-bold uppercase opacity-80 mb-1 tracking-widest">
-                  {savings > 0 ? t("sys_potential_savings") : t("sys_best_price")}
+                  {savings > 0
+                    ? t("sys_potential_savings")
+                    : t("sys_best_price")}
                 </p>
                 <p className="text-4xl md:text-5xl font-black font-mono tracking-tighter">
                   {formatRupiah(bestOffer.price_rp)}
@@ -300,7 +345,9 @@ export default async function Product(props: Props) {
         <div className="mt-auto flex items-start gap-3 p-4 border border-divider/50 rounded-xl bg-background-default/50 text-text-secondary text-[10px] font-mono leading-relaxed">
           <span className="text-lg leading-none mt-0.5">💡</span>
           <p>
-            <strong className="text-text-primary">{t("sys_disclaimer")}:</strong>{" "}
+            <strong className="text-text-primary">
+              {t("sys_disclaimer")}:
+            </strong>{" "}
             {t("disclaimer_text_1")}{" "}
             <span className="uppercase">
               {bestOffer?.marketplace || "marketplace"}

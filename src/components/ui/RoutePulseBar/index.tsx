@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 
 function PulseBarApp() {
   const pathname = usePathname();
@@ -106,7 +106,7 @@ function PulseBarApp() {
     <div
       ref={barRef}
       aria-hidden
-      className="fixed top-0 left-0 h-0.75 bg-primary-main z-50"
+      className="fixed top-0 left-0 h-0.75 bg-primary-main z-[9999]"
       style={{ width: "0%", transition: "width 300ms ease-out" }}
     />
   );
@@ -179,7 +179,7 @@ function PulseBarPages() {
   return (
     <div
       ref={barRef}
-      className="fixed top-0 left-0 h-0.75 bg-primary-main z-50 transition-all duration-300 ease-out"
+      className="fixed top-0 left-0 h-0.75 bg-primary-main z-[9999] transition-all duration-300 ease-out"
       style={{ width: `${progress}%` }}
     />
   );

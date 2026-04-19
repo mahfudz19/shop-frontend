@@ -1,7 +1,6 @@
 import LanguegeMenu from "@/app/[locale]/(Guest)/Header/LanguegeMenu";
 import ThemeToggle from "@/app/[locale]/(Guest)/Header/ThemeToggle";
 import Ripple from "@/components/ui/Ripple";
-import RoutePulseBar from "@/components/ui/RoutePulseBar";
 import { getUserFromToken } from "@/lib/auth";
 import Link from "next/link";
 import LogoutButton from "../(home)/LogoutButton";
@@ -28,8 +27,6 @@ export default async function Header() {
 
   return (
     <>
-      <RoutePulseBar />
-
       {/* MOBILE TOP ROW - LOGO ONLY (Ikut ter-scroll hilang ke atas) */}
       <div className="md:hidden bg-background-default pt-4 pb-1 px-4 flex justify-between items-center">
         {Logo}

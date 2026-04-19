@@ -1,11 +1,12 @@
+import RoutePulseBar from "@/components/ui/RoutePulseBar";
+import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { cookies } from "next/headers";
-import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import { routing } from "@/i18n/routing";
+import { Geist, Geist_Mono } from "next/font/google";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,6 +52,7 @@ export default async function RootLayout({
     >
       <body className="bg-background-default text-text-primary min-h-screen flex flex-col antialiased">
         <NextIntlClientProvider messages={messages}>
+          <RoutePulseBar />
           {children}
         </NextIntlClientProvider>
       </body>

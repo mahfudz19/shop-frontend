@@ -10,6 +10,40 @@ const BaseUrl =
     ? process.env.INTERNAL_API_URL
     : process.env.NEXT_PUBLIC_API_PROXY;
 
+// ==========================================
+// CENTRALIZED ERROR HANDLING
+// ==========================================
+export class APIError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+    this.name = "APIError";
+  }
+}
+
+async function handleResponse<T>(res: globalThis.Response): Promise<T> {
+  // Gunakan block try-catch pembantu berjaga-jaga jika backend mengembalikan body kosong (bukan JSON)
+  let data: any = {};
+  try {
+    data = await res.json();
+  } catch (err) {
+    // Abaikan jika tidak bisa di-parse sebagai JSON
+  }
+
+  if (!res.ok) {
+    const errorMessage =
+      data.message || data.error || "Terjadi kesalahan pada server";
+    throw new APIError(errorMessage, res.status);
+  }
+
+  return data as T;
+}
+
+// ==========================================
+// API FUNCTIONS
+// ==========================================
+
 export async function register(
   body: RegisterBody,
 ): Promise<Response<UserAuthReg>> {
@@ -19,7 +53,7 @@ export async function register(
     body: JSON.stringify(body),
   });
 
-  return res.json();
+  return handleResponse<Response<UserAuthReg>>(res);
 }
 
 export async function login(
@@ -32,7 +66,7 @@ export async function login(
     body: JSON.stringify({ email, password }),
   });
 
-  return res.json();
+  return handleResponse<Response<UserAuth>>(res);
 }
 
 export async function logout(): Promise<Response<any>> {
@@ -41,7 +75,7 @@ export async function logout(): Promise<Response<any>> {
     headers: { "Content-Type": "application/json" },
   });
 
-  return res.json();
+  return handleResponse<Response<any>>(res);
 }
 
 export async function fetchProducts(
@@ -57,28 +91,28 @@ export async function fetchProducts(
 
   const res = await fetch(url, { next: { revalidate: 60 } });
 
-  return res.json();
+  return handleResponse<ResponsePaginate<Product>>(res);
 }
 
 export async function fetchCategories(): Promise<Response<Categories[]>> {
   const res = await fetch(`${BaseUrl}/categories`, {
     next: { revalidate: 3600 },
   });
-  return res.json();
+  return handleResponse<Response<Categories[]>>(res);
 }
 
 export async function fetchPromotions(): Promise<Response<Promotions[]>> {
   const res = await fetch(`${BaseUrl}/promotions?active=true`, {
     next: { revalidate: 3600 },
   });
-  return res.json();
+  return handleResponse<Response<Promotions[]>>(res);
 }
 
 export async function fetchArticles(): Promise<Response<Article[]>> {
   const res = await fetch(`${BaseUrl}/articles?published=true`, {
     next: { revalidate: 3600 },
   });
-  return res.json();
+  return handleResponse<Response<Article[]>>(res);
 }
 
 export async function fetchStats(): Promise<
@@ -87,14 +121,16 @@ export async function fetchStats(): Promise<
   const res = await fetch(`${BaseUrl}/products/stats`, {
     next: { revalidate: 3600 },
   });
-  return res.json();
+  return handleResponse<
+    Response<{ total_products: number; total_shops: number }>
+  >(res);
 }
 
 export async function fetchDeals(): Promise<Response<Product[]>> {
   const res = await fetch(`${BaseUrl}/products/deals`, {
     next: { revalidate: 3600 },
   });
-  return res.json();
+  return handleResponse<Response<Product[]>>(res);
 }
 
 export async function fetchProductById(id: string): Promise<
@@ -111,33 +147,35 @@ export async function fetchProductById(id: string): Promise<
       default_image: string;
     };
     related_offers: {
-      id: "69df279e842c3fff6b522002";
-      master_product_id: "69e1234579f59b90601c0001";
-      url: "https://tokopedia.com/sportjaya/bola-volley-volly-molten-v5m-5000-ori";
+      id: string;
+      master_product_id: string;
+      url: string;
       category: string[];
       clean_url: string;
       createdAt: Date;
-      discount_percent: 0;
+      discount_percent: number;
       image_url: string;
       is_anomaly: false;
       location: string;
       marketplace: string;
       marketplace_product_id: string;
-      match_confidence: 0.92;
+      match_confidence: number;
       name: string;
-      price_original: 750000;
-      price_rp: 750000;
-      rating: 4.8;
+      price_original: number;
+      price_rp: number;
+      rating: number;
       search_keyword: string;
       shop: string;
-      sold_count: 120;
+      sold_count: number;
       updatedAt: Date;
     }[];
   }>
 > {
   const url = `${BaseUrl}/product/${id}`;
   const res = await fetch(url, { next: { revalidate: 60 } });
-  return res.json();
+
+  // Membiarkan typescript meng-infer (menebak) secara otomatis karena tipe return function sudah sangat spesifik
+  return handleResponse(res);
 }
 
 export async function fetchMasterProductById(
@@ -145,5 +183,6 @@ export async function fetchMasterProductById(
 ): Promise<Response<any>> {
   const url = `${BaseUrl}/master-product/${id}`;
   const res = await fetch(url, { next: { revalidate: 60 } });
-  return res.json();
+
+  return handleResponse<Response<any>>(res);
 }
