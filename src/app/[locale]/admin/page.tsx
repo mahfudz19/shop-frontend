@@ -1,8 +1,12 @@
 import { getMyData, getStatsAdmin } from "@/lib/api";
+import { cookies } from "next/headers";
 
 export default async function AdminDashboard() {
-  const myAcount = await getMyData();
-  const stats = await getStatsAdmin();
+  const cookieStore = await cookies();
+  const token = cookieStore.get("auth_token")?.value;
+
+  const myAcount = await getMyData(token);
+  const stats = await getStatsAdmin(token);
 
   console.log({ myAcount, stats });
 

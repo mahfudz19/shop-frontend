@@ -3,12 +3,12 @@ import { Product } from "@/types/product";
 import { Article } from "@/types/article";
 import { Promotions } from "@/types/promotion";
 import { Categories } from "@/types/categorie";
-import { RegisterBody, UserAuth, UserAuthReg } from "@/types/user";
+import { RegisterBody, User, UserAuth, UserAuthReg } from "@/types/user";
 
-const BaseUrl =
-  typeof window === "undefined"
-    ? process.env.INTERNAL_API_URL
-    : process.env.NEXT_PUBLIC_API_PROXY;
+const isServer = typeof window === "undefined";
+const BaseUrl = isServer
+  ? process.env.INTERNAL_API_URL
+  : process.env.NEXT_PUBLIC_API_PROXY;
 
 // ==========================================
 // CENTRALIZED ERROR HANDLING
@@ -46,9 +46,25 @@ async function handleResponse<T>(res: globalThis.Response): Promise<T> {
   return data as T;
 }
 
+// Fungsi Helper untuk memasang Cookie Token jika ada
+function buildHeaders(
+  token?: string,
+  extraHeaders: HeadersInit = {},
+): HeadersInit {
+  const headers: Record<string, string> = { ...extraHeaders } as Record<
+    string,
+    string
+  >;
+  if (token) {
+    headers["Cookie"] = `auth_token=${token}`;
+  }
+  return headers;
+}
+
 // ==========================================
 // API FUNCTIONS
 // ==========================================
+
 export async function register(
   body: RegisterBody,
 ): Promise<Response<UserAuthReg>> {
@@ -80,6 +96,15 @@ export async function logout(): Promise<Response<any>> {
     headers: { "Content-Type": "application/json" },
   });
 
+  return handleResponse<Response<any>>(res);
+}
+
+export async function getMyData(token?: string) {
+  const url = `${BaseUrl}/auth/my`;
+  const res = await fetch(url, {
+    headers: buildHeaders(token),
+    next: { revalidate: 60 },
+  });
   return handleResponse<Response<any>>(res);
 }
 
@@ -137,47 +162,9 @@ export async function fetchDeals(): Promise<Response<Product[]>> {
   return handleResponse<Response<Product[]>>(res);
 }
 
-export async function fetchProductById(id: string): Promise<
-  Response<{
-    product: Product;
-    master_info: {
-      id: string;
-      name: string;
-      slug: string;
-      brand: string;
-      model: string;
-      baseline_price_min: number;
-      baseline_price_max: number;
-      default_image: string;
-    };
-    related_offers: {
-      id: string;
-      master_product_id: string;
-      url: string;
-      category: string[];
-      clean_url: string;
-      createdAt: Date;
-      discount_percent: number;
-      image_url: string;
-      is_anomaly: false;
-      location: string;
-      marketplace: string;
-      marketplace_product_id: string;
-      match_confidence: number;
-      name: string;
-      price_original: number;
-      price_rp: number;
-      rating: number;
-      search_keyword: string;
-      shop: string;
-      sold_count: number;
-      updatedAt: Date;
-    }[];
-  }>
-> {
+export async function fetchProductById(id: string): Promise<Response<any>> {
   const url = `${BaseUrl}/product/${id}`;
   const res = await fetch(url, { next: { revalidate: 60 } });
-
   return handleResponse(res);
 }
 
@@ -186,27 +173,27 @@ export async function fetchMasterProductById(
 ): Promise<Response<any>> {
   const url = `${BaseUrl}/master-product/${id}`;
   const res = await fetch(url, { next: { revalidate: 60 } });
-
   return handleResponse<Response<any>>(res);
 }
 
-export async function getMyData() {
-  const url = `${BaseUrl}/user/my`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
+// ==========================================
+// PROTECTED API FUNCTIONS (Menerima parameter token)
+// ==========================================
 
-  return handleResponse<Response<any>>(res);
-}
-
-export async function getStatsAdmin() {
+export async function getStatsAdmin(token?: string) {
   const url = `${BaseUrl}/products-admin/stats`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-
+  const res = await fetch(url, {
+    headers: buildHeaders(token),
+    next: { revalidate: 60 },
+  });
   return handleResponse<Response<any>>(res);
 }
 
-export async function getMasterProductTest(id: string): Promise<Response<any>> {
+export async function getMasterProductTest(id: string, token?: string) {
   const url = `${BaseUrl}/master-product/${id}/test`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-
+  const res = await fetch(url, {
+    headers: buildHeaders(token),
+    next: { revalidate: 60 },
+  });
   return handleResponse<Response<any>>(res);
 }
