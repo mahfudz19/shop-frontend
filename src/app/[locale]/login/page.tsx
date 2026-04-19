@@ -30,7 +30,7 @@ export default function LoginPage() {
         throw new Error(data.message || "Gagal login");
       }
 
-      router.push("/dashboard");
+      router.push("/");
       router.refresh();
     } catch (err: any) {
       setError(err.message);

@@ -26,6 +26,7 @@ export interface ResponsePaginate<T> {
   data: T[];
   meta: MetaDataPagination;
 }
+
 export interface Response<T> {
   success: boolean;
   status: number;

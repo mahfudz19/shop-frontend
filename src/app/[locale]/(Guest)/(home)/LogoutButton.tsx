@@ -2,15 +2,20 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { logout } from "@/lib/api";
 
 export default function LogoutButton() {
   const router = useRouter();
   const t = useTranslations("HomePage.LogoutButton");
 
   const handleLogout = async () => {
-    // Nanti: Panggil endpoint Golang untuk menghapus cookie
-    router.push("/login");
-    router.refresh();
+    try {
+      await logout();
+
+      router.refresh();
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (
