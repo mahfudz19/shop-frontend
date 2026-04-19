@@ -15,15 +15,20 @@ const BaseUrl =
 // ==========================================
 export class APIError extends Error {
   status: number;
-  constructor(message: string, status: number) {
-    super(message);
+  url?: string;
+  displayMessage: string;
+
+  constructor(message: string, status: number, url?: string) {
+    super(JSON.stringify({ message, status, url }));
+
+    this.displayMessage = message;
     this.status = status;
+    this.url = url;
     this.name = "APIError";
   }
 }
 
 async function handleResponse<T>(res: globalThis.Response): Promise<T> {
-  // Gunakan block try-catch pembantu berjaga-jaga jika backend mengembalikan body kosong (bukan JSON)
   let data: any = {};
   try {
     data = await res.json();
@@ -34,7 +39,8 @@ async function handleResponse<T>(res: globalThis.Response): Promise<T> {
   if (!res.ok) {
     const errorMessage =
       data.message || data.error || "Terjadi kesalahan pada server";
-    throw new APIError(errorMessage, res.status);
+
+    throw new APIError(errorMessage, res.status, res.url);
   }
 
   return data as T;
@@ -43,7 +49,6 @@ async function handleResponse<T>(res: globalThis.Response): Promise<T> {
 // ==========================================
 // API FUNCTIONS
 // ==========================================
-
 export async function register(
   body: RegisterBody,
 ): Promise<Response<UserAuthReg>> {
@@ -88,7 +93,6 @@ export async function fetchProducts(
   });
 
   const url = `${BaseUrl}/products?${searchParams.toString()}`;
-
   const res = await fetch(url, { next: { revalidate: 60 } });
 
   return handleResponse<ResponsePaginate<Product>>(res);
@@ -174,7 +178,6 @@ export async function fetchProductById(id: string): Promise<
   const url = `${BaseUrl}/product/${id}`;
   const res = await fetch(url, { next: { revalidate: 60 } });
 
-  // Membiarkan typescript meng-infer (menebak) secara otomatis karena tipe return function sudah sangat spesifik
   return handleResponse(res);
 }
 

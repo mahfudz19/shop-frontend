@@ -7,7 +7,7 @@ export default function GlobalError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string; status?: number };
+  error: Error & { digest?: string; status?: number; url?: string };
   reset: () => void;
 }) {
   useEffect(() => {
@@ -16,9 +16,25 @@ export default function GlobalError({
 
   const isDev = process.env.NODE_ENV === "development";
 
-  // Cek apakah error berasal dari fungsi handleResponse kita (punya property status)
-  const isApiError = error.name === "APIError" || "status" in error;
-  const statusCode = isApiError ? (error as any).status : 500;
+  // ==========================================
+  // KUNCI FIX: Ekstrak data JSON dari error.message
+  // ==========================================
+  let displayMessage = error.message;
+  let statusCode = 500;
+  let errorUrl = "N/A";
+
+  try {
+    // Coba parse jika error dilempar dari Server Component (terenkripsi sbg JSON)
+    const parsed = JSON.parse(error.message);
+    displayMessage = parsed.message || displayMessage;
+    statusCode = parsed.status || 500;
+    errorUrl = parsed.url || "N/A";
+  } catch (e) {
+    // Jika gagal di-parse, berarti ini dari Client Component atau error biasa
+    displayMessage = error.message;
+    if ("status" in error) statusCode = (error as any).status;
+    if ("url" in error) errorUrl = (error as any).url;
+  }
 
   // Tentukan judul berdasarkan status code
   let errorTitle = "Terjadi Kesalahan";
@@ -39,9 +55,43 @@ export default function GlobalError({
             {errorTitle}
           </h1>
           <p className="text-sm text-text-secondary">
-            {error.message || "Sistem gagal memuat data dari server."}
+            {displayMessage || "Sistem gagal memuat data dari server."}
           </p>
         </div>
+
+        {/* ========================================== */}
+        {/* BLOK DEBUG KHUSUS MODE DEVELOPMENT         */}
+        {/* ========================================== */}
+        {isDev && (
+          <div className="mt-6 p-4 bg-gray-900 rounded-lg text-left text-xs overflow-hidden border border-gray-700">
+            <p className="font-bold text-error-light mb-3 pb-2 border-b border-gray-700/50 uppercase tracking-widest">
+              🛠 Dev Logs
+            </p>
+            <div className="space-y-2 text-gray-300 break-all">
+              <p>
+                <span className="text-gray-500 font-bold w-16 inline-block">
+                  STATUS
+                </span>
+                <span className="text-error-main font-bold">
+                  : {statusCode}
+                </span>
+              </p>
+              <p>
+                <span className="text-gray-500 font-bold w-16 inline-block">
+                  ENDPOINT
+                </span>
+                <span className="text-primary-light">: {errorUrl}</span>
+              </p>
+              <p>
+                <span className="text-gray-500 font-bold w-16 inline-block">
+                  MESSAGE
+                </span>
+                <span className="text-gray-100">: {displayMessage}</span>
+              </p>
+            </div>
+          </div>
+        )}
+        {/* ========================================== */}
 
         <div className="pt-6 flex flex-col gap-3">
           {/* Tombol Coba Lagi */}
