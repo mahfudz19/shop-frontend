@@ -85,11 +85,15 @@ export default function MobileDrawer({ isLoggedIn }: MobileDrawerProps) {
               Settings
             </h3>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-text-secondary">Theme</span>
+              <span className="text-sm font-bold text-text-secondary">
+                Theme
+              </span>
               <ThemeToggle />
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-text-secondary">Language</span>
+              <span className="text-sm font-bold text-text-secondary">
+                Language
+              </span>
               <LanguegeMenu />
             </div>
           </div>
@@ -110,27 +114,60 @@ export default function MobileDrawer({ isLoggedIn }: MobileDrawerProps) {
                 >
                   Dashboard
                 </Link>
-                <div onClick={() => setIsOpen(false)} className="w-full flex justify-center">
+                <div
+                  onClick={() => setIsOpen(false)}
+                  className="w-full flex justify-center"
+                >
                   <LogoutButton />
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col gap-3">
+              <div className="flex items-center p-1 bg-background-default border border-divider rounded-xl shadow-sm">
+                {/* Tombol Login - Minimalist with SVG */}
                 <Link
                   href="/login"
-                  onClick={() => setIsOpen(false)}
-                  className="px-4 py-2 border border-divider/50 rounded-lg text-sm font-bold text-text-secondary hover:text-text-primary hover:bg-divider/20 transition-colors text-center relative overflow-hidden flex items-center justify-center"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-text-secondary hover:text-primary-main hover:bg-primary-main/5 transition-all relative overflow-hidden group/login"
                 >
-                  <Ripple />
-                  Login
+                  <Ripple color="primary" />
+                  <svg
+                    className="w-3.5 h-3.5 transition-transform group-hover/login:-translate-x-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2.5"
+                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                    />
+                  </svg>
+                  <span className="tracking-widest uppercase">Login</span>
                 </Link>
+
+                {/* Separator Pipe */}
+                <div className="h-4 w-px bg-divider mx-1"></div>
+
+                {/* Tombol Sign Up - High Contrast with SVG */}
                 <Link
                   href="/register"
-                  onClick={() => setIsOpen(false)}
-                  className="bg-primary-main text-primary-contrast px-4 py-2 rounded-lg text-sm font-black shadow-md hover:shadow-lg transition-all text-center relative overflow-hidden flex items-center justify-center"
+                  className="flex items-center gap-2 bg-primary-main text-primary-contrast px-5 py-2 rounded-lg text-xs font-black shadow-lg shadow-primary-main/20 hover:bg-primary-dark hover:-translate-y-0.5 transition-all relative overflow-hidden group/signup"
                 >
                   <Ripple />
-                  Sign Up
+                  <span className="tracking-widest uppercase">Sign Up</span>
+                  <svg
+                    className="w-3.5 h-3.5 transition-transform group-hover/signup:translate-x-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="3"
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
                 </Link>
               </div>
             )}

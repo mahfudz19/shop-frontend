@@ -39,11 +39,8 @@ export default async function Header() {
       {/* MAIN NAVBAR - STICKY (Glassmorphism Effect) */}
       <div className="sticky top-0 z-50 bg-background-paper/90 backdrop-blur-md border-b border-divider/50 shadow-sm transition-all duration-300">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-0 md:h-20 flex items-center justify-between gap-3 md:gap-6">
-          
           {/* DESKTOP LOGO (Tersembunyi di Mobile) */}
-          <div className="hidden md:block shrink-0">
-            {Logo}
-          </div>
+          <div className="hidden md:block shrink-0">{Logo}</div>
 
           {/* ANALYTICAL SEARCH BAR (Full width di mobile, mengisi celah di desktop) */}
           <div className="flex-1 w-full relative">
@@ -69,26 +66,64 @@ export default async function Header() {
                   href="/admin"
                   className="text-xs font-black text-text-secondary hover:text-primary-main uppercase tracking-widest transition-colors"
                 >
-                  Dashboard
+                  Console
                 </Link>
                 <LogoutButton />
               </div>
             ) : (
-              <div className="flex items-center gap-2">
-                <Link
-                  href="/login"
-                  className="px-4 py-2 rounded-full text-sm font-bold text-text-secondary hover:text-text-primary transition-colors relative overflow-hidden group/btn"
-                >
-                  <Ripple color="primary" />
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="bg-primary-main text-primary-contrast px-5 py-2 rounded-full text-sm font-black shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all relative overflow-hidden"
-                >
-                  <Ripple />
-                  Sign Up
-                </Link>
+              <div className="flex items-center">
+                <div className="flex items-center border border-divider rounded-md overflow-hidden bg-background-paper shadow-sm">
+                  {/* Button: Login */}
+                  <Link
+                    href="/login"
+                    className="group relative flex items-center gap-2 px-4 py-2 text-xs font-bold text-text-secondary hover:text-primary-main hover:bg-primary-main/5 transition-all font-mono"
+                  >
+                    <Ripple color="primary" />
+                    {/* Icon: System User */}
+                    <svg
+                      className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                      />
+                    </svg>
+                    <span className="tracking-widest uppercase">Login</span>
+                  </Link>
+
+                  {/* Divider Line */}
+                  <div className="h-4 w-px bg-divider opacity-50"></div>
+
+                  {/* Button: Sign Up */}
+                  <Link
+                    href="/register"
+                    className="group relative flex items-center gap-2 px-4 py-2 text-xs font-black bg-primary-main text-primary-contrast hover:bg-primary-dark transition-all font-mono"
+                  >
+                    <Ripple />
+                    <span className="tracking-widest uppercase">
+                      Join_System
+                    </span>
+                    {/* Icon: Scan/Plus */}
+                    <svg
+                      className="w-3.5 h-3.5 animate-pulse"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={3}
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                  </Link>
+                </div>
               </div>
             )}
           </div>
