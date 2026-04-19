@@ -12,7 +12,6 @@ import SubHeader from "./SubHeader";
 export default async function Header() {
   const user = await getUserFromToken();
   const isLoggedIn = !!user;
-  console.log("User di Header:", user);
 
   // Render Logo diekstrak agar bisa dipakai ganda (Mobile non-sticky, Desktop sticky)
   const Logo = (

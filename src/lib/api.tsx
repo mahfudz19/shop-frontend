@@ -3,12 +3,24 @@ import { Product } from "@/types/product";
 import { Article } from "@/types/article";
 import { Promotions } from "@/types/promotion";
 import { Categories } from "@/types/categorie";
-import { UserAuth } from "@/types/user";
+import { RegisterBody, UserAuth, UserAuthReg } from "@/types/user";
 
 const BaseUrl =
   typeof window === "undefined"
     ? process.env.INTERNAL_API_URL
     : process.env.NEXT_PUBLIC_API_PROXY;
+
+export async function register(
+  body: RegisterBody,
+): Promise<Response<UserAuthReg>> {
+  const res = await fetch(`${BaseUrl}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  return res.json();
+}
 
 export async function login(
   email: string,

@@ -1,6 +1,13 @@
-export type UserAuth = {
+export type UserAuthReg = {
   id: string;
   email: string;
   name: string;
-  role: "user" | "admin";
+};
+
+export type UserAuth = UserAuthReg & { role: "user" | "admin" };
+
+export type RegisterBody = {
+  name: string;
+  email: string;
+  password: string;
 };
