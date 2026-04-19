@@ -14,6 +14,8 @@ export default function GlobalError({
     console.error("Terjadi Error:", error);
   }, [error]);
 
+  const isDev = process.env.NODE_ENV === "development";
+
   // Cek apakah error berasal dari fungsi handleResponse kita (punya property status)
   const isApiError = error.name === "APIError" || "status" in error;
   const statusCode = isApiError ? (error as any).status : 500;
