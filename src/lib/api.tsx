@@ -186,3 +186,24 @@ export async function fetchMasterProductById(
 
   return handleResponse<Response<any>>(res);
 }
+
+export async function getMyData() {
+  const url = `${BaseUrl}/user/my`;
+  const res = await fetch(url, { next: { revalidate: 60 } });
+
+  return handleResponse<Response<any>>(res);
+}
+
+export async function getStatsAdmin() {
+  const url = `${BaseUrl}/products-admin/stats`;
+  const res = await fetch(url, { next: { revalidate: 60 } });
+
+  return handleResponse<Response<any>>(res);
+}
+
+export async function getMasterProductTest(id: string): Promise<Response<any>> {
+  const url = `${BaseUrl}/master-product/${id}/test`;
+  const res = await fetch(url, { next: { revalidate: 60 } });
+
+  return handleResponse<Response<any>>(res);
+}
