@@ -193,5 +193,43 @@
       "step3_title": "Beli yang Termurah",
       "step3_desc": "Dapatkan rekomendasi terbaik dan langsung diarahkan ke marketplace dengan harga terendah."
     }
+  },
+  "Login": {
+    "title": "Selamat Datang Kembali",
+    "subtitle": "Akses dasbor pribadi Anda dan wawasan harga cerdas.",
+    "label_email": "Alamat Email",
+    "placeholder_email": "nama@email.com",
+    "label_password": "Kata Sandi",
+    "placeholder_password": "Masukkan kata sandi Anda",
+    "btn_submit": "Masuk",
+    "btn_loading": "Mengautentikasi...",
+    "no_account": "Belum punya akun?",
+    "register_link": "Daftar sekarang",
+    "feature_1_title": "Akses Aman",
+    "feature_1_desc": "Data Anda dilindungi dengan enkripsi standar industri.",
+    "feature_2_title": "Wawasan Sinkron",
+    "feature_2_desc": "Dapatkan peringatan harga di perangkat apa pun.",
+    "feature_3_title": "Tampilan Dasbor",
+    "feature_3_desc": "Kelola produk yang Anda pantau di satu tempat."
+  },
+  "Register": {
+    "title": "Buat Akun Baru",
+    "subtitle": "Bergabunglah dengan ribuan orang lainnya menemukan harga terbaik setiap hari.",
+    "label_name": "Nama Lengkap",
+    "placeholder_name": "Budi Santoso",
+    "label_email": "Alamat Email",
+    "placeholder_email": "budi@email.com",
+    "label_password": "Kata Sandi",
+    "placeholder_password": "Minimal 6 karakter",
+    "btn_submit": "Daftar",
+    "btn_loading": "Memproses...",
+    "have_account": "Sudah punya akun?",
+    "login_link": "Masuk di sini",
+    "benefit_1_title": "Pemantauan Real-Time",
+    "benefit_1_desc": "Pantau penurunan harga secara instan.",
+    "benefit_2_title": "Notifikasi Pintar",
+    "benefit_2_desc": "Dapatkan peringatan saat ada promo.",
+    "benefit_3_title": "Netralitas Marketplace",
+    "benefit_3_desc": "Data objektif dari semua platform."
   }
 }

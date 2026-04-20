@@ -193,5 +193,43 @@
       "step3_title": "Buy the Cheapest",
       "step3_desc": "Get the best recommendation and go directly to the marketplace with the lowest price."
     }
+  },
+  "Login": {
+    "title": "Welcome Back",
+    "subtitle": "Access your personalized dashboard and smart price insights.",
+    "label_email": "Email Address",
+    "placeholder_email": "name@email.com",
+    "label_password": "Password",
+    "placeholder_password": "Enter your password",
+    "btn_submit": "Sign In",
+    "btn_loading": "Authenticating...",
+    "no_account": "Don't have an account?",
+    "register_link": "Register now",
+    "feature_1_title": "Secure Access",
+    "feature_1_desc": "Your data is protected with industry-standard encryption.",
+    "feature_2_title": "Synced Insights",
+    "feature_2_desc": "Get your price alerts on any device.",
+    "feature_3_title": "Dashboard View",
+    "feature_3_desc": "Manage your watched products in one place."
+  },
+  "Register": {
+    "title": "Create an Account",
+    "subtitle": "Join thousands of others discovering the best prices every day.",
+    "label_name": "Full Name",
+    "placeholder_name": "John Doe",
+    "label_email": "Email Address",
+    "placeholder_email": "john@email.com",
+    "label_password": "Password",
+    "placeholder_password": "Minimum 6 characters",
+    "btn_submit": "Sign Up",
+    "btn_loading": "Processing...",
+    "have_account": "Already have an account?",
+    "login_link": "Login here",
+    "benefit_1_title": "Real-Time Tracking",
+    "benefit_1_desc": "Monitor price drops instantly.",
+    "benefit_2_title": "Smart Notifications",
+    "benefit_2_desc": "Get alerted when deals happen.",
+    "benefit_3_title": "Marketplace Neutral",
+    "benefit_3_desc": "Unbiased data from all platforms."
   }
 }
