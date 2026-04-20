@@ -19,7 +19,7 @@ export default async function FeaturedDeals() {
   if (deals.length === 0) return null;
 
   return (
-    <section className="py-16 border-t border-divider/30 relative">
+    <section className="py-16 border-t border-divider/30 relative overflow-hidden">
       {/* Subtle background */}
       <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary-main/4 blur-[130px] pointer-events-none rounded-full -translate-y-1/2 translate-x-1/3" />
 
@@ -28,13 +28,14 @@ export default async function FeaturedDeals() {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error-main/8 border border-error-main/20 text-error-main text-[10px] font-black uppercase tracking-[0.2em] mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-error-main animate-pulse" />
-          {t("badge")}
+            {t("badge")}
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tighter">
-          {t("title")} <span className="text-error-main">{t("title_accent")}</span>
+            {t("title")}{" "}
+            <span className="text-error-main">{t("title_accent")}</span>
           </h2>
           <p className="text-text-secondary text-sm mt-2 font-medium">
-          {t("description")}
+            {t("description")}
           </p>
         </div>
         <Link
@@ -59,7 +60,6 @@ export default async function FeaturedDeals() {
               key={deal.id}
               className="group bg-background-paper border border-divider/60 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-divider hover:-translate-y-1.5 transition-all duration-400 flex flex-col"
             >
-              {/* Marketplace header strip */}
               <div
                 className="flex items-center justify-between px-4 py-2.5 border-b border-divider/40"
                 style={{ backgroundColor: `${mpColor}10` }}
@@ -83,7 +83,6 @@ export default async function FeaturedDeals() {
                 )}
               </div>
 
-              {/* Product image */}
               <div className="h-44 bg-background-default flex items-center justify-center overflow-hidden relative p-4">
                 <Image
                   width={300}
@@ -94,7 +93,6 @@ export default async function FeaturedDeals() {
                 />
               </div>
 
-              {/* Info */}
               <div className="p-4 flex flex-col flex-1">
                 <h3 className="font-bold text-text-primary text-sm line-clamp-2 leading-snug group-hover:text-primary-main transition-colors mb-3">
                   {deal.name}

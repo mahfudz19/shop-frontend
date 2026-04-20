@@ -218,7 +218,7 @@ export async function fetchStats(): Promise<
 }
 
 export async function fetchDeals(): Promise<Response<Product[]>> {
-  const res = await fetch(`${BaseUrl}/products/deals`, {
+  const res = await fetch(`${BaseUrl}/products/deals?limit=8`, {
     next: { revalidate: 3600 },
   });
   return handleResponse<Response<Product[]>>(res);
