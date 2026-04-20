@@ -27,7 +27,9 @@ const ViewToggle = ({
       <button
         onClick={() => setViewMode("grid")}
         className={`relative z-10 flex-1 p-2 flex justify-center items-center rounded-lg transition-colors duration-300 ${
-          viewMode === "grid" ? "text-white" : "text-text-disabled hover:text-text-secondary"
+          viewMode === "grid"
+            ? "text-white"
+            : "text-text-disabled hover:text-text-secondary"
         }`}
         title="Grid View"
       >
@@ -42,7 +44,9 @@ const ViewToggle = ({
       <button
         onClick={() => setViewMode("list")}
         className={`relative z-10 flex-1 p-2 flex justify-center items-center rounded-lg transition-colors duration-300 ${
-          viewMode === "list" ? "text-white" : "text-text-disabled hover:text-text-secondary"
+          viewMode === "list"
+            ? "text-white"
+            : "text-text-disabled hover:text-text-secondary"
         }`}
         title="List View"
       >
@@ -91,7 +95,9 @@ export default function ProductGrid({
   const meta = initialMeta;
   const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("search_view_mode") as "grid" | "list") || "grid";
+      return (
+        (localStorage.getItem("search_view_mode") as "grid" | "list") || "grid"
+      );
     }
     return "grid";
   });
@@ -109,7 +115,7 @@ export default function ProductGrid({
       {/* ── TOP BAR ── */}
       <div className="flex items-center justify-between gap-4 mb-5">
         {/* Result info */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success-main opacity-75" />
