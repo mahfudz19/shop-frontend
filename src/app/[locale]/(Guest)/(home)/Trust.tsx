@@ -30,7 +30,7 @@ export default async function Trust() {
               {t("sys_security_audit")}
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-black mb-6 leading-[1.1] tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-black mb-6 leading-[1.1] tracking-tight">
               {t("title1")} <br />
               <span
                 className="text-transparent"
