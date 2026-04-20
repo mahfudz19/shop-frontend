@@ -86,7 +86,7 @@ export default function UserMenuDropdown({ userRole }: UserMenuDropdownProps) {
 
           {userRole === "admin" && (
             <Link
-              href="/dashboard"
+              href="/console/dashboard"
               onClick={close}
               className="px-4 py-2 text-sm text-text-secondary font-medium hover:bg-primary-main/10 hover:text-primary-main transition-colors flex items-center gap-2"
             >

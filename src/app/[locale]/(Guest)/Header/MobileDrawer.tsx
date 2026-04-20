@@ -161,7 +161,7 @@ export default function MobileDrawer({ isLoggedIn }: MobileDrawerProps) {
                   {t("profile")}
                 </Link>
                 <Link
-                  href="/dashboard"
+                  href="/console/dashboard"
                   onClick={() => setIsOpen(false)}
                   className="px-4 py-2 bg-divider/20 rounded-lg text-sm font-bold text-text-secondary hover:text-primary-main hover:bg-primary-main/10 transition-colors flex items-center justify-center gap-2"
                 >

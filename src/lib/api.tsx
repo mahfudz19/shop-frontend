@@ -163,6 +163,13 @@ export async function fetchArticles(): Promise<Response<Article[]>> {
   return handleResponse<Response<Article[]>>(res);
 }
 
+export async function fetchArticleBySlug(slug: string) {
+  const res = await fetch(`${BaseUrl}/articles/slug/${slug}`, {
+    next: { revalidate: 3600 },
+  });
+  return handleResponse<Response<Article>>(res);
+}
+
 export async function fetchStats(): Promise<
   Response<{ total_products: number; total_shops: number }>
 > {
