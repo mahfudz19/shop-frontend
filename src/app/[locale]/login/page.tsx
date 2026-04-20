@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Ripple from "@/components/ui/Ripple";
 import { PasswordField } from "../register/page";
-import { login } from "@/lib/api";
+import { login, APIError } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -24,8 +24,14 @@ export default function LoginPage() {
 
       router.push("/");
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof APIError) {
+        setError(err.details || err.displayMessage);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Terjadi kesalahan yang tidak diketahui");
+      }
     } finally {
       setIsLoading(false);
     }

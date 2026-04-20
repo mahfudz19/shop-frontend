@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Ripple from "@/components/ui/Ripple";
+import { register, APIError } from "@/lib/api";
 
 export function PasswordField({
   password,
@@ -67,21 +68,19 @@ export default function RegisterPage() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message || "Gagal mendaftar");
+      await register({ name, email, password });
 
       // Setelah berhasil daftar, arahkan ke login
       alert("Registrasi berhasil! Silakan login.");
       router.push("/login");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof APIError) {
+        setError(err.details || err.displayMessage);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Terjadi kesalahan yang tidak diketahui");
+      }
     } finally {
       setIsLoading(false);
     }

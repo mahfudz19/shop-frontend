@@ -34,3 +34,10 @@ export interface Response<T> {
   data: T;
   meta: MetaData;
 }
+
+export interface ResponseError {
+  error: {
+    code: string;
+    details: string;
+  };
+}

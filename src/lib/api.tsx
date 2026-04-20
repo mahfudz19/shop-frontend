@@ -1,9 +1,9 @@
-import { ResponsePaginate, Response } from "@/types/respons";
-import { Product } from "@/types/product";
 import { Article } from "@/types/article";
-import { Promotions } from "@/types/promotion";
 import { Categories } from "@/types/categorie";
-import { RegisterBody, User, UserAuth, UserAuthReg } from "@/types/user";
+import { Product } from "@/types/product";
+import { Promotions } from "@/types/promotion";
+import { Response, ResponsePaginate } from "@/types/respons";
+import { RegisterBody, UserAuth, UserAuthReg } from "@/types/user";
 
 const isServer = typeof window === "undefined";
 const BaseUrl = isServer
@@ -17,13 +17,23 @@ export class APIError extends Error {
   status: number;
   url?: string;
   displayMessage: string;
+  code?: string;
+  details?: string;
 
-  constructor(message: string, status: number, url?: string) {
-    super(JSON.stringify({ message, status, url }));
+  constructor(
+    message: string,
+    status: number,
+    url?: string,
+    code?: string,
+    details?: string,
+  ) {
+    super(JSON.stringify({ message, status, url, code, details }));
 
     this.displayMessage = message;
     this.status = status;
     this.url = url;
+    this.code = code;
+    this.details = details;
     this.name = "APIError";
   }
 }
@@ -37,10 +47,19 @@ async function handleResponse<T>(res: globalThis.Response): Promise<T> {
   }
 
   if (!res.ok) {
-    const errorMessage =
-      data.message || data.error || "Terjadi kesalahan pada server";
+    // Jika backend mengirimkan data.error berupa object { code, details }
+    const isErrorObject = typeof data.error === "object" && data.error !== null;
 
-    throw new APIError(errorMessage, res.status, res.url);
+    let errorMessage = data.message || "Terjadi kesalahan pada server";
+    // Fallback jika API sebelumnya mengirim string di data.error dan tidak ada message
+    if (!data.message && typeof data.error === "string") {
+      errorMessage = data.error;
+    }
+
+    const code = isErrorObject ? data.error.code : undefined;
+    const details = isErrorObject ? data.error.details : undefined;
+
+    throw new APIError(errorMessage, res.status, res.url, code, details);
   }
 
   return data as T;
