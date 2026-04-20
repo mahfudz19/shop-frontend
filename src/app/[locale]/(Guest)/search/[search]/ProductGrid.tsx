@@ -8,16 +8,77 @@ import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { formatRupiah, generateSlug } from "../../product/[id]/page";
 
+const ViewToggle = ({
+  viewMode,
+  setViewMode,
+}: {
+  viewMode: "grid" | "list";
+  setViewMode: (viewMode: "grid" | "list") => void;
+}) => {
+  return (
+    <div className="relative flex bg-background-paper border border-divider rounded-xl p-1 shrink-0 shadow-sm overflow-hidden">
+      {/* ── SLIDING SELECTOR ── */}
+      <div
+        className={`absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-primary-main rounded-lg transition-transform duration-300 ease-out shadow-sm shadow-primary-main/20 ${
+          viewMode === "list" ? "translate-x-full" : "translate-x-0"
+        }`}
+      />
+
+      <button
+        onClick={() => setViewMode("grid")}
+        className={`relative z-10 flex-1 p-2 flex justify-center items-center rounded-lg transition-colors duration-300 ${
+          viewMode === "grid" ? "text-white" : "text-text-disabled hover:text-text-secondary"
+        }`}
+        title="Grid View"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <rect x="3" y="3" width="8" height="8" rx="2" />
+          <rect x="13" y="3" width="8" height="8" rx="2" />
+          <rect x="13" y="13" width="8" height="8" rx="2" />
+          <rect x="3" y="13" width="8" height="8" rx="2" />
+        </svg>
+      </button>
+
+      <button
+        onClick={() => setViewMode("list")}
+        className={`relative z-10 flex-1 p-2 flex justify-center items-center rounded-lg transition-colors duration-300 ${
+          viewMode === "list" ? "text-white" : "text-text-disabled hover:text-text-secondary"
+        }`}
+        title="List View"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+        >
+          <line x1="8" y1="6" x2="21" y2="6" />
+          <line x1="8" y1="12" x2="21" y2="12" />
+          <line x1="8" y1="18" x2="21" y2="18" />
+          <circle cx="3" cy="6" r="1" fill="currentColor" stroke="none" />
+          <circle cx="3" cy="12" r="1" fill="currentColor" stroke="none" />
+          <circle cx="3" cy="18" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      </button>
+    </div>
+  );
+};
+
 interface ProductGridProps {
   initialProducts: Product[];
   initialMeta: MetaDataPagination;
   searchQuery: string;
 }
 
-const MARKETPLACE_COLORS: Record<string, { bg: string; text: string; dot: string }> = {
-  shopee:    { bg: "bg-[#EE4D2D]/10", text: "text-[#EE4D2D]", dot: "#EE4D2D" },
+const MARKETPLACE_COLORS: Record<
+  string,
+  { bg: string; text: string; dot: string }
+> = {
+  shopee: { bg: "bg-[#EE4D2D]/10", text: "text-[#EE4D2D]", dot: "#EE4D2D" },
   tokopedia: { bg: "bg-[#42B549]/10", text: "text-[#42B549]", dot: "#42B549" },
-  lazada:    { bg: "bg-[#0F146D]/10", text: "text-[#0F146D]", dot: "#0F146D" },
+  lazada: { bg: "bg-[#0F146D]/10", text: "text-[#0F146D]", dot: "#0F146D" },
 };
 
 export default function ProductGrid({
@@ -28,13 +89,23 @@ export default function ProductGrid({
   const t = useTranslations("SearchPage.ProductGrid");
   const products = initialProducts;
   const meta = initialMeta;
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("search_view_mode") as "grid" | "list") || "grid";
+    }
+    return "grid";
+  });
+
+  const handleSetViewMode = (mode: "grid" | "list") => {
+    setViewMode(mode);
+    localStorage.setItem("search_view_mode", mode);
+  };
 
   const hasMore = meta?.pagination?.has_next || false;
   const observerTarget = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex-1 min-w-0">
+    <div className="flex-1 min-w-0" suppressHydrationWarning>
       {/* ── TOP BAR ── */}
       <div className="flex items-center justify-between gap-4 mb-5">
         {/* Result info */}
@@ -66,42 +137,7 @@ export default function ProductGrid({
         </div>
 
         {/* View Toggles */}
-        <div className="flex bg-background-paper border border-divider rounded-xl p-1 shrink-0 shadow-sm">
-          <button
-            onClick={() => setViewMode("grid")}
-            className={`p-2 rounded-lg transition-all ${
-              viewMode === "grid"
-                ? "bg-primary-main text-white shadow-sm shadow-primary-main/20"
-                : "text-text-disabled hover:text-text-secondary"
-            }`}
-            title="Grid View"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="3" y="3" width="8" height="8" rx="2" />
-              <rect x="13" y="3" width="8" height="8" rx="2" />
-              <rect x="13" y="13" width="8" height="8" rx="2" />
-              <rect x="3" y="13" width="8" height="8" rx="2" />
-            </svg>
-          </button>
-          <button
-            onClick={() => setViewMode("list")}
-            className={`p-2 rounded-lg transition-all ${
-              viewMode === "list"
-                ? "bg-primary-main text-white shadow-sm shadow-primary-main/20"
-                : "text-text-disabled hover:text-text-secondary"
-            }`}
-            title="List View"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <line x1="8" y1="6" x2="21" y2="6" />
-              <line x1="8" y1="12" x2="21" y2="12" />
-              <line x1="8" y1="18" x2="21" y2="18" />
-              <circle cx="3" cy="6" r="1" fill="currentColor" stroke="none" />
-              <circle cx="3" cy="12" r="1" fill="currentColor" stroke="none" />
-              <circle cx="3" cy="18" r="1" fill="currentColor" stroke="none" />
-            </svg>
-          </button>
-        </div>
+        <ViewToggle viewMode={viewMode} setViewMode={handleSetViewMode} />
       </div>
 
       {/* ── PRODUCT GRID / LIST ── */}
@@ -133,7 +169,9 @@ export default function ProductGrid({
                     width={80}
                     height={80}
                     {...(product.image_url && process.env.NEXT_IMAGES_HOSTNAME
-                      ? { src: `${process.env.NEXT_IMAGES_HOSTNAME}/${product.image_url}` }
+                      ? {
+                          src: `${process.env.NEXT_IMAGES_HOSTNAME}/${product.image_url}`,
+                        }
                       : { dummy: true })}
                     alt={product.name}
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
@@ -198,7 +236,9 @@ export default function ProductGrid({
                     className="w-1.5 h-1.5 rounded-full shrink-0"
                     style={{ backgroundColor: mpStyle.dot }}
                   />
-                  <span className={`text-[9px] font-black uppercase tracking-widest ${mpStyle.text}`}>
+                  <span
+                    className={`text-[9px] font-black uppercase tracking-widest ${mpStyle.text}`}
+                  >
                     {product.marketplace}
                   </span>
                 </div>
@@ -215,7 +255,9 @@ export default function ProductGrid({
                   width={200}
                   height={144}
                   {...(product.image_url && process.env.NEXT_IMAGES_HOSTNAME
-                    ? { src: `${process.env.NEXT_IMAGES_HOSTNAME}/${product.image_url}` }
+                    ? {
+                        src: `${process.env.NEXT_IMAGES_HOSTNAME}/${product.image_url}`,
+                      }
                     : { dummy: true })}
                   alt={product.name}
                   className="max-h-full object-contain group-hover:scale-105 transition-transform duration-500"
