@@ -5,6 +5,7 @@ import { Product } from "@/types/product";
 import { Promotions } from "@/types/promotion";
 import { Response, ResponsePaginate } from "@/types/respons";
 import { RegisterBody, User, UserAuth, UserAuthReg } from "@/types/user";
+import { forbidden, notFound, unauthorized } from "next/navigation";
 
 const isServer = typeof window === "undefined";
 const BaseUrl = isServer
@@ -31,9 +32,20 @@ export class APIError extends Error {
   ) {
     // Display message = details jika ada, fallback ke message
     const userFacingMessage = details || message;
-    const payload = JSON.stringify({ message: userFacingMessage, status, url, code, details });
 
-    super(payload);
+    // Log message yang bersih untuk server console
+    const logMessage = `[${status}] ${message}${details && details !== message ? ` → ${details}` : ""}`;
+
+    // Payload JSON lengkap untuk diteruskan ke client error boundary via digest
+    const payload = JSON.stringify({
+      message: userFacingMessage,
+      status,
+      url,
+      code,
+      details,
+    });
+
+    super(logMessage);
 
     this.displayMessage = userFacingMessage;
     this.status = status;
@@ -78,6 +90,10 @@ async function handleResponse<T>(res: globalThis.Response): Promise<T> {
 
     const code = isErrorObject ? data.error.code : undefined;
     const details = isErrorObject ? data.error.details : undefined;
+
+    if (res.status === 401) unauthorized();
+    if (res.status === 403) forbidden();
+    if (res.status === 404) notFound();
 
     throw new APIError(errorMessage, res.status, res.url, code, details);
   }

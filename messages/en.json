@@ -272,5 +272,23 @@
     "security_desc": "Manage two-factor authentication and your account password encryption.",
     "security_cta": "Modify_Security",
     "disclaimer": "Internal ScrapStore Management Protocol // UserData_Authorized"
+  },
+  "NotFound": {
+    "title": "DATA NOT FOUND",
+    "description": "The information you are looking for is missing or the synchronization failed. Please verify your credentials or return to base.",
+    "back_home": "Return to Dashboard",
+    "retry": "Re-Sync Page"
+  },
+  "Unauthorized": {
+    "title": "UNAUTHORIZED ACCESS",
+    "description": "Your authentication token is invalid or has expired. Please re-authenticate to regain access to the system nodes.",
+    "login_cta": "Login to System",
+    "back_home": "Return to Dashboard"
+  },
+  "Forbidden": {
+    "title": "ACCESS FORBIDDEN",
+    "description": "Your current authorization level is insufficient to access this system node. Please contact a network administrator if you believe this is an error.",
+    "back_home": "Return to Dashboard",
+    "view_profile": "Check Identity Node"
   }
 }

@@ -272,5 +272,23 @@
     "security_desc": "Kelola otentikasi dua faktor dan enkripsi kata sandi akun Anda.",
     "security_cta": "Ubah_Keamanan",
     "disclaimer": "Protokol Manajemen Internal ScrapStore // UserData_Authorized"
+  },
+  "NotFound": {
+    "title": "DATA TIDAK DITEMUKAN",
+    "description": "Informasi yang Anda cari hilang atau sinkronisasi gagal. Pastikan kredensial Anda valid atau kembali ke dashboard.",
+    "back_home": "Kembali ke Dashboard",
+    "retry": "Sinkronisasi Ulang"
+  },
+  "Unauthorized": {
+    "title": "AKSES TIDAK TEROTORISASI",
+    "description": "Token autentikasi Anda tidak valid atau telah kedaluwarsa. Silakan masuk kembali untuk mendapatkan akses ke node sistem.",
+    "login_cta": "Masuk ke Sistem",
+    "back_home": "Kembali ke Dashboard"
+  },
+  "Forbidden": {
+    "title": "AKSES DILARANG",
+    "description": "Tingkat otorisasi Anda saat ini tidak mencukupi untuk mengakses node sistem ini. Silakan hubungi administrator jaringan jika Anda merasa ini adalah kesalahan.",
+    "back_home": "Kembali ke Dashboard",
+    "view_profile": "Cek Identitas Node"
   }
 }

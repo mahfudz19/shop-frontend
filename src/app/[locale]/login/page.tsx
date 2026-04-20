@@ -39,7 +39,7 @@ export default function LoginPage() {
       {/* ========================================== */}
       {/* KIRI: BAGIAN INFORMASI & BRANDING (50%)     */}
       {/* ========================================== */}
-      <div className="hidden lg:flex lg:w- bg-primary-main relative flex-col justify-center p-12 overflow-hidden">
+      <div className="hidden lg:flex lg:w-full bg-primary-main relative flex-col justify-center p-12 overflow-hidden">
         {/* Dekorasi Grid Background */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
           <svg
