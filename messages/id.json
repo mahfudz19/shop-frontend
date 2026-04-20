@@ -138,7 +138,8 @@
       "title2": "Kategori",
       "description": "Navigasi cepat ke database produk berdasarkan spesialisasi sistem kami.",
       "scan": "Scan Data",
-      "sys_exploration_mode": "Mode_Eksplorasi"
+      "sys_exploration_mode": "Mode_Eksplorasi",
+      "view_all": "Lihat Semua"
     },
     "MagazineSection": {
       "title1": "Jurnal",
@@ -150,35 +151,47 @@
       "sys_admin": "Admin_Sistem"
     },
     "FeaturedDeals": {
-      "title1": "Penawaran",
-      "title2": "Terbaik",
+      "title": "Penawaran",
+      "title_accent": "Terbaik",
+      "badge": "DEALS TERPANAS HARI INI",
       "description": "Algoritma kami mendeteksi selisih harga terdalam di seluruh marketplace.",
-      "monitor_all": "Monitor Semua Penawaran",
+      "monitor_all": "Lihat Semua Penawaran",
       "full_analysis": "Analisis Lengkap",
       "sys_high_priority_deals": "Promo_Prioritas",
       "code": "Kode",
-      "sys_best_price": "HARGA_TERBAIK"
+      "sys_best_price": "HARGA_TERBAIK",
+      "cta": "TERMURAH",
+      "compare": "Lihat Perbandingan →"
     },
     "LogoutButton": {
       "logout": "Keluar"
     },
     "Trust": {
-      "title1": "Akurasi Data Adalah",
-      "title2": "Prioritas",
-      "title3": "Utama.",
-      "description": "Kami tidak hanya membandingkan harga; kami memverifikasi setiap toko dan melacak riwayat harga untuk memastikan Anda mendapatkan penawaran yang jujur.",
-      "active_products_desc_1": "Produk Aktif Terindeks",
-      "active_products_desc_2": "Di Seluruh Marketplace",
-      "verified_shops_desc_1": "Toko Terverifikasi",
-      "verified_shops_desc_2": "Dalam Jaringan Kami",
-      "history_title": "Riwayat Harga",
-      "history_desc": "Lacak grafik fluktuasi harga hingga 90 hari terakhir untuk setiap produk.",
-      "neutral_title": "Mesin Netral",
-      "neutral_desc": "Algoritma kami tidak berpihak. Hasil termurah adalah murni berdasarkan data.",
-      "sys_security_audit": "Audit_Keamanan_Lulus",
-      "sys_user_rating": "Skor Kepuasan Pengguna",
-      "sys_live_database": "DATABASE_AKTIF",
-      "sys_verified_only": "HANYA_TERVERIFIKASI"
+      "title": "Data yang Bisa",
+      "title_accent": "Dipercaya",
+      "description": "Kami tidak berpihak ke marketplace mana pun. Algoritma kami murni berdasarkan data harga aktual.",
+      "stat1_label": "Produk Terindeks",
+      "stat1_sub": "Di Shopee, Tokopedia & Lazada",
+      "stat2_label": "Toko Terverifikasi",
+      "stat2_sub": "Dalam jaringan pemantauan kami",
+      "stat3_value": "90 Hari",
+      "stat3_label": "Riwayat Harga",
+      "stat3_sub": "Lacak tren harga setiap produk",
+      "stat4_value": "100%",
+      "stat4_label": "Netral",
+      "stat4_sub": "Tidak berpihak ke marketplace mana pun"
+    },
+    "HowItWorks": {
+      "eyebrow": "CARA KERJA",
+      "title": "Hemat dalam",
+      "title_accent": "3 Langkah",
+      "step_label": "LANGKAH",
+      "step1_title": "Cari Produk",
+      "step1_desc": "Ketik nama produk apa saja — dari smartphone, fashion, hingga perabot rumah.",
+      "step2_title": "Bandingkan Harga",
+      "step2_desc": "AI kami memindai Shopee, Tokopedia, dan Lazada secara bersamaan dalam hitungan detik.",
+      "step3_title": "Beli yang Termurah",
+      "step3_desc": "Dapatkan rekomendasi terbaik dan langsung diarahkan ke marketplace dengan harga terendah."
     }
   }
 }

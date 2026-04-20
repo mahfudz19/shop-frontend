@@ -138,7 +138,8 @@
       "title2": "Hub",
       "description": "Quick navigation to product databases based on our system's specializations.",
       "scan": "Scan Data",
-      "sys_exploration_mode": "Exploration_Mode"
+      "sys_exploration_mode": "Exploration_Mode",
+      "view_all": "View All"
     },
     "MagazineSection": {
       "title1": "Shopping",
@@ -150,35 +151,47 @@
       "sys_admin": "System_Admin"
     },
     "FeaturedDeals": {
-      "title1": "Best",
-      "title2": "Offers",
+      "title": "Best",
+      "title_accent": "Offers",
+      "badge": "HOTTEST DEALS TODAY",
       "description": "Our algorithm detects the deepest price differences across all marketplaces.",
-      "monitor_all": "Monitor All Offers",
+      "monitor_all": "View All Offers",
       "full_analysis": "Full Analysis",
       "sys_high_priority_deals": "High_Priority_Deals",
       "code": "Code",
-      "sys_best_price": "BEST_PRICE"
+      "sys_best_price": "BEST_PRICE",
+      "cta": "CHEAPEST",
+      "compare": "Compare Prices →"
     },
     "LogoutButton": {
       "logout": "Logout"
     },
     "Trust": {
-      "title1": "Data Accuracy Is",
-      "title2": "Top",
-      "title3": "Priority.",
-      "description": "We don't just compare prices; we verify each store and track price histories to ensure you get an honest deal.",
-      "active_products_desc_1": "Active Indexed Products",
-      "active_products_desc_2": "Across All Marketplaces",
-      "verified_shops_desc_1": "Verified Shops",
-      "verified_shops_desc_2": "In Our Network",
-      "history_title": "Price History",
-      "history_desc": "Track price fluctuation graphs up to the last 90 days for each product.",
-      "neutral_title": "Neutral Engine",
-      "neutral_desc": "Our algorithm is unbiased. The cheapest result is strictly based on data.",
-      "sys_security_audit": "Security_Audit_Passed",
-      "sys_user_rating": "User Satisfaction Rating",
-      "sys_live_database": "LIVE_DATABASE",
-      "sys_verified_only": "VERIFIED_ONLY"
+      "title": "Data You Can",
+      "title_accent": "Trust",
+      "description": "We don't favor any marketplace. Our algorithm is purely based on actual price data.",
+      "stat1_label": "Indexed Products",
+      "stat1_sub": "On Shopee, Tokopedia & Lazada",
+      "stat2_label": "Verified Stores",
+      "stat2_sub": "In our monitoring network",
+      "stat3_value": "90 Days",
+      "stat3_label": "Price History",
+      "stat3_sub": "Track price trends for every product",
+      "stat4_value": "100%",
+      "stat4_label": "Neutral",
+      "stat4_sub": "We don't favor any marketplace"
+    },
+    "HowItWorks": {
+      "eyebrow": "HOW IT WORKS",
+      "title": "Save in",
+      "title_accent": "3 Steps",
+      "step_label": "STEP",
+      "step1_title": "Search a Product",
+      "step1_desc": "Type any product name — from smartphones and fashion to home appliances.",
+      "step2_title": "Compare Prices",
+      "step2_desc": "Our AI scans Shopee, Tokopedia, and Lazada simultaneously in seconds.",
+      "step3_title": "Buy the Cheapest",
+      "step3_desc": "Get the best recommendation and go directly to the marketplace with the lowest price."
     }
   }
 }

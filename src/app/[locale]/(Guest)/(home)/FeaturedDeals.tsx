@@ -5,6 +5,12 @@ import Image from "@/components/Image";
 import Ripple from "@/components/ui/Ripple";
 import { getTranslations } from "next-intl/server";
 
+const MARKETPLACE_COLORS: Record<string, string> = {
+  shopee: "#EE4D2D",
+  tokopedia: "#42B549",
+  lazada: "#0F146D",
+};
+
 export default async function FeaturedDeals() {
   const dealsRes = await fetchDeals();
   const deals = dealsRes.data || [];
@@ -14,26 +20,26 @@ export default async function FeaturedDeals() {
 
   return (
     <section className="py-16 border-t border-divider/30 relative">
-      {/* Background Accent - DNA: Modern Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary-main/5 blur-[120px] pointer-events-none rounded-full"></div>
+      {/* Subtle background */}
+      <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary-main/4 blur-[130px] pointer-events-none rounded-full -translate-y-1/2 translate-x-1/3" />
 
-      {/* SECTION HEADER */}
+      {/* Section Header */}
       <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-6 relative z-10">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error-light/10 border border-error-light/20 text-error-main text-[10px] font-black uppercase tracking-[0.2em] mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-error-main animate-pulse"></span>
-            {t("sys_high_priority_deals")}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error-main/8 border border-error-main/20 text-error-main text-[10px] font-black uppercase tracking-[0.2em] mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-error-main animate-pulse" />
+          {t("badge")}
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tighter uppercase">
-            {t("title1")} <span className="text-error-main">{t("title2")}</span>
+          <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tighter">
+          {t("title")} <span className="text-error-main">{t("title_accent")}</span>
           </h2>
           <p className="text-text-secondary text-sm mt-2 font-medium">
-            {t("description")}
+          {t("description")}
           </p>
         </div>
         <Link
           href="/search/deals"
-          className="group flex items-center gap-2 text-primary-main font-black text-[10px] uppercase tracking-widest bg-primary-light/10 px-6 py-3 rounded-full border border-primary-light/20 hover:bg-primary-main hover:text-white transition-all"
+          className="group flex items-center gap-2 text-primary-main font-black text-[10px] uppercase tracking-widest bg-primary-main/8 px-6 py-3 rounded-full border border-primary-main/20 hover:bg-primary-main hover:text-white transition-all shrink-0"
         >
           <Ripple />
           {t("monitor_all")}{" "}
@@ -43,106 +49,91 @@ export default async function FeaturedDeals() {
         </Link>
       </div>
 
-      {/* DEALS GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-        {deals.map((deal) => (
-          <div
-            key={deal.id}
-            className="group bg-background-paper border border-divider/50 rounded-2xl p-5 shadow-sm hover:shadow-2xl hover:border-primary-main/30 hover:-translate-y-2 transition-all duration-500 flex flex-col relative overflow-hidden"
-          >
-            {/* Discount Badge - DNA: Semantic Highlight */}
-            {deal.discount_percent > 0 && (
-              <div className="absolute top-4 left-4 z-20 bg-error-main text-white font-black text-[10px] px-3 py-1 rounded-full shadow-lg shadow-error-main/20 uppercase tracking-tighter">
-                -{deal.discount_percent}% OFF
-              </div>
-            )}
-
-            {/* Marketplace Badge */}
-            <div className="absolute top-4 right-4 z-20">
-              <span className="bg-background-default/80 backdrop-blur-md border border-divider/50 text-[9px] font-black text-text-secondary px-2 py-0.5 rounded uppercase">
-                {deal.marketplace}
-              </span>
-            </div>
-
-            {/* Product Image Container */}
-            <div className="h-52 bg-background-default rounded-xl mb-6 flex items-center justify-center overflow-hidden relative shadow-inner group-hover:bg-white transition-colors duration-500">
-              <Image
-                width={416}
-                height={208}
-                src={`${process.env.NEXT_IMAGES_HOSTNAME}/${deal.image_url}`}
-                alt={deal.name}
-                className="max-h-[80%] object-contain group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-primary-main/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            </div>
-
-            {/* Product Info */}
-            <div className="flex-1 flex flex-col">
-              <span className="text-[9px] font-bold text-primary-main uppercase tracking-widest mb-2">
-                {t("code")}: {deal.id.substring(0, 8)}
-              </span>
-              <h3 className="font-bold text-text-primary text-sm line-clamp-2 leading-snug group-hover:text-primary-main transition-colors mb-4">
-                {deal.name}
-              </h3>
-
-              <div className="mt-auto pt-4 border-t border-divider/30">
-                <div className="flex items-baseline gap-2 mb-1">
-                  {deal.price_original > deal.price_rp && (
-                    <span className="text-[10px] text-text-disabled line-through">
-                      {formatRupiah(deal.price_original)}
-                    </span>
-                  )}
-                  <span className="text-[10px] font-black text-success-main bg-success-light/10 px-1.5 py-0.5 rounded-sm">
-                    {t("sys_best_price")}
+      {/* Deals Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 relative z-10">
+        {deals.map((deal) => {
+          const mpKey = deal.marketplace?.toLowerCase() || "";
+          const mpColor = MARKETPLACE_COLORS[mpKey] || "#6b7280";
+          return (
+            <div
+              key={deal.id}
+              className="group bg-background-paper border border-divider/60 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-divider hover:-translate-y-1.5 transition-all duration-400 flex flex-col"
+            >
+              {/* Marketplace header strip */}
+              <div
+                className="flex items-center justify-between px-4 py-2.5 border-b border-divider/40"
+                style={{ backgroundColor: `${mpColor}10` }}
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: mpColor }}
+                  />
+                  <span
+                    className="text-[11px] font-black uppercase tracking-widest"
+                    style={{ color: mpColor }}
+                  >
+                    {deal.marketplace}
                   </span>
                 </div>
-                <p className="text-xl font-black text-text-primary tracking-tighter">
-                  {formatRupiah(deal.price_rp)}
-                </p>
+                {deal.discount_percent > 0 && (
+                  <span className="bg-error-main text-white font-black text-[10px] px-2 py-0.5 rounded-full shadow-sm">
+                    -{deal.discount_percent}%
+                  </span>
+                )}
               </div>
 
-              {/* Shop & Stats Footer */}
-              <div className="mt-4 flex items-center justify-between text-[9px] font-bold text-text-disabled uppercase tracking-widest">
-                <span className="flex items-center gap-1">
-                  <svg
-                    className="w-3 h-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+              {/* Product image */}
+              <div className="h-44 bg-background-default flex items-center justify-center overflow-hidden relative p-4">
+                <Image
+                  width={300}
+                  height={176}
+                  src={`${process.env.NEXT_IMAGES_HOSTNAME}/${deal.image_url}`}
+                  alt={deal.name}
+                  className="max-h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+
+              {/* Info */}
+              <div className="p-4 flex flex-col flex-1">
+                <h3 className="font-bold text-text-primary text-sm line-clamp-2 leading-snug group-hover:text-primary-main transition-colors mb-3">
+                  {deal.name}
+                </h3>
+
+                <div className="mt-auto">
+                  {deal.price_original > deal.price_rp && (
+                    <p className="text-[11px] text-text-disabled line-through mb-0.5">
+                      {formatRupiah(deal.price_original)}
+                    </p>
+                  )}
+                  <div className="flex items-center justify-between mb-4">
+                    <p className="text-xl font-black text-text-primary tracking-tighter">
+                      {formatRupiah(deal.price_rp)}
+                    </p>
+                    {deal.price_original > deal.price_rp && (
+                      <span className="text-[10px] font-black text-success-main bg-success-main/10 px-2 py-0.5 rounded-full">
+                        {t("cta")}
+                      </span>
+                    )}
+                  </div>
+
+                  <Link
+                    href={generateSlug(deal.name, deal.id)}
+                    className="relative w-full py-3 rounded-2xl text-center text-[11px] font-black uppercase tracking-widest transition-all flex items-center justify-center overflow-hidden"
+                    style={{
+                      backgroundColor: `${mpColor}15`,
+                      color: mpColor,
+                      border: `1px solid ${mpColor}30`,
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="3"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="3"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  {deal.location || "Unknown"}
-                </span>
-                <span className="bg-divider/40 px-2 py-0.5 rounded-sm">
-                  {deal.sold_count > 0
-                    ? `${deal.sold_count}+ Sold`
-                    : "Fresh Data"}
-                </span>
+                    <Ripple />
+                    {t("compare")}
+                  </Link>
+                </div>
               </div>
             </div>
-
-            {/* Action Overlay Button */}
-            <Link
-              href={generateSlug(deal.name, deal.id)}
-              className="mt-5 w-full bg-text-primary text-background-paper py-3 rounded-xl text-center text-xs font-black uppercase tracking-widest shadow-lg hover:bg-primary-main transition-all transform active:scale-95"
-            >
-              <Ripple />
-              {t("full_analysis")} &rarr;
-            </Link>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

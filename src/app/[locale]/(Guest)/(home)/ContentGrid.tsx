@@ -8,56 +8,46 @@ export async function CategoryGrid() {
   const categories = (catRes.data || []).filter((c: any) => c.is_popular);
   const t = await getTranslations("HomePage.CategoryGrid");
 
+
   if (categories.length === 0) return null;
 
   return (
-    <section className="py-16">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-light/10 border border-primary-light/20 text-primary-main text-[10px] font-black uppercase tracking-widest mb-3">
-            {t("sys_exploration_mode")}
-          </div>
-          <h2 className="text-3xl md:text-4xl font-black text-text-primary tracking-tighter uppercase">
-            {t("title1")}{" "}
-            <span className="text-primary-main">{t("title2")}</span>
-          </h2>
-        </div>
-        <p className="text-text-secondary text-sm font-medium max-w-xs md:text-right leading-relaxed">
-          {t("description")}
-        </p>
+    <section className="py-8 border-t border-divider/30">
+      <div className="flex items-center gap-3 mb-5">
+        <span className="text-[10px] font-black text-text-disabled uppercase tracking-[0.25em]">
+          {t("sys_exploration_mode")}
+        </span>
+        <div className="flex-1 h-px bg-divider/50" />
+        <Link
+          href="/search"
+          className="text-[11px] font-black text-primary-main uppercase tracking-wider hover:underline"
+        >
+          {t("view_all")} &rarr;
+        </Link>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      {/* Horizontal scroll chip row */}
+      <div className="flex flex-wrap gap-2.5">
         {categories.map((cat: any) => (
-          <Link href={`/search/${cat.slug}`} key={cat.id} className="group">
-            <div className="h-full bg-background-paper border border-divider/50 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-primary-main/30 hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-center text-center relative overflow-hidden">
-              {/* Background Accent Deco */}
-              <div className="absolute -right-4 -top-4 w-12 h-12 bg-primary-main/5 rounded-full blur-xl group-hover:bg-primary-main/10 transition-colors"></div>
-
-              <div className="w-16 h-16 rounded-2xl bg-background-default flex items-center justify-center text-3xl mb-4 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
-                {cat.icon_url ? (
-                  <Image
-                    src={cat.icon_url}
-                    alt={cat.name}
-                    className="w-10 h-10 object-contain"
-                    width={40}
-                    height={40}
-                  />
-                ) : (
-                  <span className="opacity-80">📦</span>
-                )}
-              </div>
-
-              <span className="font-black text-xs md:text-sm text-text-primary uppercase tracking-wider group-hover:text-primary-main transition-colors">
-                {cat.name}
-              </span>
-
-              <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="text-[9px] font-bold text-primary-main bg-primary-light/10 px-2 py-0.5 rounded-full uppercase tracking-tighter">
-                  {t("scan")} &rarr;
-                </span>
-              </div>
-            </div>
+          <Link
+            href={`/search/${cat.slug}`}
+            key={cat.id}
+            className="group flex items-center gap-2.5 px-4 py-2 bg-background-paper border border-divider rounded-full text-sm font-bold text-text-secondary hover:text-primary-main hover:border-primary-main/40 hover:shadow-md hover:bg-primary-main/4 transition-all"
+          >
+            {cat.icon_url ? (
+              <Image
+                src={cat.icon_url}
+                alt={cat.name}
+                className="w-5 h-5 object-contain"
+                width={20}
+                height={20}
+              />
+            ) : (
+              <span className="text-base leading-none">📦</span>
+            )}
+            <span className="group-hover:text-primary-main transition-colors">
+              {cat.name}
+            </span>
           </Link>
         ))}
       </div>

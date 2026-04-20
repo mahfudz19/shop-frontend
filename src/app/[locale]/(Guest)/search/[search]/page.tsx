@@ -23,14 +23,27 @@ export default async function SearchPage(props: Props) {
     sort_by: searchParams.sort_by || "createdAt",
     sort_order: searchParams.sort_order || "-1",
     page: 1,
-    limit: 12,
+    limit: 28, // 4 cols × 7 rows
   };
 
   const initialData = await fetchProducts(filter);
 
   return (
     <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col lg:flex-row gap-8 py-8">
+      {/* Page header */}
+      <div className="flex items-center gap-3 py-6 border-b border-divider/40 mb-6">
+        <div className="flex items-center gap-2 text-text-disabled">
+          <span className="text-xs font-bold uppercase tracking-widest">Search</span>
+          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+        <h1 className="text-sm font-black text-text-primary uppercase tracking-widest truncate">
+          {searchQuery}
+        </h1>
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-6 pb-12">
         <Filter
           currentFilters={{
             search: filter.search,
