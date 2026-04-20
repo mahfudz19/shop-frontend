@@ -3,7 +3,7 @@ import { Categories } from "@/types/categorie";
 import { Product } from "@/types/product";
 import { Promotions } from "@/types/promotion";
 import { Response, ResponsePaginate } from "@/types/respons";
-import { RegisterBody, UserAuth, UserAuthReg } from "@/types/user";
+import { RegisterBody, User, UserAuth, UserAuthReg } from "@/types/user";
 
 const isServer = typeof window === "undefined";
 const BaseUrl = isServer
@@ -124,7 +124,7 @@ export async function getMyData(token?: string) {
     headers: buildHeaders(token),
     next: { revalidate: 60 },
   });
-  return handleResponse<Response<any>>(res);
+  return handleResponse<Response<User>>(res);
 }
 
 export async function fetchProducts(
@@ -205,7 +205,13 @@ export async function getStatsAdmin(token?: string) {
     headers: buildHeaders(token),
     next: { revalidate: 60 },
   });
-  return handleResponse<Response<any>>(res);
+  return handleResponse<
+    Response<{
+      active_deals: number;
+      total_products: number;
+      total_shops: number;
+    }>
+  >(res);
 }
 
 export async function getMasterProductTest(id: string, token?: string) {

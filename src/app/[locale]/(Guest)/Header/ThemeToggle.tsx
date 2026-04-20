@@ -28,7 +28,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 text-text-secondary hover:text-primary-main hover:bg-background-default rounded-full transition-all flex items-center justify-center"
+      className="p-2 text-text-secondary hover:text-primary-main hover:bg-background-default rounded-full transition-all flex items-center justify-center border border-divider/50"
       aria-label="Toggle Dark Mode"
     >
       <Ripple color="primary" />

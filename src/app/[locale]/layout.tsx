@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import "./globals.css";
+import { Toaster } from "@/components/ui/Toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,6 +52,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-background-default text-text-primary min-h-screen flex flex-col antialiased">
+        <Toaster position="top-right" />
         <NextIntlClientProvider messages={messages}>
           <RoutePulseBar />
           {children}

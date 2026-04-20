@@ -6,31 +6,31 @@ import Link from "next/link";
 import Ripple from "@/components/ui/Ripple";
 import { PasswordField } from "../register/page";
 import { login, APIError } from "@/lib/api";
+import toast from "@/components/ui/Toast";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
 
     try {
       await login(email, password);
+      toast.success("Login berhasil!");
 
       router.push("/");
       router.refresh();
     } catch (err: unknown) {
       if (err instanceof APIError) {
-        setError(err.details || err.displayMessage);
+        toast.error(err.details || err.displayMessage);
       } else if (err instanceof Error) {
-        setError(err.message);
+        toast.error(err.message);
       } else {
-        setError("Terjadi kesalahan yang tidak diketahui");
+        toast.error("Terjadi kesalahan yang tidak diketahui");
       }
     } finally {
       setIsLoading(false);
@@ -46,12 +46,6 @@ export default function LoginPage() {
           </h2>
           <p className="text-gray-500 text-sm mt-2">Masuk ke akun Anda</p>
         </div>
-
-        {error && (
-          <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-4 border border-red-100">
-            {error}
-          </div>
-        )}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>

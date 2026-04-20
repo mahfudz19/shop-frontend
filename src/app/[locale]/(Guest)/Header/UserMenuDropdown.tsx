@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { logout } from "@/lib/api";
 import Popover from "@/components/ui/Popover";
+import toast from "@/components/ui/Toast";
 
 interface UserMenuDropdownProps {
   userRole: string;
@@ -18,9 +19,10 @@ export default function UserMenuDropdown({ userRole }: UserMenuDropdownProps) {
   const handleLogout = async () => {
     try {
       await logout();
+      router.push("/");
       router.refresh();
     } catch (err: any) {
-      alert(err.message);
+      toast.error(err.message);
     }
   };
 

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { logout } from "@/lib/api";
+import toast from "@/components/ui/Toast";
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function LogoutButton() {
 
       router.refresh();
     } catch (err: any) {
-      alert(err.message);
+      toast.error(err.message);
     }
   };
 

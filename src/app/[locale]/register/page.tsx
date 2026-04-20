@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Ripple from "@/components/ui/Ripple";
 import { register, APIError } from "@/lib/api";
+import toast from "@/components/ui/Toast";
 
 export function PasswordField({
   password,
@@ -59,27 +60,25 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
 
     try {
       await register({ name, email, password });
 
       // Setelah berhasil daftar, arahkan ke login
-      alert("Registrasi berhasil! Silakan login.");
+      toast.success("Registrasi berhasil! Silakan login.");
       router.push("/login");
     } catch (err: unknown) {
       if (err instanceof APIError) {
-        setError(err.details || err.displayMessage);
+        toast.error(err.details || err.displayMessage);
       } else if (err instanceof Error) {
-        setError(err.message);
+        toast.error(err.message);
       } else {
-        setError("Terjadi kesalahan yang tidak diketahui");
+        toast.error("Terjadi kesalahan yang tidak diketahui");
       }
     } finally {
       setIsLoading(false);
@@ -95,12 +94,6 @@ export default function RegisterPage() {
           </h2>
           <p className="text-gray-500 text-sm mt-2">Buat akun baru</p>
         </div>
-
-        {error && (
-          <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-4 border border-red-100">
-            {error}
-          </div>
-        )}
 
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
