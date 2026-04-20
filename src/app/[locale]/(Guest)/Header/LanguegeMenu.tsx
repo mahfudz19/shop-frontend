@@ -58,7 +58,7 @@ export default function LanguageMenu() {
               />
             </svg>
             {/* Locale Indicator Dot */}
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-background-paper border border-divider rounded-full flex items-center justify-center text-[7px] font-black group-hover:border-primary-main/30 transition-colors">
+            <span className="absolute -top-2.5 -right-2.5 w-4 h-4 bg-background-paper border border-divider rounded-full flex items-center justify-center text-[7px] font-black group-hover:border-primary-main/50 transition-colors">
               {locale.toUpperCase()}
             </span>
           </div>
