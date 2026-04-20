@@ -150,7 +150,7 @@ export default function LivePriceCard() {
                   )}
                 </div>
                 <span
-                  className={`text-sm font-black font-mono ${isCheapest ? "text-success-main" : "text-text-disabled"}`}
+                  className={`text-sm font-black ${isCheapest ? "text-success-main" : "text-text-disabled"}`}
                 >
                   {formatRupiah(mp.price)}
                 </span>

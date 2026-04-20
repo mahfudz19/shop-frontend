@@ -29,29 +29,33 @@ export default function UserMenuDropdown({ userRole }: UserMenuDropdownProps) {
   return (
     <Popover
       position="bottom-right"
-      className="w-48 bg-background-paper border border-divider rounded-xl overflow-hidden backdrop-blur-md"
+      className="w-52 bg-background-paper border border-divider rounded-2xl overflow-hidden shadow-2xl shadow-primary-main/10 mt-2 backdrop-blur-xl"
       trigger={(isOpen) => (
         <button
-          className={`p-1.5 md:p-2 rounded-full border border-divider transition-colors flex items-center justify-center ${
+          className={`relative p-2 rounded-xl border transition-all duration-300 flex items-center justify-center group ${
             isOpen
-              ? "bg-primary-main/10 text-primary-main"
-              : "hover:bg-primary-main/10 text-text-secondary hover:text-primary-main"
+              ? "border-primary-main bg-primary-main/5 text-primary-main shadow-inner"
+              : "border-divider bg-background-paper/50 text-text-secondary hover:border-text-primary hover:text-text-primary"
           }`}
           aria-label="User Menu"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            />
-          </svg>
+          <div className="relative">
+            <svg
+              className="w-5 h-5 group-hover:scale-110 transition-transform duration-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+            {/* Status Indicator Dot */}
+            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-success-main border-2 border-background-paper rounded-full" />
+          </div>
         </button>
       )}
     >

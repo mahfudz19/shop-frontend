@@ -1,9 +1,11 @@
+import Ripple from "@/components/ui/Ripple";
 import { getMyData } from "@/lib/api";
 import { cookies } from "next/headers";
-import Ripple from "@/components/ui/Ripple";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 async function Profile() {
+  const t = await getTranslations("ProfilePage");
   const cookieStore = await cookies();
   const token = cookieStore.get("auth_token")?.value;
 
@@ -17,16 +19,14 @@ async function Profile() {
           🔒
         </div>
         <h1 className="text-xl font-black uppercase tracking-[0.2em] mb-2">
-          ACCESS_DENIED
+          {t("access_denied_title")}
         </h1>
-        <p className="text-sm opacity-70">
-          Silakan login untuk mengakses profil sistem Anda.
-        </p>
+        <p className="text-sm opacity-70">{t("access_denied_desc")}</p>
         <Link
           href="/login"
           className="mt-6 px-6 py-2 bg-primary-main text-white rounded-lg text-xs font-bold uppercase tracking-widest shadow-lg shadow-primary-main/20"
         >
-          Login Sistem
+          {t("login_cta")}
         </Link>
       </div>
     );
@@ -64,22 +64,22 @@ async function Profile() {
           <div className="flex-1 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-success-light/10 border border-success-main/20 text-success-main text-[10px] font-black uppercase tracking-widest mb-4">
               <span className="w-1.5 h-1.5 bg-success-main rounded-full animate-pulse" />
-              Account_Active: OK
+              {t("account_active")}
             </div>
             <h1 className="text-3xl md:text-4xl font-black text-text-primary tracking-tighter mb-2 uppercase leading-none">
               {user.name}
             </h1>
             <p className="text-text-secondary font-medium opacity-80 mb-6">
-              Authenticated via{" "}
+              {t("authenticated_via")}{" "}
               <span className="text-primary-main font-bold">{user.email}</span>
             </p>
 
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
               <span className="px-3 py-1 bg-background-default border border-divider rounded-lg text-[10px] font-black text-text-disabled uppercase tracking-widest">
-                Role: {user.role}
+                {t("role")}: {user.role}
               </span>
               <span className="px-3 py-1 bg-background-default border border-divider rounded-lg text-[10px] font-black text-text-disabled uppercase tracking-widest">
-                Tier: Platinum_User
+                {t("tier")}: Platinum_User
               </span>
             </div>
           </div>
@@ -90,12 +90,12 @@ async function Profile() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <div className="p-6 rounded-2xl bg-background-paper border border-divider shadow-sm">
           <h2 className="text-[10px] font-black text-text-disabled uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-            <span className="text-primary-main">🆔</span> SYSTEM_IDENTITY
+            <span className="text-primary-main">🆔</span> {t("system_identity")}
           </h2>
-          <div className="space-y-4 font-mono">
+          <div className="space-y-4">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] text-text-disabled uppercase">
-                Unique_Node_ID
+                {t("node_id")}
               </span>
               <span className="text-xs text-text-primary font-bold break-all">
                 {user.id}
@@ -103,7 +103,7 @@ async function Profile() {
             </div>
             <div className="flex flex-col gap-1 pt-4 border-t border-divider/40">
               <span className="text-[10px] text-text-disabled uppercase">
-                Access_Permission
+                {t("access_permission")}
               </span>
               <span className="text-xs text-text-primary font-bold uppercase">
                 {user.role}_AUTHORITY
@@ -114,12 +114,12 @@ async function Profile() {
 
         <div className="p-6 rounded-2xl bg-background-paper border border-divider shadow-sm">
           <h2 className="text-[10px] font-black text-text-disabled uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-            <span className="text-secondary-main">📅</span> TIMESTAMPS
+            <span className="text-secondary-main">📅</span> {t("timestamps")}
           </h2>
-          <div className="space-y-4 font-mono">
+          <div className="space-y-4">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] text-text-disabled uppercase">
-                Synchronization_Date
+                {t("sync_date")}
               </span>
               <span className="text-xs text-text-primary font-bold">
                 {formatDate(user.createdAt)}
@@ -127,7 +127,7 @@ async function Profile() {
             </div>
             <div className="flex flex-col gap-1 pt-4 border-t border-divider/40">
               <span className="text-[10px] text-text-disabled uppercase">
-                Last_Node_Update
+                {t("last_update")}
               </span>
               <span className="text-xs text-text-primary font-bold">
                 {formatDate(user.updatedAt)}
@@ -145,24 +145,24 @@ async function Profile() {
           </div>
           <div>
             <h3 className="font-black text-text-primary uppercase tracking-tight mb-1 leading-none">
-              Security_Matrix
+              {t("security_title")}
             </h3>
             <p className="text-xs text-text-secondary opacity-70">
-              Kelola otentikasi dua faktor dan enkripsi kata sandi akun Anda.
+              {t("security_desc")}
             </p>
           </div>
         </div>
 
         <button className="relative px-8 py-3 bg-background-paper border border-primary-main/30 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] text-primary-main hover:bg-primary-main hover:text-white transition-all overflow-hidden group/btn">
           <Ripple />
-          Modify_Security
+          {t("security_cta")}
         </button>
       </div>
 
       {/* 4. FOOTER DISCLAIMER */}
       <div className="mt-12 text-center">
         <p className="text-[9px] font-bold text-text-disabled uppercase tracking-widest opacity-50">
-          Internal ScrapStore Management Protocol // UserData_Authorized
+          {t("disclaimer")}
         </p>
       </div>
     </div>

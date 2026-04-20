@@ -65,53 +65,48 @@ export default async function Header() {
               <UserMenuDropdown userRole={user.role} />
             ) : (
               <div className="flex items-center">
-                <div className="flex items-center border border-divider rounded-md overflow-hidden bg-background-paper shadow-sm">
+                <div className="flex items-center gap-2 p-1 bg-background-default/50 border border-divider rounded-2xl shadow-inner group/nav">
                   {/* Button: Login */}
                   <Link
                     href="/login"
-                    className="group relative flex items-center gap-2 px-4 py-2 text-xs font-bold text-text-secondary hover:text-primary-main hover:bg-primary-main/5 transition-all"
+                    className="group/login relative flex items-center gap-2.5 px-5 py-2.5 text-xs font-black text-text-secondary hover:text-primary-main hover:bg-white dark:hover:bg-background-paper rounded-xl transition-all duration-300"
                   >
                     <Ripple color="primary" />
-                    {/* Icon: System User */}
                     <svg
-                      className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity"
+                      className="w-4 h-4 opacity-60 group-hover/login:opacity-100 transition-opacity"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
+                      strokeWidth={2.5}
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={2.5}
                         d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                       />
                     </svg>
-                    <span className="tracking-widest uppercase">Login</span>
+                    <span className="tracking-[0.15em] uppercase">Login</span>
                   </Link>
 
-                  {/* Divider Line */}
-                  <div className="h-4 w-px bg-divider opacity-50"></div>
-
-                  {/* Button: Sign Up */}
+                  {/* Button: Sign Up / Join System */}
                   <Link
                     href="/register"
-                    className="group relative flex items-center gap-2 px-4 py-2 text-xs font-black bg-primary-main text-primary-contrast hover:bg-primary-dark transition-all"
+                    className="group/join relative flex items-center gap-2.5 px-6 py-2.5 text-xs font-black bg-primary-main text-white hover:bg-primary-dark rounded-xl transition-all duration-300 hover:scale-[1.02] active:scale-95"
                   >
                     <Ripple />
-                    <span className="tracking-widest uppercase">
+                    <span className="tracking-[0.15em] uppercase">
                       Join_System
                     </span>
-                    {/* Icon: Scan/Plus */}
                     <svg
-                      className="w-3.5 h-3.5 animate-pulse"
+                      className="w-4 h-4 animate-pulse"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
+                      strokeWidth={3}
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={3}
                         d="M12 4v16m8-8H4"
                       />
                     </svg>
