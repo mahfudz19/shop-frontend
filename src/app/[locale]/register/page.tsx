@@ -2,7 +2,7 @@
 
 import Ripple from "@/components/ui/Ripple";
 import toast from "@/components/ui/Toast";
-import { APIError, register } from "@/lib/api";
+import { register, toastError } from "@/lib/api";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -37,21 +37,25 @@ export function PasswordField({
       >
         {showPassword ? (
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 256 256"
           >
-            <path d="M10 3c-4.4 0-8 3.6-8 7s3.6 7 8 7 8-3.6 8-7-3.6-7-8-7zm0 12a5 5 0 110-10 5 5 0 010 10z" />
+            <path
+              fill="currentColor"
+              d="M247.31 124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57 61.26 162.88 48 128 48S61.43 61.26 36.34 86.35C17.51 105.18 9 124 8.69 124.76a8 8 0 0 0 0 6.5c.35.79 8.82 19.57 27.65 38.4C61.43 194.74 93.12 208 128 208s66.57-13.26 91.66-38.34c18.83-18.83 27.3-37.61 27.65-38.4a8 8 0 0 0 0-6.5ZM128 192c-30.78 0-57.67-11.19-79.93-33.25A133.47 133.47 0 0 1 25 128a133.33 133.33 0 0 1 23.07-30.75C70.33 75.19 97.22 64 128 64s57.67 11.19 79.93 33.25A133.46 133.46 0 0 1 231.05 128c-7.21 13.46-38.62 64-103.05 64Zm0-112a48 48 0 1 0 48 48a48.05 48.05 0 0 0-48-48Zm0 80a32 32 0 1 1 32-32a32 32 0 0 1-32 32Z"
+            />
           </svg>
         ) : (
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 256 256"
           >
-            <path d="M10 3a10.9 10.9 0 00-8 6 10.9 10.9 0 0016 0 10.9 10.9 0 00-8-6zm0 10a4 4 0 110-8 4 4 0 010 8z" />
+            <path
+              fill="currentColor"
+              d="M228 175a8 8 0 0 1-10.92-3l-19-33.2A123.23 123.23 0 0 1 162 155.46l5.87 35.22a8 8 0 0 1-6.58 9.21a8.4 8.4 0 0 1-1.29.11a8 8 0 0 1-7.88-6.69l-5.77-34.58a133.06 133.06 0 0 1-36.68 0l-5.77 34.58A8 8 0 0 1 96 200a8.4 8.4 0 0 1-1.32-.11a8 8 0 0 1-6.58-9.21l5.9-35.22a123.23 123.23 0 0 1-36.06-16.69L39 172a8 8 0 1 1-13.94-8l20-35a153.47 153.47 0 0 1-19.3-20a8 8 0 1 1 12.46-10c16.6 20.54 45.64 45 89.78 45s73.18-24.49 89.78-45a8 8 0 1 1 12.44 10a153.47 153.47 0 0 1-19.3 20l20 35a8 8 0 0 1-2.92 11Z"
+            />
           </svg>
         )}
       </button>
@@ -63,7 +67,6 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -71,7 +74,6 @@ export default function RegisterPage() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMsg("");
     setIsLoading(true);
 
     try {
@@ -79,11 +81,7 @@ export default function RegisterPage() {
       toast.success(t("title") + " Berhasil!"); // Sesuaikan pesan sukses jika perlu
       router.push("/login");
     } catch (err: any) {
-      if (err instanceof APIError) {
-        setErrorMsg(err.displayMessage);
-      } else {
-        setErrorMsg(err.message || "Terjadi kesalahan sistem");
-      }
+      toastError(err);
     } finally {
       setIsLoading(false);
     }
@@ -206,12 +204,6 @@ export default function RegisterPage() {
             </h2>
             <p className="text-text-secondary lg:hidden">{t("subtitle")}</p>
           </div>
-
-          {errorMsg && (
-            <div className="p-4 bg-error-main/10 border border-error-main/20 rounded-lg text-error-main text-sm text-center">
-              {errorMsg}
-            </div>
-          )}
 
           <form onSubmit={onSubmit} className="space-y-6 mt-8">
             <div className="space-y-1.5">

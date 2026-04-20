@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
 
 export default function GlobalError({
@@ -10,28 +9,33 @@ export default function GlobalError({
   error: Error & { digest?: string; status?: number; url?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    console.error("Terjadi Error:", error);
-  }, [error]);
-
-  const isDev = process.env.NODE_ENV === "development";
-
   // ==========================================
-  // KUNCI FIX: Ekstrak data JSON dari error.message
+  // KUNCI FIX: Ekstrak data JSON dari error
   // ==========================================
+  // Di PRODUCTION: Next.js sanitasi error.message, tapi error.digest tetap diteruskan.
+  // Di DEVELOPMENT: error.message berisi data JSON lengkap.
+  // Strategi: coba parse digest dulu, lalu fallback ke message.
   let displayMessage = error.message;
   let statusCode = 500;
   let errorUrl = "N/A";
 
-  try {
-    // Coba parse jika error dilempar dari Server Component (terenkripsi sbg JSON)
-    const parsed = JSON.parse(error.message);
-    displayMessage = parsed.message || displayMessage;
-    statusCode = parsed.status || 500;
-    errorUrl = parsed.url || "N/A";
-  } catch (e) {
-    // Jika gagal di-parse, berarti ini dari Client Component atau error biasa
-    displayMessage = error.message;
+  const rawSources = [error.digest, error.message];
+
+  for (const raw of rawSources) {
+    if (!raw) continue;
+    try {
+      const parsed = JSON.parse(raw);
+      displayMessage = parsed.details || parsed.message || displayMessage;
+      statusCode = parsed.status || statusCode;
+      errorUrl = parsed.url || errorUrl;
+      break; // Berhasil parse, tidak perlu coba sumber lain
+    } catch {
+      // Bukan JSON, lanjutkan ke sumber berikutnya
+    }
+  }
+
+  // Fallback jika keduanya bukan JSON (error non-API)
+  if (statusCode === 500) {
     if ("status" in error) statusCode = (error as any).status;
     if ("url" in error) errorUrl = (error as any).url;
   }
@@ -62,7 +66,7 @@ export default function GlobalError({
         {/* ========================================== */}
         {/* BLOK DEBUG KHUSUS MODE DEVELOPMENT         */}
         {/* ========================================== */}
-        {isDev && (
+        {process.env.NODE_ENV === "development" && (
           <div className="mt-6 p-4 bg-gray-900 rounded-lg text-left text-xs overflow-hidden border border-gray-700">
             <p className="font-bold text-error-light mb-3 pb-2 border-b border-gray-700/50 uppercase tracking-widest">
               🛠 Dev Logs
@@ -88,6 +92,14 @@ export default function GlobalError({
                 </span>
                 <span className="text-gray-100">: {displayMessage}</span>
               </p>
+              {error.digest && (
+                <p>
+                  <span className="text-gray-500 font-bold w-16 inline-block">
+                    DIGEST
+                  </span>
+                  <span className="text-gray-400">: {error.digest}</span>
+                </p>
+              )}
             </div>
           </div>
         )}

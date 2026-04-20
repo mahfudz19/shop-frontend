@@ -1,3 +1,4 @@
+import toast from "@/components/ui/Toast";
 import { Article } from "@/types/article";
 import { Categories } from "@/types/categorie";
 import { Product } from "@/types/product";
@@ -19,6 +20,7 @@ export class APIError extends Error {
   displayMessage: string;
   code?: string;
   details?: string;
+  digest?: string;
 
   constructor(
     message: string,
@@ -27,16 +29,34 @@ export class APIError extends Error {
     code?: string,
     details?: string,
   ) {
-    super(JSON.stringify({ message, status, url, code, details }));
+    // Display message = details jika ada, fallback ke message
+    const userFacingMessage = details || message;
+    const payload = JSON.stringify({ message: userFacingMessage, status, url, code, details });
 
-    this.displayMessage = message;
+    super(payload);
+
+    this.displayMessage = userFacingMessage;
     this.status = status;
     this.url = url;
     this.code = code;
     this.details = details;
     this.name = "APIError";
+
+    // KUNCI: Next.js meneruskan `digest` ke client bahkan di production.
+    // `error.message` disanitasi di production, tapi `error.digest` tidak.
+    this.digest = payload;
   }
 }
+
+export const toastError = (err: unknown) => {
+  if (err instanceof APIError) {
+    toast.error(err.details || err.displayMessage);
+  } else if (err instanceof Error) {
+    toast.error(err.message);
+  } else {
+    toast.error("An unexpected error occurred");
+  }
+};
 
 async function handleResponse<T>(res: globalThis.Response): Promise<T> {
   let data: any = {};

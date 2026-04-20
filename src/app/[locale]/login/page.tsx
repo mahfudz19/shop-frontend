@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Ripple from "@/components/ui/Ripple";
+import toast from "@/components/ui/Toast";
+import { login, toastError } from "@/lib/api";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import Ripple from "@/components/ui/Ripple";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { PasswordField } from "../register/page";
-import { login, APIError } from "@/lib/api";
-import toast from "@/components/ui/Toast";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,11 +16,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMsg("");
     setIsLoading(true);
 
     try {
@@ -30,13 +28,7 @@ export default function LoginPage() {
       router.push("/");
       router.refresh();
     } catch (err: unknown) {
-      if (err instanceof APIError) {
-        setErrorMsg(err.displayMessage);
-      } else if (err instanceof Error) {
-        setErrorMsg(err.message);
-      } else {
-        setErrorMsg("An unexpected error occurred");
-      }
+      toastError(err);
     } finally {
       setIsLoading(false);
     }
@@ -47,7 +39,7 @@ export default function LoginPage() {
       {/* ========================================== */}
       {/* KIRI: BAGIAN INFORMASI & BRANDING (50%)     */}
       {/* ========================================== */}
-      <div className="hidden lg:flex lg:w-full bg-primary-main relative flex-col justify-center p-12 overflow-hidden">
+      <div className="hidden lg:flex lg:w- bg-primary-main relative flex-col justify-center p-12 overflow-hidden">
         {/* Dekorasi Grid Background */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
           <svg
@@ -161,12 +153,6 @@ export default function LoginPage() {
             </h2>
             <p className="text-text-secondary lg:hidden">{t("subtitle")}</p>
           </div>
-
-          {errorMsg && (
-            <div className="p-4 bg-error-main/10 border border-error-main/20 rounded-lg text-error-main text-sm text-center">
-              {errorMsg}
-            </div>
-          )}
 
           <form onSubmit={handleLogin} className="space-y-6 mt-8">
             <div className="space-y-1.5">
