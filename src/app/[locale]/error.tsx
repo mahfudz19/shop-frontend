@@ -43,7 +43,7 @@ export default function GlobalError({
   if (statusCode === 404) errorTitle = "Data Tidak Ditemukan";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background-default px-4 py-16 font-mono">
+    <div className="min-h-screen flex items-center justify-center bg-background-default px-4 py-16">
       <div className="max-w-md w-full text-center space-y-6 bg-background-paper p-8 rounded-xl border border-divider shadow-sm">
         {/* Indikator Status Code */}
         <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-error-main/10 text-error-main mb-2">

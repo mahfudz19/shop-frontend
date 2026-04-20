@@ -80,13 +80,12 @@ export default function Filter({ currentFilters }: FilterProps) {
   // Kita mengekstrak konten UI Filter agar mudah digunakan ganda
   const filterContent = (
     <div className="bg-background-paper/60 lg:backdrop-blur-sm lg:border lg:border-divider/50 rounded-2xl p-6 lg:sticky lg:top-24 lg:shadow-sm flex flex-col gap-6 h-full lg:h-auto overflow-y-auto lg:overflow-visible">
-      
       {/* Header */}
       <div className="flex items-center justify-between border-b border-divider/50 pb-4 shrink-0">
         <h2 className="text-sm font-black text-text-primary uppercase tracking-widest flex items-center gap-2">
           <span className="text-primary-main">⚡</span> {t("title")}
         </h2>
-        
+
         <div className="flex items-center gap-2">
           <button
             onClick={handleReset}
@@ -94,14 +93,24 @@ export default function Filter({ currentFilters }: FilterProps) {
           >
             {t("reset")}
           </button>
-          
+
           {/* Close Menu hanya muncul di mobile lewat CSS LG:HIDDEN */}
           <button
             onClick={() => setIsDrawerOpen(false)}
             className="p-1 text-text-secondary hover:text-error-main rounded-lg transition-colors lg:hidden"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -140,7 +149,7 @@ export default function Filter({ currentFilters }: FilterProps) {
               }
             }}
           />
-          <div className="flex justify-between mt-3 text-[9px] font-bold text-text-disabled uppercase font-mono">
+          <div className="flex justify-between mt-3 text-[9px] font-bold text-text-disabled uppercase">
             <span>Rp 0</span>
             <span>Rp 5M+</span>
           </div>
@@ -154,7 +163,7 @@ export default function Filter({ currentFilters }: FilterProps) {
               placeholder="Min"
               value={localMinPrice}
               onChange={(e) => setLocalMinPrice(e.target.value)}
-              className="w-full bg-transparent text-xs font-mono font-medium outline-none text-text-primary placeholder:text-text-disabled"
+              className="w-full bg-transparent text-xs font-medium outline-none text-text-primary placeholder:text-text-disabled"
             />
           </div>
           <span className="text-text-disabled font-bold text-xs">-</span>
@@ -165,7 +174,7 @@ export default function Filter({ currentFilters }: FilterProps) {
               placeholder="Max"
               value={localMaxPrice}
               onChange={(e) => setLocalMaxPrice(e.target.value)}
-              className="w-full bg-transparent text-xs font-mono font-medium outline-none text-text-primary placeholder:text-text-disabled"
+              className="w-full bg-transparent text-xs font-medium outline-none text-text-primary placeholder:text-text-disabled"
             />
           </div>
           <button
@@ -184,7 +193,8 @@ export default function Filter({ currentFilters }: FilterProps) {
             { label: t("price_100k_500k"), min: "100000", max: "500000" },
             { label: t("price_above_500k"), min: "500000", max: "" },
           ].map((range, idx) => {
-            const isActive = localMinPrice === range.min && localMaxPrice === range.max;
+            const isActive =
+              localMinPrice === range.min && localMaxPrice === range.max;
             return (
               <button
                 key={idx}
@@ -195,10 +205,11 @@ export default function Filter({ currentFilters }: FilterProps) {
                   updateFilters({ min_price: range.min, max_price: range.max });
                   if (window.innerWidth < 1024) setIsDrawerOpen(false);
                 }}
-                className={`py-1.5 px-2 text-[10px] font-mono font-medium rounded-lg border transition-all text-center
-                  ${isActive 
-                    ? "bg-primary-main/10 border-primary-main/30 text-primary-main shadow-sm" 
-                    : "bg-background-default border-divider/50 text-text-secondary hover:border-text-disabled hover:text-text-primary"
+                className={`py-1.5 px-2 text-[10px] font-medium rounded-lg border transition-all text-center
+                  ${
+                    isActive
+                      ? "bg-primary-main/10 border-primary-main/30 text-primary-main shadow-sm"
+                      : "bg-background-default border-divider/50 text-text-secondary hover:border-text-disabled hover:text-text-primary"
                   }`}
               >
                 {range.label}
@@ -227,9 +238,10 @@ export default function Filter({ currentFilters }: FilterProps) {
                   if (window.innerWidth < 1024) setIsDrawerOpen(false);
                 }}
                 className={`py-2 px-1 text-[10px] font-bold rounded-lg border transition-all uppercase tracking-wider text-center flex flex-col items-center justify-center gap-1
-                  ${active 
-                    ? "bg-primary-main text-white border-primary-main shadow-md shadow-primary-main/20" 
-                    : "bg-background-default border-divider/50 text-text-secondary hover:border-text-disabled hover:text-text-primary"
+                  ${
+                    active
+                      ? "bg-primary-main text-white border-primary-main shadow-md shadow-primary-main/20"
+                      : "bg-background-default border-divider/50 text-text-secondary hover:border-text-disabled hover:text-text-primary"
                   }`}
               >
                 <span className="text-sm opacity-80">{m[0]}</span>
@@ -262,9 +274,10 @@ export default function Filter({ currentFilters }: FilterProps) {
                   if (window.innerWidth < 1024) setIsDrawerOpen(false);
                 }}
                 className={`py-1.5 px-2 text-[10px] font-bold rounded-lg border transition-all text-center uppercase
-                  ${active 
-                    ? "bg-warning-main/10 border-warning-main/30 text-warning-main font-black" 
-                    : "bg-background-default border-divider/50 text-text-secondary hover:border-text-disabled hover:text-text-primary"
+                  ${
+                    active
+                      ? "bg-warning-main/10 border-warning-main/30 text-warning-main font-black"
+                      : "bg-background-default border-divider/50 text-text-secondary hover:border-text-disabled hover:text-text-primary"
                   }`}
               >
                 {r.label}
@@ -327,9 +340,7 @@ export default function Filter({ currentFilters }: FilterProps) {
       </Drawer>
 
       {/* DESKTOP SIDEBAR */}
-      <aside className="hidden lg:block w-72 shrink-0">
-        {filterContent}
-      </aside>
+      <aside className="hidden lg:block w-72 shrink-0">{filterContent}</aside>
     </>
   );
 }

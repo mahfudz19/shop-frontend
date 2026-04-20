@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useTransition, useRef, useEffect } from "react";
+import { useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
+import Popover from "@/components/ui/Popover";
 
 export default function LanguageMenu() {
-  const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const menuRef = useRef<HTMLDivElement>(null);
 
   const locale = useLocale();
   const t = useTranslations("Header.LanguageMenu");
@@ -20,48 +19,42 @@ export default function LanguageMenu() {
     { code: "id", label: "IND", desc: "Indonesia" },
   ];
 
-  const handleLanguageChange = (nextLocale: string) => {
-    if (nextLocale === locale) return;
+  const handleLanguageChange = (nextLocale: string, close: () => void) => {
+    if (nextLocale === locale) {
+      close();
+      return;
+    }
 
-    setIsOpen(false);
+    close();
 
     startTransition(() => {
       router.replace(pathname, { locale: nextLocale, scroll: false });
     });
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
-    <div className="relative font-mono" ref={menuRef}>
-      {/* Tombol Trigger */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        disabled={isPending}
-        className={`flex items-center gap-2 px-3 py-1.5 text-xs font-bold border rounded-sm transition-all duration-300 ${
-          isOpen || isPending
-            ? "border-primary-main text-primary-main bg-primary-main/10"
-            : "border-divider text-text-secondary hover:border-text-primary hover:text-text-primary"
-        }`}
-      >
-        <span className="text-sm">🌐</span>
-        <span className="uppercase tracking-widest">
-          [{locale.toUpperCase()}]
-        </span>
-      </button>
-
-      {/* Dropdown Menu */}
-      {isOpen && (
-        <div className="absolute right-0 mt-2 z-9999 w-36 bg-background-paper border border-divider shadow-lg rounded-sm overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="px-3 py-2 border-b border-divider/50 bg-background-default/50">
+    <Popover
+      position="bottom-right"
+      className="w-36 bg-background-paper border border-divider rounded-sm overflow-hidden"
+      trigger={(isOpen) => (
+        <button
+          disabled={isPending}
+          className={`flex items-center gap-2 px-3 py-1.5 text-xs font-bold border rounded-sm transition-all duration-300 ${
+            isOpen || isPending
+              ? "border-primary-main text-primary-main bg-primary-main/10"
+              : "border-divider text-text-secondary hover:border-text-primary hover:text-text-primary"
+          }`}
+        >
+          <span className="text-sm">🌐</span>
+          <span className="uppercase tracking-widest">
+            [{locale.toUpperCase()}]
+          </span>
+        </button>
+      )}
+    >
+      {(close) => (
+        <>
+          <div className="px-3 py-2 border-b border-divider/50 bg-background-paper">
             <span className="text-[9px] font-black uppercase tracking-[0.2em] text-text-disabled">
               {t("select")}
             </span>
@@ -72,7 +65,7 @@ export default function LanguageMenu() {
               return (
                 <li key={lang.code}>
                   <button
-                    onClick={() => handleLanguageChange(lang.code)}
+                    onClick={() => handleLanguageChange(lang.code, close)}
                     disabled={isPending}
                     className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between transition-colors rounded-sm ${
                       isActive
@@ -87,8 +80,8 @@ export default function LanguageMenu() {
               );
             })}
           </ul>
-        </div>
+        </>
       )}
-    </div>
+    </Popover>
   );
 }

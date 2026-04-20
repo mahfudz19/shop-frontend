@@ -3,10 +3,11 @@ import ThemeToggle from "@/app/[locale]/(Guest)/Header/ThemeToggle";
 import Ripple from "@/components/ui/Ripple";
 import { getUserFromToken } from "@/lib/auth";
 import Link from "next/link";
-import LogoutButton from "../(home)/LogoutButton";
+import Cart from "./Cart";
 import MobileDrawer from "./MobileDrawer";
 import Search from "./Search";
 import SubHeader from "./SubHeader";
+import UserMenuDropdown from "./UserMenuDropdown";
 
 export default async function Header() {
   const user = await getUserFromToken();
@@ -50,31 +51,25 @@ export default async function Header() {
           </div>
 
           {/* DESKTOP UTILITY ACTIONS (Tersembunyi di Mobile) */}
-          <div className="hidden md:flex items-center gap-4 shrink-0">
+          <div className="hidden md:flex items-center gap-3 shrink-0">
+            {/* System Utilities */}
             <ThemeToggle />
             <LanguegeMenu />
 
-            <div className="h-5 w-px bg-divider mx-1" />
+            <div className="h-5 w-px bg-divider mx-2" />
+
+            {/* User Utilities */}
+            <Cart />
 
             {isLoggedIn ? (
-              <div className="flex items-center gap-3">
-                {user.role === "admin" && (
-                  <Link
-                    href="/admin"
-                    className="text-xs font-black text-text-secondary hover:text-primary-main uppercase tracking-widest transition-colors"
-                  >
-                    Console
-                  </Link>
-                )}
-                <LogoutButton />
-              </div>
+              <UserMenuDropdown userRole={user.role} />
             ) : (
               <div className="flex items-center">
                 <div className="flex items-center border border-divider rounded-md overflow-hidden bg-background-paper shadow-sm">
                   {/* Button: Login */}
                   <Link
                     href="/login"
-                    className="group relative flex items-center gap-2 px-4 py-2 text-xs font-bold text-text-secondary hover:text-primary-main hover:bg-primary-main/5 transition-all font-mono"
+                    className="group relative flex items-center gap-2 px-4 py-2 text-xs font-bold text-text-secondary hover:text-primary-main hover:bg-primary-main/5 transition-all"
                   >
                     <Ripple color="primary" />
                     {/* Icon: System User */}
@@ -100,7 +95,7 @@ export default async function Header() {
                   {/* Button: Sign Up */}
                   <Link
                     href="/register"
-                    className="group relative flex items-center gap-2 px-4 py-2 text-xs font-black bg-primary-main text-primary-contrast hover:bg-primary-dark transition-all font-mono"
+                    className="group relative flex items-center gap-2 px-4 py-2 text-xs font-black bg-primary-main text-primary-contrast hover:bg-primary-dark transition-all"
                   >
                     <Ripple />
                     <span className="tracking-widest uppercase">
@@ -128,7 +123,6 @@ export default async function Header() {
         </div>
       </div>
 
-      {/* SUB-HEADER: CATEGORIES & BREADCRUMBS */}
       <SubHeader />
     </>
   );

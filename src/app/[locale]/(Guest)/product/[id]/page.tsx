@@ -77,7 +77,7 @@ export default async function Product(props: Props) {
     !productData.data?.product.master_product_id
   ) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-text-secondary font-mono">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-text-secondary">
         <span className="text-6xl mb-4">📡</span>
         <h1 className="text-xl font-black uppercase tracking-widest mb-2">
           {t("sys_404")}
@@ -94,9 +94,7 @@ export default async function Product(props: Props) {
   const master = masterResponse?.data;
 
   if (!master) {
-    return (
-      <div className="text-center py-20 font-mono">{t("sys_error_master")}</div>
-    );
+    return <div className="text-center py-20">{t("sys_error_master")}</div>;
   }
 
   // Ekstraksi data dari API Go
@@ -133,7 +131,7 @@ export default async function Product(props: Props) {
           <h2 className="text-xs font-black text-text-disabled uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
             <span className="text-primary-main">⚙️</span> {t("sys_parameters")}
           </h2>
-          <div className="grid grid-cols-2 gap-y-4 gap-x-2 font-mono text-[11px]">
+          <div className="grid grid-cols-2 gap-y-4 gap-x-2 text-[11px]">
             <div className="flex flex-col gap-1">
               <span className="text-text-disabled">{t("lbl_brand")}</span>
               <span className="text-text-primary font-bold uppercase">
@@ -193,7 +191,7 @@ export default async function Product(props: Props) {
           <div className="flex flex-wrap items-center gap-4 md:gap-6">
             <div className="flex items-center gap-1.5 bg-background-paper border border-divider px-3 py-1 rounded-full shadow-sm">
               <span className="text-lg">⭐</span>
-              <span className="font-mono font-black text-sm">4.8</span>
+              <span className="font-black text-sm">4.8</span>
               <span className="text-[9px] text-text-disabled uppercase font-bold tracking-widest ml-1">
                 {t("avg_score")}
               </span>
@@ -237,7 +235,7 @@ export default async function Product(props: Props) {
                     ? t("sys_potential_savings")
                     : t("sys_best_price")}
                 </p>
-                <p className="text-4xl md:text-5xl font-black font-mono tracking-tighter">
+                <p className="text-4xl md:text-5xl font-black tracking-tighter">
                   {formatRupiah(bestOffer.price_rp)}
                 </p>
               </div>
@@ -246,7 +244,7 @@ export default async function Product(props: Props) {
         ) : (
           <div className="bg-error-light/10 border border-error-main/30 rounded-2xl p-6 mb-8 text-center">
             <span className="text-error-main text-2xl mb-2 block">⚠️</span>
-            <p className="font-mono text-sm font-bold text-error-main uppercase tracking-widest">
+            <p className="text-sm font-bold text-error-main uppercase tracking-widest">
               {t("sys_no_active_offers")}
             </p>
           </div>
@@ -293,7 +291,7 @@ export default async function Product(props: Props) {
                             {offer.marketplace}
                           </span>
                           {isBest && (
-                            <span className="bg-success-main text-white text-[9px] px-1.5 py-0.5 rounded font-black font-mono tracking-widest uppercase">
+                            <span className="bg-success-main text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-widest uppercase">
                               {t("sys_best_value")}
                             </span>
                           )}
@@ -311,12 +309,12 @@ export default async function Product(props: Props) {
                     <div className="flex items-center justify-between w-full md:w-auto gap-4 md:gap-8 mt-2 md:mt-0">
                       <div className="text-left md:text-right">
                         {offer.price_original > offer.price_rp && (
-                          <p className="text-[10px] text-text-disabled line-through font-mono mb-0.5">
+                          <p className="text-[10px] text-text-disabled line-through mb-0.5">
                             {formatRupiah(offer.price_original)}
                           </p>
                         )}
                         <p
-                          className={`text-xl md:text-2xl font-black font-mono tracking-tighter leading-none ${isBest ? "text-success-main" : "text-text-primary"}`}
+                          className={`text-xl md:text-2xl font-black tracking-tighter leading-none ${isBest ? "text-success-main" : "text-text-primary"}`}
                         >
                           {formatRupiah(offer.price_rp)}
                         </p>
@@ -342,7 +340,7 @@ export default async function Product(props: Props) {
           </div>
         </div>
 
-        <div className="mt-auto flex items-start gap-3 p-4 border border-divider/50 rounded-xl bg-background-default/50 text-text-secondary text-[10px] font-mono leading-relaxed">
+        <div className="mt-auto flex items-start gap-3 p-4 border border-divider/50 rounded-xl bg-background-default/50 text-text-secondary text-[10px] leading-relaxed">
           <span className="text-lg leading-none mt-0.5">💡</span>
           <p>
             <strong className="text-text-primary">

@@ -48,7 +48,7 @@ export default async function Trust() {
             <div className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
               <div className="text-4xl">⭐</div>
               <div>
-                <div className="text-2xl font-black font-mono tracking-tighter">
+                <div className="text-2xl font-black tracking-tighter">
                   4.8/5.0
                 </div>
                 <div className="text-[10px] font-bold opacity-60 uppercase tracking-widest">
@@ -66,11 +66,11 @@ export default async function Trust() {
                 <span className="text-3xl grayscale group-hover:grayscale-0 transition-all">
                   📊
                 </span>
-                <span className="text-[9px] font-bold text-success-main bg-success-main/20 px-2 py-0.5 rounded uppercase font-mono">
+                <span className="text-[9px] font-bold text-success-main bg-success-main/20 px-2 py-0.5 rounded uppercase">
                   {t("sys_live_database")}
                 </span>
               </div>
-              <div className="text-4xl font-black font-mono mb-1 tracking-tighter">
+              <div className="text-4xl font-black mb-1 tracking-tighter">
                 {formatNumber(stats.total_products)}
               </div>
               <p className="text-xs font-bold opacity-50 uppercase tracking-widest leading-snug">
@@ -85,11 +85,11 @@ export default async function Trust() {
                 <span className="text-3xl grayscale group-hover:grayscale-0 transition-all">
                   🛡️
                 </span>
-                <span className="text-[9px] font-bold text-primary-light bg-primary-light/20 px-2 py-0.5 rounded uppercase font-mono">
+                <span className="text-[9px] font-bold text-primary-light bg-primary-light/20 px-2 py-0.5 rounded uppercase">
                   {t("sys_verified_only")}
                 </span>
               </div>
-              <div className="text-4xl font-black font-mono mb-1 tracking-tighter">
+              <div className="text-4xl font-black mb-1 tracking-tighter">
                 {formatNumber(stats.total_shops)}
               </div>
               <p className="text-xs font-bold opacity-50 uppercase tracking-widest leading-snug">

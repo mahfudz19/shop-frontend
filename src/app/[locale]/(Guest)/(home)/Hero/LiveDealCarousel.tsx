@@ -93,13 +93,13 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
                     <span className="bg-divider px-1.5 py-0.5 rounded">
                       Tokopedia
                     </span>
-                    <span className="font-mono text-error-main">Rp 4.6M</span>
+                    <span className="text-error-main">Rp 4.6M</span>
                   </div>
                   <div className="flex flex-col items-center gap-1">
                     <span className="bg-divider px-1.5 py-0.5 rounded">
                       Lazada
                     </span>
-                    <span className="font-mono">Rp 4.6M</span>
+                    <span>Rp 4.6M</span>
                   </div>
                   <div className="flex flex-col items-end gap-1">
                     <span className="bg-success-light/20 text-success-main px-1.5 py-0.5 rounded flex items-center gap-1">
@@ -108,7 +108,7 @@ export default function LiveDealCarousel({ promos }: { promos: Promotions[] }) {
                         {t("cheapest")}
                       </span>
                     </span>
-                    <span className="font-mono text-success-main text-sm font-black">
+                    <span className="text-success-main text-sm font-black">
                       Rp 4.4M
                     </span>
                   </div>

@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 export default async function Footer() {
   const t = await getTranslations("Footer");
   return (
-    <footer className="bg-background-paper border-t-2 border-divider pt-16 pb-8 mt-auto font-mono">
+    <footer className="bg-background-paper border-t-2 border-divider pt-16 pb-8 mt-auto">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="col-span-1 md:col-span-1">
           <div className="flex flex-col mb-6">
@@ -22,7 +22,8 @@ export default async function Footer() {
               <span className="text-[8px] opacity-50">02_</span> {t("jobs")}
             </li>
             <li className="hover:text-primary-main transition cursor-pointer flex items-center gap-2">
-              <span className="text-[8px] opacity-50">03_</span> {t("partner_program")}
+              <span className="text-[8px] opacity-50">03_</span>{" "}
+              {t("partner_program")}
             </li>
           </ul>
         </div>
@@ -91,7 +92,8 @@ export default async function Footer() {
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-success-main animate-pulse"></div>
           <p className="text-[10px] text-text-disabled font-bold tracking-widest">
-            © 2026 {process.env.NEXT_PUBLIC_APP_NAME} INC // {t("sys_all_rights_reserved")}
+            © 2026 {process.env.NEXT_PUBLIC_APP_NAME} INC //{" "}
+            {t("sys_all_rights_reserved")}
           </p>
         </div>
 

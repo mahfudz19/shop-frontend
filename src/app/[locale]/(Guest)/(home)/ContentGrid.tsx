@@ -114,7 +114,7 @@ export async function MagazineSection() {
             <div className="flex flex-col flex-1 px-2">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-8 h-0.5 bg-secondary-main"></div>
-                <time className="text-[10px] font-mono font-bold text-text-disabled uppercase">
+                <time className="text-[10px] font-bold text-text-disabled uppercase">
                   {t("published")}{" "}
                   {new Date().toLocaleDateString("id-ID", {
                     month: "short",

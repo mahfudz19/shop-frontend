@@ -59,7 +59,7 @@ export default async function FeaturedDeals() {
 
             {/* Marketplace Badge */}
             <div className="absolute top-4 right-4 z-20">
-              <span className="bg-background-default/80 backdrop-blur-md border border-divider/50 text-[9px] font-black text-text-secondary px-2 py-0.5 rounded uppercase font-mono">
+              <span className="bg-background-default/80 backdrop-blur-md border border-divider/50 text-[9px] font-black text-text-secondary px-2 py-0.5 rounded uppercase">
                 {deal.marketplace}
               </span>
             </div>
@@ -78,7 +78,7 @@ export default async function FeaturedDeals() {
 
             {/* Product Info */}
             <div className="flex-1 flex flex-col">
-              <span className="text-[9px] font-bold text-primary-main uppercase tracking-widest mb-2 font-mono">
+              <span className="text-[9px] font-bold text-primary-main uppercase tracking-widest mb-2">
                 {t("code")}: {deal.id.substring(0, 8)}
               </span>
               <h3 className="font-bold text-text-primary text-sm line-clamp-2 leading-snug group-hover:text-primary-main transition-colors mb-4">
@@ -88,15 +88,15 @@ export default async function FeaturedDeals() {
               <div className="mt-auto pt-4 border-t border-divider/30">
                 <div className="flex items-baseline gap-2 mb-1">
                   {deal.price_original > deal.price_rp && (
-                    <span className="text-[10px] text-text-disabled line-through font-mono">
+                    <span className="text-[10px] text-text-disabled line-through">
                       {formatRupiah(deal.price_original)}
                     </span>
                   )}
-                  <span className="text-[10px] font-black text-success-main bg-success-light/10 px-1.5 py-0.5 rounded-sm font-mono">
+                  <span className="text-[10px] font-black text-success-main bg-success-light/10 px-1.5 py-0.5 rounded-sm">
                     {t("sys_best_price")}
                   </span>
                 </div>
-                <p className="text-xl font-black text-text-primary tracking-tighter font-mono">
+                <p className="text-xl font-black text-text-primary tracking-tighter">
                   {formatRupiah(deal.price_rp)}
                 </p>
               </div>

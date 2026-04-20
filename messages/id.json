@@ -86,6 +86,23 @@
     },
     "LanguageMenu": {
       "select": "Pilih_Bahasa"
+    },
+    "MobileDrawer": {
+      "menu": "Menu",
+      "cart": "Keranjang",
+      "settings": "Pengaturan",
+      "theme": "Tema",
+      "language": "Bahasa",
+      "account": "Akun",
+      "profile": "Profil",
+      "console": "Konsol",
+      "login": "Masuk",
+      "signup": "Daftar"
+    },
+    "UserMenuDropdown": {
+      "my_account": "Akun Saya",
+      "profile": "Profil",
+      "console": "Konsol"
     }
   },
   "HomePage": {

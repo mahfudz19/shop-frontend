@@ -126,7 +126,7 @@ export default function ProductGrid({
               </div>
 
               <span
-                className={`absolute z-10 bg-background-default/80 backdrop-blur-md border border-divider/50 text-[9px] font-black text-text-secondary px-2 py-0.5 rounded uppercase font-mono ${viewMode === "list" ? "bottom-6 left-6 top-auto right-auto" : "top-4 right-4"}`}
+                className={`absolute z-10 bg-background-default/80 backdrop-blur-md border border-divider/50 text-[9px] font-black text-text-secondary px-2 py-0.5 rounded uppercase ${viewMode === "list" ? "bottom-6 left-6 top-auto right-auto" : "top-4 right-4"}`}
               >
                 {product.marketplace}
               </span>
@@ -156,7 +156,7 @@ export default function ProductGrid({
               <div className="flex flex-col flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-success-main animate-pulse shrink-0"></span>
-                  <span className="text-[9px] font-bold text-text-disabled uppercase font-mono tracking-widest truncate">
+                  <span className="text-[9px] font-bold text-text-disabled uppercase tracking-widest truncate">
                     {t("sys_live_scan_ok")}
                   </span>
                 </div>
@@ -167,11 +167,11 @@ export default function ProductGrid({
 
                 <div className="mt-auto pt-3 sm:pt-4 border-t border-divider/30">
                   <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                    <p className="text-lg sm:text-xl font-black text-text-primary tracking-tighter font-mono">
+                    <p className="text-lg sm:text-xl font-black text-text-primary tracking-tighter">
                       {formatRupiah(product.price_rp)}
                     </p>
                     {product.price_original > product.price_rp && (
-                      <span className="text-[10px] text-text-disabled line-through font-mono">
+                      <span className="text-[10px] text-text-disabled line-through">
                         {formatRupiah(product.price_original)}
                       </span>
                     )}
@@ -198,7 +198,7 @@ export default function ProductGrid({
       {products?.length === 0 && (
         <div className="text-center py-20 bg-background-paper rounded-3xl border border-dashed border-divider">
           <span className="text-4xl block mb-4">📡</span>
-          <p className="font-mono text-xs font-bold text-text-secondary uppercase tracking-widest">
+          <p className="text-xs font-bold text-text-secondary uppercase tracking-widest">
             {t("sys_no_data")}
           </p>
         </div>
