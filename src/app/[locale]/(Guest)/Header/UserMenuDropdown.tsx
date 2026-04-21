@@ -30,6 +30,7 @@ export default function UserMenuDropdown({ userRole }: UserMenuDropdownProps) {
     <Popover
       position="bottom-right"
       className="w-52 bg-background-paper border border-divider rounded-2xl overflow-hidden shadow-2xl shadow-primary-main/10 mt-2 backdrop-blur-xl"
+      lockScroll
       trigger={(isOpen) => (
         <button
           className={`relative p-2 rounded-xl border transition-all duration-300 flex items-center justify-center group ${

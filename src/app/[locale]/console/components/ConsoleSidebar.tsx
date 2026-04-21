@@ -135,13 +135,13 @@ export default function ConsoleSidebar({
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 border-r border-divider bg-background-paper h-full flex flex-col pt-6 overflow-y-auto">
+    <aside className="w-64 border-r border-divider bg-background-paper h-full flex flex-col overflow-y-auto">
       {/* Branding */}
-      <div className="px-6 mb-8">
+      <div className="px-6 h-16 mb-8 flex items-center justify-between border-b border-divider">
         <Link
           href="/"
           onClick={onItemClick}
-          className="flex items-center gap-2 group"
+          className="inline-flex mt-auto mb-2 items-center gap-2 group"
         >
           <div className="w-8 h-8 bg-primary-main rounded flex items-center justify-center text-white font-black">
             SS
@@ -155,6 +155,26 @@ export default function ConsoleSidebar({
             </span>
           </div>
         </Link>
+        {/* Tombol Close khusus Mobile */}
+        <button
+          onClick={onItemClick}
+          className="lg:hidden p-2 -mr-2 text-text-secondary hover:text-text-primary transition-colors focus:outline-none"
+          aria-label="Close Sidebar"
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </div>
 
       {/* Nav Items */}

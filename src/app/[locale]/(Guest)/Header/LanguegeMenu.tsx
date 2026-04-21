@@ -33,6 +33,7 @@ export default function LanguageMenu() {
     <Popover
       position="bottom-right"
       className="w-52 bg-background-paper border border-divider rounded-2xl overflow-hidden mt-2 backdrop-blur-xl"
+      lockScroll
       trigger={(isOpen) => (
         <button
           disabled={isPending}

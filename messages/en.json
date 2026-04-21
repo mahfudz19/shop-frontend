@@ -82,7 +82,10 @@
     "Search": {
       "placeholder": "Scan products, brands, or EAN...",
       "clear_search": "Clear search",
-      "search_sys": "SEARCH_SYS"
+      "search_sys": "SEARCH_SYS",
+      "recent_searches": "RECENTLY SEARCHED",
+      "clear_history": "Clear all",
+      "suggestions": "SEARCH SUGGESTIONS"
     },
     "LanguageMenu": {
       "select": "Select_Locale"

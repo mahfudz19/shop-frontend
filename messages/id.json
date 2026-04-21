@@ -82,7 +82,10 @@
     "Search": {
       "placeholder": "Pindai produk, merk, atau EAN...",
       "clear_search": "Hapus pencarian",
-      "search_sys": "SISTEM_CARI"
+      "search_sys": "SISTEM_CARI",
+      "recent_searches": "BARU-BARU INI DICARI",
+      "clear_history": "Hapus semua",
+      "suggestions": "SARAN PENCARIAN"
     },
     "LanguageMenu": {
       "select": "Pilih_Bahasa"
