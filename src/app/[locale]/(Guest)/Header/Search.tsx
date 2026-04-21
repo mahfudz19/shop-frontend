@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, usePathname, useParams } from "next/navigation";
+import Popover from "@/components/ui/Popover";
 import { useTranslations } from "next-intl";
-import Popover from "@/components/ui/Popover"; // Import komponen Popover
-import { useRef } from "react";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const DUMMY_SUGGESTIONS = [
   { text: "iPhone 15 Pro Max", category: "Handphones & Tablets" },
