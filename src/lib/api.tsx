@@ -8,9 +8,7 @@ import { RegisterBody, User, UserAuth, UserAuthReg } from "@/types/user";
 import { forbidden, notFound, unauthorized } from "next/navigation";
 
 const isServer = typeof window === "undefined";
-const BaseUrl = isServer
-  ? process.env.INTERNAL_API_URL
-  : process.env.NEXT_PUBLIC_API_PROXY;
+const BaseUrl = isServer ? process.env.INTERNAL_API_URL : "/api";
 
 // ==========================================
 // CENTRALIZED ERROR HANDLING

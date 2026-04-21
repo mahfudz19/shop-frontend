@@ -39,7 +39,6 @@ const nextConfig: NextConfig = {
     remotePatterns: getRemotePatterns(),
   },
   env: {
-    NEXT_PUBLIC_API_PROXY: process.env.NEXT_PUBLIC_API_PROXY,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
     NEXT_IMAGES_HOSTNAME: process.env.NEXT_IMAGES_HOSTNAME,
     INTERNAL_API_URL: process.env.INTERNAL_API_URL,
