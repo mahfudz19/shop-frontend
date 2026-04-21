@@ -85,7 +85,10 @@
       "search_sys": "SISTEM_CARI",
       "recent_searches": "BARU-BARU INI DICARI",
       "clear_history": "Hapus semua",
-      "suggestions": "SARAN PENCARIAN"
+      "suggestions": "SARAN PENCARIAN",
+      "no_suggestions": "Tidak ada saran yang cocok",
+      "footer_tip": "Tekan Enter Untuk Melakukan Pencarian Global",
+      "in_category": "dalam"
     },
     "LanguageMenu": {
       "select": "Pilih_Bahasa"

@@ -26,6 +26,7 @@ interface PopoverProps {
   className?: string; // Kustomisasi kelas container dropdown
   classNameTrigger?: string; // Kustomisasi kelas pembungkus trigger
   lockScroll?: boolean; // Mencegah scrolling pada body saat terbuka
+  matchTriggerWidth?: boolean; // PENGATURAN BARU: Menyamakan lebar popover dengan pemicu
 }
 
 export default function Popover({
@@ -35,6 +36,7 @@ export default function Popover({
   className = "",
   classNameTrigger = "cursor-pointer inline-block",
   lockScroll = false,
+  matchTriggerWidth = false,
 }: PopoverProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -57,6 +59,10 @@ export default function Popover({
       inset: "auto",
     };
 
+    if (matchTriggerWidth) {
+      style.width = `${triggerRect.width}px`;
+    }
+
     // 1. Vertical Positioning
     if (position.includes("bottom")) {
       style.top = `${triggerRect.bottom + scrollY + 8}px`;
@@ -68,7 +74,9 @@ export default function Popover({
     }
 
     // 2. Horizontal Positioning
-    if (position === "bottom" || position === "top") {
+    if (matchTriggerWidth) {
+      style.left = `${triggerRect.left}px`;
+    } else if (position === "bottom" || position === "top") {
       style.left = `${triggerRect.left + triggerRect.width / 2}px`;
       style.transform = (style.transform || "") + " translateX(-50%)";
     } else if (position.includes("right")) {
@@ -126,8 +134,8 @@ export default function Popover({
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      window.addEventListener("resize", handleScrollOrResize);
-      window.addEventListener("scroll", handleScrollOrResize, true);
+      window.removeEventListener("resize", handleScrollOrResize);
+      window.removeEventListener("scroll", handleScrollOrResize, true);
     };
   }, [isOpen, calculatePosition]);
 

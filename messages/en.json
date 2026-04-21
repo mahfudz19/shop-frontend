@@ -85,7 +85,10 @@
       "search_sys": "SEARCH_SYS",
       "recent_searches": "RECENTLY SEARCHED",
       "clear_history": "Clear all",
-      "suggestions": "SEARCH SUGGESTIONS"
+      "suggestions": "SEARCH SUGGESTIONS",
+      "no_suggestions": "No matching suggestions",
+      "footer_tip": "Press Enter to Perform Global Search",
+      "in_category": "in"
     },
     "LanguageMenu": {
       "select": "Select_Locale"

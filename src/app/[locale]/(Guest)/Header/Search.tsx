@@ -110,7 +110,8 @@ function Search() {
     <div className="w-full">
       <Popover
         position="bottom"
-        className="w-[calc(100vw-32px)] sm:w-[480px] mt-2"
+        matchTriggerWidth={true}
+        className="mt-2 bg-background-paper overflow-hidden rounded-2xl border border-divider"
         classNameTrigger="w-full"
         lockScroll
         trigger={(isOpen) => (
@@ -147,7 +148,7 @@ function Search() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("placeholder")}
-                className="w-full bg-divider/10 border border-divider/40 rounded-full py-2.5 pl-11 pr-24 text-sm font-medium outline-none focus:bg-background-paper focus:border-primary-main focus:ring-4 focus:ring-primary-main/10 transition-all placeholder:text-text-disabled/70 truncate"
+                className="w-full bg-divider/10 border border-divider rounded-full py-2.5 pl-11 pr-24 text-sm font-medium outline-none focus:bg-background-paper focus:border-primary-main focus:ring-4 focus:ring-primary-main/10 transition-all placeholder:text-text-disabled/70 truncate"
               />
 
               {/* Right Buttons */}
@@ -181,7 +182,7 @@ function Search() {
                     e.stopPropagation(); // Mencegah toggle popover saat ingin mencari
                     handleSearch(query, () => {}); // Cari tanpa menutup jika itu dari tombol ini (atau sesuaikan)
                   }}
-                  className="h-full px-4 rounded-full bg-primary-main text-white hover:bg-primary-dark transition-all flex items-center justify-center group/btn shadow-lg shadow-primary-main/20 active:scale-95"
+                  className="h-full px-4 rounded-full bg-divider/20 text-primary-main hover:bg-primary-main/10 transition-all flex items-center justify-center group/btn active:scale-95"
                 >
                   <svg
                     className="w-4 h-4 group-hover/btn:scale-110 transition-transform"
@@ -196,9 +197,6 @@ function Search() {
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
-                  <span className="ml-2 text-[10px] font-black uppercase tracking-widest hidden md:inline">
-                    GO
-                  </span>
                 </button>
               </div>
             </form>
@@ -206,7 +204,7 @@ function Search() {
         )}
       >
         {(close) => (
-          <div className="backdrop-blur-xl bg-background-paper/95 overflow-hidden rounded-2xl border border-divider">
+          <>
             {/* RECENT SEARCHES */}
             {recentSearches.length > 0 && !query && (
               <div className="p-2">
@@ -216,7 +214,7 @@ function Search() {
                   </span>
                   <button
                     onClick={clearHistory}
-                    className="text-[10px] font-black text-primary-main hover:text-primary-dark transition-colors uppercase tracking-widest"
+                    className="text-[10px] font-black text-error-main hover:text-error-dark transition-colors uppercase tracking-widest"
                   >
                     {t("clear_history")}
                   </button>
@@ -266,14 +264,14 @@ function Search() {
                       {highlightText(item.text, query)}
                     </div>
                     <div className="text-[10px] text-text-disabled font-medium">
-                      — dalam {item.category}
+                      — {t("in_category")} {item.category}
                     </div>
                   </button>
                 ))}
                 {filteredSuggestions.length === 0 && (
                   <div className="px-3 py-4 text-center">
                     <p className="text-xs text-text-disabled italic">
-                      Tidak ada saran yang cocok
+                      {t("no_suggestions")}
                     </p>
                   </div>
                 )}
@@ -283,10 +281,10 @@ function Search() {
             {/* FOOTER TIPS */}
             <div className="bg-divider/10 px-4 py-2 border-t border-divider/40">
               <p className="text-[9px] font-bold text-text-disabled uppercase tracking-widest text-center">
-                Tekan Enter Untuk Melakukan Pencarian Global
+                {t("footer_tip")}
               </p>
             </div>
-          </div>
+          </>
         )}
       </Popover>
     </div>
