@@ -201,6 +201,7 @@
     }
   },
   "Login": {
+    "back": "Back",
     "title": "Welcome Back",
     "subtitle": "Access your personalized dashboard and smart price insights.",
     "label_email": "Email Address",

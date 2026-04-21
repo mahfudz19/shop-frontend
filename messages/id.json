@@ -201,6 +201,7 @@
     }
   },
   "Login": {
+    "back": "Kembali",
     "title": "Selamat Datang Kembali",
     "subtitle": "Akses dasbor pribadi Anda dan wawasan harga cerdas.",
     "label_email": "Alamat Email",

@@ -201,19 +201,21 @@ export default function MobileDrawer({ isLoggedIn }: MobileDrawerProps) {
                   className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-text-secondary hover:text-primary-main hover:bg-primary-main/5 transition-all relative overflow-hidden group/login"
                 >
                   <Ripple color="primary" />
-                  <svg
-                    className="w-3.5 h-3.5 transition-transform group-hover/login:-translate-x-0.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2.5"
-                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                    />
-                  </svg>
+                  <div>
+                    <svg
+                      className="w-3.5 h-3.5 transition-transform group-hover/login:-translate-x-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2.5"
+                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                      />
+                    </svg>
+                  </div>
                   <span className="tracking-widest uppercase">
                     {t("login")}
                   </span>
@@ -228,22 +230,24 @@ export default function MobileDrawer({ isLoggedIn }: MobileDrawerProps) {
                   className="flex items-center gap-2 bg-primary-main text-primary-contrast px-5 py-2 rounded-lg text-xs font-black shadow-lg shadow-primary-main/20 hover:bg-primary-dark hover:-translate-y-0.5 transition-all relative overflow-hidden group/signup"
                 >
                   <Ripple />
-                  <span className="tracking-widest uppercase">
+                  <span className="tracking-widest uppercase whitespace-nowrap">
                     {t("signup")}
                   </span>
-                  <svg
-                    className="w-3.5 h-3.5 transition-transform group-hover/signup:translate-x-0.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="3"
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
+                  <div>
+                    <svg
+                      className="w-3.5 h-3.5 transition-transform group-hover/signup:translate-x-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="3"
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </div>
                 </Link>
               </div>
             )}
