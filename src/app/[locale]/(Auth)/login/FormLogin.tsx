@@ -160,7 +160,9 @@ export default function FormLogin() {
       </form>
 
       {/* QUICK LOGIN ACCESS */}
-      <QuickAccess emailRef={emailRef} passwordRef={passwordRef} />
+      {process.env.NEXT_PUBLIC_SHOW_QUICK_LOGIN === "true" && (
+        <QuickAccess emailRef={emailRef} passwordRef={passwordRef} />
+      )}
     </>
   );
 }
