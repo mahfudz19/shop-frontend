@@ -114,7 +114,7 @@ export default async function MagazinePage(props: Props) {
 
           {/* Article Lead / Excerpt (Optional styling for first paragraph) */}
           <div
-            className="prose prose-lg dark:prose-invert max-w-none 
+            className="prose prose-lg dark:prose-invert max-w-none pt-8
               prose-headings:font-black prose-headings:tracking-tighter prose-headings:uppercase 
               prose-p:text-text-secondary prose-p:leading-relaxed prose-p:text-lg
               prose-blockquote:border-l-4 prose-blockquote:border-secondary-main prose-blockquote:bg-secondary-main/5 prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:rounded-r-2xl prose-blockquote:italic
