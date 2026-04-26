@@ -37,7 +37,10 @@ export default async function MagazinePage(props: Props) {
         <div className="container mx-auto px-4 max-w-5xl">
           {/* Breadcrumbs */}
           <nav className="flex items-center gap-2 mb-8 text-[10px] font-black uppercase tracking-[0.2em] text-text-disabled">
-            <Link href="/" className="hover:text-primary-main transition-colors">
+            <Link
+              href="/"
+              className="hover:text-primary-main transition-colors"
+            >
               HOME
             </Link>
             <span className="text-divider">/</span>
@@ -110,7 +113,7 @@ export default async function MagazinePage(props: Props) {
           <div className="absolute -left-8 top-0 bottom-0 w-px bg-linear-to-b from-secondary-main/50 via-divider to-transparent hidden xl:block" />
 
           {/* Article Lead / Excerpt (Optional styling for first paragraph) */}
-          <div 
+          <div
             className="prose prose-lg dark:prose-invert max-w-none 
               prose-headings:font-black prose-headings:tracking-tighter prose-headings:uppercase 
               prose-p:text-text-secondary prose-p:leading-relaxed prose-p:text-lg
@@ -125,8 +128,18 @@ export default async function MagazinePage(props: Props) {
           {article.tags && article.tags.length > 0 && (
             <div className="mt-20 pt-10 border-t border-divider/30">
               <div className="flex items-center gap-3 mb-6">
-                <svg className="w-4 h-4 text-text-disabled" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01M15 7h.01M15 11h.01M15 15h.01M19 7h.01M19 11h.01M19 15h.01M3 3h18v18H3V3z" />
+                <svg
+                  className="w-4 h-4 text-text-disabled"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01M15 7h.01M15 11h.01M15 15h.01M19 7h.01M19 11h.01M19 15h.01M3 3h18v18H3V3z"
+                  />
                 </svg>
                 <span className="text-[10px] font-black text-text-disabled uppercase tracking-[0.2em]">
                   TAGS_DATABASE
@@ -152,22 +165,23 @@ export default async function MagazinePage(props: Props) {
         <div className="bg-background-paper rounded-[2.5rem] p-8 md:p-12 border border-divider/50 shadow-xl relative overflow-hidden group">
           {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-secondary-main/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-secondary-main/10 transition-colors" />
-          
+
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="text-center md:text-left">
               <span className="text-[10px] font-black text-secondary-main uppercase tracking-[0.3em] mb-3 block">
                 CONTINUE_READING
               </span>
               <h2 className="text-2xl md:text-4xl font-black text-text-primary tracking-tighter uppercase whitespace-normal lg:whitespace-nowrap">
-                Eksplorasi Jurnal <span className="text-secondary-main">Lainnya</span>
+                Eksplorasi Jurnal{" "}
+                <span className="text-secondary-main">Lainnya</span>
               </h2>
             </div>
-            
-            <Link 
+
+            <Link
               href="/"
               className="px-8 py-4 bg-primary-main text-primary-contrast rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-primary-main/20 hover:scale-105 hover:-translate-y-1 active:scale-95 transition-all"
             >
-              Kembali Ke Dashboard
+              {t("back_home")}
             </Link>
           </div>
         </div>

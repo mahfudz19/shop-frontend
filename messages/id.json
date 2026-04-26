@@ -25,7 +25,14 @@
     "action_visit": "Kunjungi",
     "sys_disclaimer": "DISCLAIMER_MESIN",
     "disclaimer_text_1": "Harga dan ketersediaan stok dapat berubah sewaktu-waktu sesuai dengan kebijakan platform",
-    "disclaimer_text_2": ". Sistem kami melakukan sinkronisasi secara berkala, namun kami menyarankan untuk memeriksa ulang sebelum melakukan pembayaran."
+    "disclaimer_text_2": ". Sistem kami melakukan sinkronisasi secara berkala, namun kami menyarankan untuk memeriksa ulang sebelum melakukan pembayaran.",
+    "sys_not_compared": "BELUM_DILAKUKAN_PERBANDINGAN_HARGA",
+    "sys_not_compared_desc": "Produk ini belum masuk dalam matriks perbandingan harga kami. Analisis real-time saat ini tidak tersedia.",
+    "sys_fetching_data": "MENSINKRONKAN_DATA_MATRIKS...",
+    "sys_error_connection": "KESALAHAN_KONEKSI: Gagal terhubung ke node data.",
+    "action_retry": "Coba Lagi",
+    "action_resync": "Sinkronisasi Ulang",
+    "back_home": "Kembali ke Dashboard"
   },
   "SearchPage": {
     "ProductGrid": {
@@ -154,7 +161,8 @@
       "read_analysis": "Read Analysis",
       "sys_editorial_board": "Dewan_Redaksi",
       "by": "Oleh",
-      "sys_admin": "Admin_Sistem"
+      "sys_admin": "Admin_Sistem",
+      "back_home": "Back to Home"
     },
     "FeaturedDeals": {
       "title": "Penawaran",

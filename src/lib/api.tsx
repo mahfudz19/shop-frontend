@@ -1,6 +1,7 @@
 import toast from "@/components/ui/Toast";
 import { Article } from "@/types/article";
 import { Categories } from "@/types/categorie";
+import { MasterProduct } from "@/types/masterProduct";
 import { Product } from "@/types/product";
 import { Promotions } from "@/types/promotion";
 import { Response, ResponsePaginate } from "@/types/respons";
@@ -222,18 +223,16 @@ export async function fetchDeals(): Promise<Response<Product[]>> {
   return handleResponse<Response<Product[]>>(res);
 }
 
-export async function fetchProductById(id: string): Promise<Response<any>> {
+export async function fetchProductById(id: string) {
   const url = `${BaseUrl}/product/${id}`;
   const res = await fetch(url, { next: { revalidate: 60 } });
-  return handleResponse(res);
+  return handleResponse<Response<Product>>(res);
 }
 
-export async function fetchMasterProductById(
-  id: string,
-): Promise<Response<any>> {
+export async function fetchMasterProductById(id: string) {
   const url = `${BaseUrl}/master-product/${id}`;
   const res = await fetch(url, { next: { revalidate: 60 } });
-  return handleResponse<Response<any>>(res);
+  return handleResponse<Response<MasterProduct>>(res);
 }
 
 // ==========================================

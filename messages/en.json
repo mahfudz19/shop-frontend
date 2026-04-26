@@ -25,7 +25,14 @@
     "action_visit": "Visit",
     "sys_disclaimer": "DISCLAIMER_ENGINE",
     "disclaimer_text_1": "Price and stock availability may change at any time according to the policy of the platform",
-    "disclaimer_text_2": ". Our system synchronizes periodically, but we recommend double-checking before making a payment."
+    "disclaimer_text_2": ". Our system synchronizes periodically, but we recommend double-checking before making a payment.",
+    "sys_not_compared": "PRICE_COMPARISON_PENDING",
+    "sys_not_compared_desc": "This product hasn't been added to our price comparison matrix yet. Real-time analysis is currently unavailable.",
+    "sys_fetching_data": "SYNCHRONIZING_MATRIX_DATA...",
+    "sys_error_connection": "CONNECTION_ERROR: Failed to connect to data node.",
+    "action_retry": "Retry",
+    "action_resync": "Re-Sync Data",
+    "back_home": "Back to Home"
   },
   "SearchPage": {
     "ProductGrid": {
@@ -154,7 +161,8 @@
       "read_analysis": "Read Analysis",
       "sys_editorial_board": "The_Editorial_Board",
       "by": "By",
-      "sys_admin": "System_Admin"
+      "sys_admin": "System_Admin",
+      "back_home": "Back to Home"
     },
     "FeaturedDeals": {
       "title": "Best",
