@@ -6,58 +6,8 @@ import { Product } from "@/types/product";
 import { Promotions } from "@/types/promotion";
 import { Response, ResponsePaginate } from "@/types/respons";
 import { RegisterBody, User, UserAuth, UserAuthReg } from "@/types/user";
-import { forbidden, notFound, unauthorized } from "next/navigation";
-
-const isServer = typeof window === "undefined";
-const BaseUrl = isServer ? process.env.INTERNAL_API_URL : "/api";
-
-// ==========================================
-// CENTRALIZED ERROR HANDLING
-// ==========================================
-export class APIError extends Error {
-  status: number;
-  url?: string;
-  displayMessage: string;
-  code?: string;
-  details?: string;
-  digest?: string;
-
-  constructor(
-    message: string,
-    status: number,
-    url?: string,
-    code?: string,
-    details?: string,
-  ) {
-    // Display message = details jika ada, fallback ke message
-    const userFacingMessage = details || message;
-
-    // Log message yang bersih untuk server console
-    const logMessage = `[${status}] ${message}${details && details !== message ? ` → ${details}` : ""}`;
-
-    // Payload JSON lengkap untuk diteruskan ke client error boundary via digest
-    const payload = JSON.stringify({
-      message: userFacingMessage,
-      status,
-      url,
-      code,
-      details,
-    });
-
-    super(logMessage);
-
-    this.displayMessage = userFacingMessage;
-    this.status = status;
-    this.url = url;
-    this.code = code;
-    this.details = details;
-    this.name = "APIError";
-
-    // KUNCI: Next.js meneruskan `digest` ke client bahkan di production.
-    // `error.message` disanitasi di production, tapi `error.digest` tidak.
-    this.digest = payload;
-  }
-}
+import APIError from "./APIError";
+import HttpClient from "./HttpClient";
 
 export const toastError = (err: unknown) => {
   if (err instanceof APIError) {
@@ -69,196 +19,100 @@ export const toastError = (err: unknown) => {
   }
 };
 
-async function handleResponse<T>(res: globalThis.Response): Promise<T> {
-  let data: any = {};
-  try {
-    data = await res.json();
-  } catch (err) {
-    // Abaikan jika tidak bisa di-parse sebagai JSON
-  }
-
-  if (!res.ok) {
-    // Jika backend mengirimkan data.error berupa object { code, details }
-    const isErrorObject = typeof data.error === "object" && data.error !== null;
-
-    let errorMessage = data.message || "Terjadi kesalahan pada server";
-    // Fallback jika API sebelumnya mengirim string di data.error dan tidak ada message
-    if (!data.message && typeof data.error === "string") {
-      errorMessage = data.error;
+function queryBuilder(params: Record<string, string | number> = {}) {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== "") {
+      searchParams.append(key, String(value));
     }
-
-    const code = isErrorObject ? data.error.code : undefined;
-    const details = isErrorObject ? data.error.details : undefined;
-
-    if (res.status === 401) unauthorized();
-    if (res.status === 403) forbidden();
-    if (res.status === 404) notFound();
-
-    throw new APIError(errorMessage, res.status, res.url, code, details);
-  }
-
-  return data as T;
-}
-
-// Fungsi Helper untuk memasang Cookie Token jika ada
-function buildHeaders(
-  token?: string,
-  extraHeaders: HeadersInit = {},
-): HeadersInit {
-  const headers: Record<string, string> = { ...extraHeaders } as Record<
-    string,
-    string
-  >;
-  if (token) {
-    headers["Cookie"] = `auth_token=${token}`;
-  }
-  return headers;
-}
-
-// ==========================================
-// API FUNCTIONS
-// ==========================================
-
-export async function register(
-  body: RegisterBody,
-): Promise<Response<UserAuthReg>> {
-  const res = await fetch(`${BaseUrl}/auth/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
   });
-
-  return handleResponse<Response<UserAuthReg>>(res);
+  return searchParams.toString();
 }
 
-export async function login(
-  email: string,
-  password: string,
-): Promise<Response<UserAuth>> {
-  const res = await fetch(`${BaseUrl}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
+const api = new HttpClient();
 
-  return handleResponse<Response<UserAuth>>(res);
+export async function register(body: RegisterBody) {
+  return api.post<Response<UserAuthReg>>("/auth/register", body);
 }
 
-export async function logout(): Promise<Response<any>> {
-  const res = await fetch(`${BaseUrl}/auth/logout`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  });
+export async function login(email: string, password: string) {
+  return api.post<Response<UserAuth>>("/auth/login", { email, password });
+}
 
-  return handleResponse<Response<any>>(res);
+export async function logout() {
+  return api.post<Response<any>>("/auth/logout");
 }
 
 export async function getMyData(token?: string) {
-  const url = `${BaseUrl}/auth/my`;
-  const res = await fetch(url, {
-    headers: buildHeaders(token),
-    next: { revalidate: 60 },
-  });
-  return handleResponse<Response<User>>(res);
+  return api.get<Response<User>>(
+    "/auth/my",
+    { next: { revalidate: 60 } },
+    token,
+  );
 }
 
 export async function fetchProducts(
   params: Record<string, string | number> = {},
-): Promise<ResponsePaginate<Product>> {
-  const searchParams = new URLSearchParams();
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== "")
-      searchParams.append(key, String(value));
-  });
-
-  const url = `${BaseUrl}/products?${searchParams.toString()}`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-
-  return handleResponse<ResponsePaginate<Product>>(res);
+) {
+  return api.get<ResponsePaginate<Product>>(
+    `/products?${queryBuilder(params)}`,
+  );
 }
 
-export async function fetchCategories(): Promise<Response<Categories[]>> {
-  const res = await fetch(`${BaseUrl}/categories`, {
-    next: { revalidate: 3600 },
-  });
-  return handleResponse<Response<Categories[]>>(res);
+export async function fetchCategories() {
+  return api.get<Response<Categories[]>>("/categories");
 }
 
-export async function fetchPromotions(): Promise<Response<Promotions[]>> {
-  const res = await fetch(`${BaseUrl}/promotions?active=true`, {
-    next: { revalidate: 3600 },
-  });
-  return handleResponse<Response<Promotions[]>>(res);
+export async function fetchPromotions() {
+  return api.get<Response<Promotions[]>>("/promotions?active=true");
 }
 
-export async function fetchArticles(): Promise<Response<Article[]>> {
-  const res = await fetch(`${BaseUrl}/articles?published=true`, {
-    next: { revalidate: 3600 },
-  });
-  return handleResponse<Response<Article[]>>(res);
+export async function fetchArticles() {
+  return api.get<Response<Article[]>>("/articles?published=true");
 }
 
 export async function fetchArticleBySlug(slug: string) {
-  const res = await fetch(`${BaseUrl}/articles/slug/${slug}`, {
-    next: { revalidate: 3600 },
-  });
-  return handleResponse<Response<Article>>(res);
+  return api.get<Response<Article>>(`/articles/slug/${slug}`);
 }
 
-export async function fetchStats(): Promise<
-  Response<{ total_products: number; total_shops: number }>
-> {
-  const res = await fetch(`${BaseUrl}/products/stats`, {
-    next: { revalidate: 3600 },
-  });
-  return handleResponse<
-    Response<{ total_products: number; total_shops: number }>
-  >(res);
+export async function fetchStats() {
+  type Type = { total_products: number; total_shops: number };
+  return api.get<Response<Type>>("/products/stats");
 }
 
-export async function fetchDeals(): Promise<Response<Product[]>> {
-  const res = await fetch(`${BaseUrl}/products/deals?limit=8`, {
-    next: { revalidate: 3600 },
-  });
-  return handleResponse<Response<Product[]>>(res);
+export async function fetchDeals() {
+  return api.get<Response<Product[]>>("/products/deals?limit=8");
 }
 
 export async function fetchProductById(id: string) {
-  const url = `${BaseUrl}/product/${id}`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-  return handleResponse<Response<Product>>(res);
+  return api.get<Response<Product>>(`/product/${id}`, {
+    next: { revalidate: 60 },
+  });
 }
 
 export async function fetchMasterProductById(id: string) {
-  const url = `${BaseUrl}/master-product/${id}`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-  return handleResponse<Response<MasterProduct>>(res);
-}
-
-// ==========================================
-// PROTECTED API FUNCTIONS (Menerima parameter token)
-// ==========================================
-
-export async function getStatsAdmin(token?: string) {
-  const url = `${BaseUrl}/products-admin/stats`;
-  const res = await fetch(url, {
-    headers: buildHeaders(token),
+  return api.get<Response<MasterProduct>>(`/master-product/${id}`, {
     next: { revalidate: 60 },
   });
-  return handleResponse<
-    Response<{
-      active_deals: number;
-      total_products: number;
-      total_shops: number;
-    }>
-  >(res);
+}
+
+export async function getStatsAdmin(token?: string) {
+  type StatsAdmin = {
+    active_deals: number;
+    total_products: number;
+    total_shops: number;
+  };
+  return api.get<Response<StatsAdmin>>(
+    "/products-admin/stats",
+    { next: { revalidate: 60 } },
+    token,
+  );
 }
 
 export async function getMasterProductTest(id: string, token?: string) {
-  const url = `${BaseUrl}/master-product/${id}/test`;
-  const res = await fetch(url, {
-    headers: buildHeaders(token),
-    next: { revalidate: 60 },
-  });
-  return handleResponse<Response<any>>(res);
+  return api.get<Response<any>>(
+    `/master-product/${id}/test`,
+    { next: { revalidate: 60 } },
+    token,
+  );
 }
