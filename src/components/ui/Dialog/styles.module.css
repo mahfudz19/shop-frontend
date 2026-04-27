@@ -1,0 +1,53 @@
+/* Dialog.module.css */
+.dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  margin: auto; /* Tengah layar */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /* Transisi halus */
+  transition:
+    opacity 0.3s,
+    scale 0.3s,
+    display 0.3s allow-discrete;
+  opacity: 0;
+  scale: 0.9;
+}
+
+.dialog:popover-open {
+  opacity: 1;
+  scale: 1;
+}
+
+@starting-style {
+  .dialog:popover-open {
+    opacity: 0;
+    scale: 0.9;
+  }
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+}
+
+.closeButton {
+  float: right;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+  padding: 4px;
+  line-height: 1;
+}
+
+.closeButton:hover {
+  color: var(--text-primary);
+}
+
+.content {
+  clear: both;
+  margin-top: 10px;
+}
