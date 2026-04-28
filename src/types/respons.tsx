@@ -8,6 +8,14 @@ export interface PaginationData {
   has_prev: boolean;
 }
 
+export interface PaginationQuery {
+  page?: number | string;
+  limit?: number | string;
+  search?: string;
+  sort_by?: string;
+  sort_order?: "asc" | "desc";
+}
+
 // Sesuaikan dengan struct MetaData di Golang
 export interface MetaData {
   timestamp: string;

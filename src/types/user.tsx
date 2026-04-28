@@ -1,3 +1,5 @@
+import { PaginationQuery } from "./respons";
+
 export type UserAuthReg = {
   id: string;
   email: string;
@@ -25,3 +27,8 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 };
+
+export interface UserQuery extends PaginationQuery {
+  role?: UserRole;
+  status?: UserStatus;
+}

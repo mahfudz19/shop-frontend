@@ -4,7 +4,7 @@ import { Categories } from "@/types/categorie";
 import { MasterProduct } from "@/types/masterProduct";
 import { Product } from "@/types/product";
 import { Promotions } from "@/types/promotion";
-import { Response, ResponsePaginate } from "@/types/respons";
+import { PaginationQuery, Response, ResponsePaginate } from "@/types/respons";
 import { RegisterBody, User, UserAuth, UserAuthReg } from "@/types/user";
 import APIError from "./APIError";
 import HttpClient from "./HttpClient";
@@ -19,7 +19,7 @@ export const toastError = (err: unknown) => {
   }
 };
 
-function queryBuilder(params: Record<string, string | number> = {}) {
+function queryBuilder(params: Record<string, any> = {}) {
   const searchParams = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== "") {
@@ -113,6 +113,14 @@ export async function getMasterProductTest(id: string, token?: string) {
   return api.get<Response<any>>(
     `/master-product/${id}/test`,
     { next: { revalidate: 60 } },
+    token,
+  );
+}
+
+export async function getUsers(params: PaginationQuery, token?: string) {
+  return api.get<ResponsePaginate<User>>(
+    `/users?${queryBuilder(params)}`,
+    undefined,
     token,
   );
 }
