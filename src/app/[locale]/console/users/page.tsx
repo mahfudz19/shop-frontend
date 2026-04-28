@@ -4,6 +4,9 @@ import { getUsers } from "@/lib/api";
 import { UserQuery } from "@/types/user";
 import { cookies } from "next/headers";
 import UsersManager from "./UsersManager";
+import DialogCreate from "./DialogCreate";
+
+export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -43,19 +46,12 @@ export default async function UsersPage(props: Props) {
         </div>
 
         <div className="flex items-center gap-3">
-          <DialogTrigger
-            id="user-create-dialog"
-            className="px-6 py-3 bg-primary-main text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:-translate-y-0.5 transition-all shadow-lg shadow-primary-main/20 flex items-center gap-2"
-          >
-            <Ripple />
-            <span className="text-lg leading-none">+</span>
-            New User
-          </DialogTrigger>
+          <DialogCreate />
         </div>
       </div>
 
       {/* Render the Client Manager which handles interactivity via URL params */}
-      <UsersManager initialData={response} query={userQuery} />
+      <UsersManager initialData={response} query={userQuery} token={token} />
     </div>
   );
 }

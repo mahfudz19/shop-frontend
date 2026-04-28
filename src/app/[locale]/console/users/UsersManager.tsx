@@ -1,26 +1,26 @@
 "use client";
 
-import Dialog, { DialogTrigger } from "@/components/ui/Dialog";
-import Ripple from "@/components/ui/Ripple";
 import { ResponsePaginate } from "@/types/respons";
 import { User, UserQuery, UserRole, UserStatus } from "@/types/user";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
+import DialogDelete from "./DialogDelete";
+import DialogDetail from "./DialogDetail";
+import DialogEdit from "./DialogEdit";
+
 interface UsersManagerProps {
   initialData: ResponsePaginate<User>;
   query: UserQuery;
+  token?: string;
 }
 
-export default function UsersManager({
-  initialData,
-  query,
-}: UsersManagerProps) {
+export default function UsersManager(props: UsersManagerProps) {
+  const { initialData, query } = props;
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [searchValue, setSearchValue] = useState(query.search || "");
 
   const users = initialData.data;
@@ -29,13 +29,10 @@ export default function UsersManager({
   const updateQuery = (newParams: Partial<UserQuery>) => {
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(newParams).forEach(([key, value]) => {
-      if (value === undefined || value === "") {
-        params.delete(key);
-      } else {
-        params.set(key, String(value));
-      }
+      if (value === undefined || value === "") params.delete(key);
+      else params.set(key, String(value));
     });
-    // Reset to page 1 if search/limit/filters change
+
     if (
       newParams.search !== undefined ||
       newParams.limit !== undefined ||
@@ -238,23 +235,17 @@ export default function UsersManager({
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <ActionButton
-                          icon="👁️"
-                          color="primary"
-                          popoverTarget="user-detail-dialog"
-                          onClick={() => setSelectedUser(user)}
+                        <DialogDetail
+                          key={`user-detail-dialog-${user.id}`}
+                          {...user}
                         />
-                        <ActionButton
-                          icon="✏️"
-                          color="secondary"
-                          popoverTarget="user-edit-dialog"
-                          onClick={() => setSelectedUser(user)}
+                        <DialogEdit
+                          key={`user-edit-dialog-${user.id}`}
+                          {...user}
                         />
-                        <ActionButton
-                          icon="🗑️"
-                          color="error"
-                          popoverTarget="user-delete-dialog"
-                          onClick={() => setSelectedUser(user)}
+                        <DialogDelete
+                          key={`user-delete-dialog-${user.id}`}
+                          {...user}
                         />
                       </div>
                     </td>
@@ -323,172 +314,6 @@ export default function UsersManager({
           </div>
         </div>
       </div>
-
-      {/* Dialogs */}
-      <Dialog id="user-detail-dialog" className="min-w-[400px]">
-        {selectedUser && (
-          <div className="space-y-4">
-            <h2 className="text-xl font-black uppercase tracking-tight">
-              User Detail
-            </h2>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div className="flex flex-col">
-                <span className="text-text-disabled uppercase text-[10px] font-bold">
-                  Name
-                </span>
-                <span className="font-bold">{selectedUser.name}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-text-disabled uppercase text-[10px] font-bold">
-                  Email
-                </span>
-                <span className="font-bold">{selectedUser.email}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-text-disabled uppercase text-[10px] font-bold">
-                  Role
-                </span>
-                <span className="font-bold">{selectedUser.role}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-text-disabled uppercase text-[10px] font-bold">
-                  Status
-                </span>
-                <span className="font-bold">{selectedUser.status}</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </Dialog>
-
-      <Dialog id="user-edit-dialog" className="min-w-[450px]">
-        {selectedUser && (
-          <div className="space-y-6">
-            <h2 className="text-xl font-black uppercase tracking-tight text-primary-main">
-              Edit User
-            </h2>
-            <div className="space-y-4">
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] font-black uppercase tracking-widest text-text-disabled">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  defaultValue={selectedUser.name}
-                  className="bg-background-default border border-divider p-3 rounded-xl text-sm outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-[10px] font-black uppercase tracking-widest text-text-disabled">
-                  Role
-                </label>
-                <select
-                  defaultValue={selectedUser.role}
-                  className="bg-background-default border border-divider p-3 rounded-xl text-sm outline-none"
-                >
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </div>
-            </div>
-            <div className="flex justify-end gap-3 pt-4 border-t border-divider">
-              <DialogTrigger
-                id="user-edit-dialog"
-                className="px-6 py-2 text-xs font-black uppercase tracking-widest"
-              >
-                Cancel
-              </DialogTrigger>
-              <button className="px-6 py-2 bg-primary-main text-white rounded-xl text-xs font-black uppercase tracking-widest">
-                Save Changes
-              </button>
-            </div>
-          </div>
-        )}
-      </Dialog>
-
-      <Dialog id="user-delete-dialog" className="min-w-[350px]">
-        {selectedUser && (
-          <div className="space-y-6 py-4 text-center">
-            <div className="w-16 h-16 bg-error-main/10 text-error-main rounded-full flex items-center justify-center mx-auto text-3xl">
-              🗑️
-            </div>
-            <h2 className="text-xl font-black uppercase tracking-tight">
-              Delete User?
-            </h2>
-            <p className="text-sm text-text-secondary">
-              Are you sure you want to delete{" "}
-              <span className="font-bold">{selectedUser.name}</span>?
-            </p>
-            <div className="flex flex-col gap-2">
-              <button className="w-full py-3 bg-error-main text-white rounded-xl text-xs font-black uppercase tracking-widest">
-                Yes, Delete Node
-              </button>
-              <DialogTrigger
-                id="user-delete-dialog"
-                className="w-full py-3 bg-background-default text-text-secondary rounded-xl text-xs font-black uppercase tracking-widest border border-divider"
-              >
-                Abort Mission
-              </DialogTrigger>
-            </div>
-          </div>
-        )}
-      </Dialog>
-
-      <Dialog id="user-create-dialog" className="min-w-[450px]">
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-xl font-black uppercase tracking-tight text-primary-main">
-              Create New User
-            </h2>
-            <p className="text-xs text-text-secondary">
-              Register a new access node to the system.
-            </p>
-          </div>
-          <div className="space-y-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-black uppercase tracking-widest text-text-disabled">
-                Full Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter full name..."
-                className="bg-background-default border border-divider p-3 rounded-xl text-sm outline-none focus:border-primary-main"
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-black uppercase tracking-widest text-text-disabled">
-                Email Address
-              </label>
-              <input
-                type="email"
-                placeholder="user@example.com"
-                className="bg-background-default border border-divider p-3 rounded-xl text-sm outline-none focus:border-primary-main"
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-black uppercase tracking-widest text-text-disabled">
-                Initial Role
-              </label>
-              <select className="bg-background-default border border-divider p-3 rounded-xl text-sm outline-none cursor-pointer">
-                <option value="user">User (Standard Node)</option>
-                <option value="admin">Admin (Command Node)</option>
-              </select>
-            </div>
-          </div>
-          <div className="flex justify-end gap-3 pt-4 border-t border-divider">
-            <DialogTrigger
-              id="user-create-dialog"
-              className="px-6 py-2 text-xs font-black uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
-            >
-              Cancel
-            </DialogTrigger>
-            <button className="px-6 py-2 bg-primary-main text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-primary-main/20 flex items-center gap-2">
-              <Ripple />
-              Deploy User
-            </button>
-          </div>
-        </div>
-      </Dialog>
     </div>
   );
 }
@@ -529,29 +354,5 @@ function SortableHeader({
         </div>
       </div>
     </th>
-  );
-}
-
-function ActionButton({ icon, color, popoverTarget, onClick }: any) {
-  const colorMap: any = {
-    primary:
-      "text-primary-main bg-primary-main/10 hover:bg-primary-main hover:text-white",
-    secondary:
-      "text-text-secondary bg-background-default border border-divider hover:border-primary-main hover:text-primary-main",
-    error:
-      "text-error-main bg-error-main/10 hover:bg-error-main hover:text-white",
-  };
-
-  return (
-    <DialogTrigger
-      id={popoverTarget}
-      onClick={onClick}
-      className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all relative overflow-hidden group/btn ${colorMap[color]}`}
-    >
-      <Ripple />
-      <span className="text-sm group-hover/btn:scale-110 transition-transform">
-        {icon}
-      </span>
-    </DialogTrigger>
   );
 }
