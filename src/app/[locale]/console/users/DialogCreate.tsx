@@ -50,7 +50,7 @@ function DialogCreate() {
               Create New User
             </h2>
             <p className="text-xs text-text-secondary">
-              Register a new access node to the system.
+              Register a new access node to the system
             </p>
           </div>
           <div className="space-y-4">
