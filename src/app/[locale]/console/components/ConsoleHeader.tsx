@@ -2,8 +2,8 @@
 
 import React from "react";
 import { usePathname } from "@/i18n/routing";
-import ThemeToggle from "../../(Guest)/Header/ThemeToggle";
-import UserMenuDropdown from "../../(Guest)/Header/UserMenuDropdown";
+import ThemeToggle from "../../(guest)/Header/ThemeToggle";
+import UserMenuDropdown from "../../(guest)/Header/UserMenuDropdown";
 
 export default function ConsoleHeader({
   userRole,

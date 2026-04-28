@@ -1,5 +1,5 @@
-import LanguegeMenu from "@/app/[locale]/(Guest)/Header/LanguegeMenu";
-import ThemeToggle from "@/app/[locale]/(Guest)/Header/ThemeToggle";
+import LanguegeMenu from "@/app/[locale]/(guest)/Header/LanguegeMenu";
+import ThemeToggle from "@/app/[locale]/(guest)/Header/ThemeToggle";
 import Ripple from "@/components/ui/Ripple";
 import { getUserFromToken } from "@/lib/auth";
 import Link from "next/link";
