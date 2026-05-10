@@ -31,6 +31,23 @@ description: gunakan skill ini pada halaman admin di path /src/app/console
 
 ---
 
+## ⚠️ Import Path Standards (Case Sensitivity)
+
+**PENTING**: Path import harus **konsisten dengan casing folder** untuk menghindari error di Vercel (Linux case-sensitive).
+
+| ❌ SALAH                                        | ✅ BENAR                              |
+| ----------------------------------------------- | ------------------------------------- |
+| `import X from "../(Auth)/..."`                 | `import X from "../(auth)/..."`       |
+| `import X from "@/app/[locale]/(guest)/Header"` | `import X from "@/components/header"` |
+
+**Best Practice**:
+
+1. Gunakan **folder shared** (`src/components/`) untuk komponen yang dipakai di multiple route groups
+2. Hindari import lintas route groups `(guest)`, `(auth)`, `(console)` dengan path relatif
+3. Gunakan **absolute import** dengan alias `@/` untuk konsistensi
+
+---
+
 ## Step 1: Define Type Definitions
 
 Create or update the types in `src/types/`.
