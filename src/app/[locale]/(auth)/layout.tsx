@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import ThemeToggle from "../(guest)/Header/ThemeToggle";
-import LanguageMenu from "../(guest)/Header/LanguegeMenu";
+import ThemeToggle from "@/app/[locale]/(guest)/Header/ThemeToggle";
+import LanguageMenu from "@/app/[locale]/(guest)/Header/LanguegeMenu";
 import { useTranslations } from "next-intl";
 
 export default function AuthLayout({
