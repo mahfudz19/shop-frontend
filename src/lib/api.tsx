@@ -48,15 +48,22 @@ export async function logout() {
 }
 
 export async function getMyData(token?: string) {
-  return api.get<Response<User>>("/auth/my", { strategy: "ssr", revalidate: 60 }, token);
+  return api.get<Response<User>>(
+    "/auth/my",
+    { strategy: "ssr", revalidate: 60 },
+    token,
+  );
 }
 
 /**
  * 🛍️ PUBLIC PRODUCT & CONTENT
  */
 
-export async function fetchProducts(params: Record<string, string | number> = {}) {
-  return api.get<ResponsePaginate<Product>>(`/products?${queryBuilder(params)}`, { strategy: "ssr" });
+export async function fetchProducts(
+  params: Record<string, string | number> = {},
+) {
+  const url = `/products?${queryBuilder(params)}`;
+  return api.get<ResponsePaginate<Product>>(url, { strategy: "ssr" });
 }
 
 export async function fetchCategories() {
@@ -64,15 +71,21 @@ export async function fetchCategories() {
 }
 
 export async function fetchPromotions() {
-  return api.get<Response<Promotions[]>>("/promotions?active=true", { strategy: "ssr" });
+  return api.get<Response<Promotions[]>>("/promotions?active=true", {
+    strategy: "ssr",
+  });
 }
 
 export async function fetchArticles() {
-  return api.get<Response<Article[]>>("/articles?published=true", { strategy: "ssr" });
+  return api.get<Response<Article[]>>("/articles?published=true", {
+    strategy: "ssr",
+  });
 }
 
 export async function fetchArticleBySlug(slug: string) {
-  return api.get<Response<Article>>(`/articles/slug/${slug}`, { strategy: "ssr" });
+  return api.get<Response<Article>>(`/articles/slug/${slug}`, {
+    strategy: "ssr",
+  });
 }
 
 export async function fetchStats() {
@@ -81,15 +94,23 @@ export async function fetchStats() {
 }
 
 export async function fetchDeals() {
-  return api.get<Response<Product[]>>("/products/deals?limit=8", { strategy: "ssr" });
+  return api.get<Response<Product[]>>("/products/deals?limit=8", {
+    strategy: "ssr",
+  });
 }
 
 export async function fetchProductById(id: string) {
-  return api.get<Response<Product>>(`/product/${id}`, { strategy: "ssr", revalidate: 60 });
+  return api.get<Response<Product>>(`/product/${id}`, {
+    strategy: "ssr",
+    revalidate: 60,
+  });
 }
 
 export async function fetchMasterProductById(id: string) {
-  return api.get<Response<MasterProduct>>(`/master-product/${id}`, { strategy: "ssr", revalidate: 60 });
+  return api.get<Response<MasterProduct>>(`/master-product/${id}`, {
+    strategy: "ssr",
+    revalidate: 60,
+  });
 }
 
 /**
@@ -103,15 +124,27 @@ export async function getStatsAdmin(token?: string) {
     total_products: number;
     total_shops: number;
   };
-  return api.get<Response<StatsAdmin>>("/products-admin/stats", { strategy: "admin" }, token);
+  return api.get<Response<StatsAdmin>>(
+    "/products-admin/stats",
+    { strategy: "admin" },
+    token,
+  );
 }
 
 export async function getMasterProductTest(id: string, token?: string) {
-  return api.get<Response<any>>(`/master-product/${id}/test`, { strategy: "admin" }, token);
+  return api.get<Response<any>>(
+    `/master-product/${id}/test`,
+    { strategy: "admin" },
+    token,
+  );
 }
 
 export async function getUsers(params: PaginationQuery, token?: string) {
-  return api.get<ResponsePaginate<User>>(`/users?${queryBuilder(params)}`, { strategy: "admin" }, token);
+  return api.get<ResponsePaginate<User>>(
+    `/users?${queryBuilder(params)}`,
+    { strategy: "admin" },
+    token,
+  );
 }
 
 export async function updateUser(id: string, body: Partial<User>) {
@@ -120,4 +153,23 @@ export async function updateUser(id: string, body: Partial<User>) {
 
 export async function deleteUser(id: string) {
   return api.delete<Response<any>>(`/users/${id}`);
+}
+
+/**
+ * 🔍 ELASTICSEARCH SYNC
+ * Trigger manual sync products to Elasticsearch
+ */
+
+export async function syncElasticsearch(token?: string) {
+  type SyncResponse = {
+    synced: number;
+    status: string;
+    message: string;
+  };
+  return api.post<Response<SyncResponse>>(
+    "/admin/sync-elasticsearch",
+    {},
+    undefined,
+    token,
+  );
 }
