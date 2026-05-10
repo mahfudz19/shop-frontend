@@ -35,19 +35,19 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="container mx-auto bg-background-paper p-6 rounded-xl shadow border border-divider space-y-6">
+    <div className="container mx-auto bg-[var(--bg-paper)] p-6 rounded-xl shadow-md border border-[var(--divider)] space-y-6">
       {/* Header Section */}
       <div>
         <h1 className="text-2xl font-bold mb-2">Admin Dashboard</h1>
-        <p className="text-muted-foreground">
+        <p className="text-[var(--text-secondary)]">
           Kelola dan sinkronisasi data Elasticsearch dari dashboard ini.
         </p>
       </div>
 
       {/* Elasticsearch Sync Card */}
-      <div className="border border-divider rounded-lg p-6">
+      <div className="border border-[var(--divider)] rounded-lg p-6">
         <h2 className="text-lg font-semibold mb-4">Elasticsearch Sync</h2>
-        <p className="text-sm text-muted-foreground mb-4">
+        <p className="text-sm text-[var(--text-secondary)] mb-4">
           Sinkronkan semua produk dari MongoDB ke Elasticsearch. Proses ini
           mungkin memakan waktu beberapa saat tergantung jumlah data.
         </p>
@@ -55,15 +55,15 @@ export default function AdminDashboard() {
         <button
           onClick={handleSyncElasticsearch}
           disabled={isSyncing}
-          className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-2 bg-[var(--primary-main)] text-[var(--primary-contrast)] rounded-md hover:bg-[var(--primary-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {isSyncing ? "Syncing..." : "Sync Elasticsearch"}
         </button>
 
         {/* Last Sync Result */}
         {lastSyncResult && (
-          <div className="mt-4 p-4 bg-success/10 border border-success rounded-md">
-            <p className="text-sm font-medium text-success">
+          <div className="mt-4 p-4 bg-[var(--success-main)]/10 border border-[var(--success-main)] rounded-md">
+            <p className="text-sm font-medium text-[var(--success-contrast)]">
               Last Sync Result:
             </p>
             <ul className="text-sm mt-2 space-y-1">

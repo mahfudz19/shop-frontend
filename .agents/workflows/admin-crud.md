@@ -4,6 +4,24 @@
 
 ---
 
+## ⚠️ CSS/Tailwind Naming Convention
+
+**PENTING**: Gunakan **variabel CSS langsung** dengan syntax `var(--variable-name)`, BUKAN naming convention Tailwind UI/Shadcn.
+
+| ❌ SALAH (Tailwind UI/Shadcn) | ✅ BENAR (CSS Variables)         |
+| ----------------------------- | -------------------------------- |
+| `bg-background-paper`         | `bg-[var(--bg-paper)]`           |
+| `text-muted-foreground`       | `text-[var(--text-secondary)]`   |
+| `bg-primary`                  | `bg-[var(--primary-main)]`       |
+| `text-primary-foreground`     | `text-[var(--primary-contrast)]` |
+| `border-divider`              | `border-[var(--divider)]`        |
+| `bg-success/10`               | `bg-[var(--success-main)]/10`    |
+| `text-success`                | `text-[var(--success-contrast)]` |
+
+**Referensi lengkap**: Lihat [`globals.css`](../../../src/app/[locale]/globals.css) bagian `@theme` untuk semua variabel yang tersedia.
+
+---
+
 ## Step 1: Define Type Definitions
 
 Create or update the types in `src/types/`.

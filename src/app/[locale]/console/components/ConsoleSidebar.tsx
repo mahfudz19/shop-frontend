@@ -155,7 +155,7 @@ export default function ConsoleSidebar({
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 border-r border-divider bg-background-paper h-full flex flex-col overflow-y-auto">
+    <aside className="w-full md:w-64 border-r border-divider bg-background-paper h-full flex flex-col overflow-y-auto">
       {/* Branding */}
       <div className="px-6 h-16 mb-8 flex items-center justify-between border-b border-divider">
         <Link
