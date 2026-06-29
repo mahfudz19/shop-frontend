@@ -50,10 +50,12 @@ export default function ScrapersPage() {
         text: data.message || `Scraping [${keyword}] dimulai!`,
       });
       setKeyword(""); // Kosongkan input setelah sukses
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Gagal terhubung ke API Scraper";
       setStatusMsg({
         type: "error",
-        text: err.message || "Gagal terhubung ke API Scraper",
+        text: errorMessage,
       });
     } finally {
       setIsLoading(false);
