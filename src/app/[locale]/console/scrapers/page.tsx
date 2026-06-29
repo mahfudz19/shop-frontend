@@ -2,6 +2,14 @@
 
 import React, { useState } from "react";
 
+const getScraperApiUrl = () => {
+  return process.env.NEXT_PUBLIC_SCRAPER_API_URL || "http://localhost:8000";
+};
+
+const getVncHost = () => {
+  return process.env.NEXT_PUBLIC_VNC_HOST || "localhost:6080";
+};
+
 export default function ScrapersPage() {
   const [keyword, setKeyword] = useState("");
   const [method, setMethod] = useState("shopee");
@@ -11,6 +19,9 @@ export default function ScrapersPage() {
     text: string;
   } | null>(null);
 
+  const scraperApiUrl = getScraperApiUrl();
+  const vncHost = getVncHost();
+
   const handleStartScrape = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -18,7 +29,7 @@ export default function ScrapersPage() {
 
     try {
       // Menembak API FastAPI yang ada di Docker
-      const res = await fetch("http://localhost:8000/scrape", {
+      const res = await fetch(`${scraperApiUrl}/scrape`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -194,11 +205,11 @@ export default function ScrapersPage() {
               <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
               <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
               <span className="ml-3 text-xs font-bold text-gray-400 tracking-widest uppercase">
-                SERVER: localhost:6080
+                SERVER: {vncHost}
               </span>
             </div>
             <a
-              href="http://localhost:6080/vnc.html"
+              href={`http://${vncHost}/vnc.html`}
               target="_blank"
               rel="noreferrer"
               className="text-xs font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1.5 px-3 py-1 bg-blue-500/10 rounded-full transition-colors"
@@ -236,7 +247,7 @@ export default function ScrapersPage() {
             </div>
 
             <iframe
-              src="http://localhost:6080/vnc.html?autoconnect=true&resize=scale"
+              src={`http://${vncHost}/vnc.html?autoconnect=true&resize=scale`}
               className="w-full h-full border-none"
               title="noVNC Scraper View"
             />

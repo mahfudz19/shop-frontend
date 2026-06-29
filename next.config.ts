@@ -42,6 +42,8 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
     NEXT_IMAGES_HOSTNAME: process.env.NEXT_IMAGES_HOSTNAME,
     INTERNAL_API_URL: process.env.INTERNAL_API_URL,
+    NEXT_PUBLIC_SCRAPER_API_URL: process.env.NEXT_PUBLIC_SCRAPER_API_URL,
+    NEXT_PUBLIC_VNC_HOST: process.env.NEXT_PUBLIC_VNC_HOST,
   },
   experimental: {
     authInterrupts: true,
